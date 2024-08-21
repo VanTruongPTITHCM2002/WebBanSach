@@ -1,0 +1,39 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+  }
+  
+  .form {
+    width: 100%;
+    max-width: 500px; /* Đặt chiều rộng tối đa của form */
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    font-size: 13px;
+  }
+
+  .form-group{
+    margin-bottom: 10px;
+  }
+
+  .form-option{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .register-link {
+    color: blue; /* Màu sắc của liên kết, thay đổi theo yêu cầu */
+    text-decoration: underline; /* Gạch dưới liên kết */
+    font-size: 16px; /* Kích thước chữ, thay đổi theo yêu cầu */
+    cursor: pointer;
+  }
+
+  .btn-login{
+    display: flex;
+    justify-content: center;
+  }

@@ -1,0 +1,24 @@
+<div class="container-fluid full-height">
+
+  <nav>
+  <nav class="navbar navbar-expand bg-warning">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+     <a class="nav-link"  routerLink="/">Trang chủ</a> 
+    </li>
+    <li class="nav-item">
+     <a class="nav-link"  routerLink="/auth">Đăng nhập</a>
+    </li>
+  </ul>
+  </nav>
+  </nav>
+  <main class="d-flex" style="height: 100vh;">
+    <article class="col-md-9 bg-body-secondary  full-width"> 
+      <div class="table-container">
+          <router-outlet></router-outlet>
+      </div>
+      
+    </article>
+   
+  </main>
+</div>

@@ -1,0 +1,28 @@
+
+<div class="form-container">
+  <form (ngSubmit)="onSubmit(myForm)" class="form" #myForm="ngForm">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Tên tài khoản</label>
+      <input type="text" class="form-control" placeholder="Nhập tên tài khoản...." id="exampleInputEmail1" name="username" ngModel required>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Mật khẩu</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập mật khẩu..." name="password" ngModel required minlength="1">
+    </div>
+    <div class="form-group form-check form-option">
+      <div>
+        <input type="checkbox" class="form-check-input"  id="exampleCheck1" name="check" ngModel>
+      <label class="form-check-label" for="exampleCheck1">Lưu thông tin đăng nhập</label>
+      </div>
+      
+
+      <a class="register-link">Đăng ký tài khoản</a>
+    </div>
+    <div class="btn-login">
+      <button type="submit" class="btn btn-primary">Đăng nhập</button>
+    </div>
+    
+  </form>
+</div>
+
+  

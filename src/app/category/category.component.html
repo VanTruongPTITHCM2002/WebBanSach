@@ -1,0 +1,28 @@
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã nhân viên</th>
+            <th>Tên nhân viên</th>
+            <th>Vị trí</th>
+            <th>Lương</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        
+            <tr *ngFor="let employee of employees">
+      <td>{{ employee.id }}</td>
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.position }}</td>
+      <td>{{ employee.salary }}</td>
+      <td>
+        <button type="button" class="btn btn-warning me-2">Edit</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+      </td>
+   
+        </tr>
+    </tbody>
+</table>
+
+

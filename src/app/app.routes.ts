@@ -7,7 +7,7 @@ import { AuthComponent } from './auth/auth.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent,title:"Trang chủ"},
-    {path:'auth',component:AuthComponent,title:"Đăng nhập"},
+    {path:'auth/login',component:AuthComponent,title:"Đăng nhập"},
     // { path: 'contact', redirectTo: '/lien-he', pathMatch: 'full' },
     // { path: 'category/:id', component:CategoryComponent },
     // { path: '**', component: NotFoundComponent }

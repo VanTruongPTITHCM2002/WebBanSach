@@ -1,28 +1,29 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { error } from 'console';
+import { CookieService } from 'ngx-cookie-service';
+
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [FormsModule,HttpClientModule],
+  imports: [FormsModule,HttpClientModule,CommonModule],
+  providers: [CookieService],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css'
 })
 export class AuthComponent {
-  constructor(private http:HttpClient){}
+  constructor(private http:HttpClient,private cookieService: CookieService){}
   onSubmit(form:NgForm) {
-    console.log('Form data:', form.value);
-  console.log('Form validity:', form.valid);
+
     if(form.valid){
       const {username,password} = form.value;
-      this.http.post('http://localhost:5000/auth/login',{
-        username,password 
-      }).subscribe(response =>{
-          alert('Đăng nhập thành công');
-      },error=>{
-          alert(error.error.message)
-      })
+      this.http.post<{ accessToken: string }>('http://localhost:5000/auth/login', { username, password }).subscribe({
+        next: (v) => this.cookieService.set('token',v.accessToken),
+        error: (e) => console.error(e),
+        complete: ()=> alert('Đăng nhập thành công'),
+       
+    })
     }else {
       console.log('Form is invalid');
     }

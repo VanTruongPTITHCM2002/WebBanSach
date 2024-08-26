@@ -37,3 +37,13 @@
     display: flex;
     justify-content: center;
   }
+
+  .invalid-feedback {
+    display: none;
+    color: #dc3545; /* Màu đỏ cho thông báo lỗi */
+  }
+  
+  input.ng-touched.ng-invalid ~ .invalid-feedback {
+    display: block;
+  }
+  

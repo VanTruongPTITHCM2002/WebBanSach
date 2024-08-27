@@ -1,50 +1,118 @@
 <div class="form-container">
-  <form (ngSubmit)="onSubmit(myForm)" class="form" #myForm="ngForm">
-    <div class="form-group">
-      <label for="exampleInputEmail1">Tên tài khoản</label>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Nhập tên tài khoản...."
-        id="exampleInputEmail1"
-        name="username"
-        ngModel
-        required
-        #username="ngModel"
-      />
-      <div class="invalid-feedback" *ngIf="username.invalid && username.touched">
-        Vui lòng nhập tên tài khoản.
+  <!-- Chuyển đổi giữa Đăng nhập và Đăng ký -->
+  <ng-container *ngIf="isLoginMode">
+    <!-- Form Đăng nhập -->
+    <form (ngSubmit)="onSubmit(myForm)" class="form" #myForm="ngForm">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Tên tài khoản</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nhập tên tài khoản...."
+          id="exampleInputEmail1"
+          name="username"
+          ngModel
+          required
+          #username="ngModel"
+        />
+        <div class="invalid-feedback" *ngIf="username.invalid && username.touched">
+          Vui lòng nhập tên tài khoản.
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="exampleInputPassword1">Mật khẩu</label>
-      <input
-        type="password"
-        class="form-control"
-        id="exampleInputPassword1"
-        placeholder="Nhập mật khẩu..."
-        name="password"
-        ngModel
-        required
-        minlength="1"
-        #password="ngModel"
-      />
-      <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
-        Vui lòng nhập mật khẩu.
+      <div class="form-group">
+        <label for="exampleInputPassword1">Mật khẩu</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          placeholder="Nhập mật khẩu..."
+          name="password"
+          ngModel
+          required
+          minlength="1"
+          #password="ngModel"
+        />
+        <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
+          Vui lòng nhập mật khẩu.
+        </div>
       </div>
-    </div>
 
-    <div class="form-group form-check form-option">
-      <div>
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="check" ngModel />
-        <label class="form-check-label" for="exampleCheck1">Lưu thông tin đăng nhập</label>
+      <div class="form-group form-check form-option">
+        <div>
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" name="check" ngModel />
+          <label class="form-check-label" for="exampleCheck1">Lưu thông tin đăng nhập</label>
+        </div>
+        <a class="register-link" (click)="toggleMode()">Đăng ký tài khoản</a>
       </div>
-      <a class="register-link">Đăng ký tài khoản</a>
-    </div>
 
-    <div class="btn-login">
-      <button type="submit" class="btn btn-primary">Đăng nhập</button>
-    </div>
-  </form>
-</div>
+      <div class="btn-login">
+        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoginMode">
+    <!-- Form Đăng ký -->
+    <form (ngSubmit)="onSubmitRegister(myForm)" class="form" #myForm="ngForm">
+      <div class="form-group">
+        <label for="registerUsername">Tên tài khoản</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nhập tên tài khoản...."
+          id="registerUsername"
+          name="username"
+          ngModel
+          required
+          #username="ngModel"
+        />
+        <div class="invalid-feedback" *ngIf="username.invalid && username.touched">
+          Vui lòng nhập tên tài khoản.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="registerEmail">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="registerEmail"
+          placeholder="Nhập email..."
+          name="email"
+          ngModel
+          required
+          #email="ngModel"
+        />
+        <div class="invalid-feedback" *ngIf="email.invalid && email.touched">
+          Vui lòng nhập email hợp lệ.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="registerPassword">Mật khẩu</label>
+        <input
+          type="password"
+          class="form-control"
+          id="registerPassword"
+          placeholder="Nhập mật khẩu..."
+          name="password"
+          ngModel
+          required
+          minlength="1"
+          #password="ngModel"
+        />
+        <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
+          Vui lòng nhập mật khẩu.
+        </div>
+      </div>
+
+      <div class="btn-login">
+        <button type="submit" class="btn btn-primary">Đăng ký</button>
+      </div>
+
+      <div class="form-group form-check form-option">
+        <a class="login-link" (click)="toggleMode()">Đã có tài khoản? Đăng nhập</a>
+      </div>
+    </form>
+  </ng-container>

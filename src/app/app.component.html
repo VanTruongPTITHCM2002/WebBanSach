@@ -11,7 +11,15 @@
     </li>
   </ul>
     <div class="float-end me-3">
-      <a class="nav-link"  routerLink="/auth/login">Đăng nhập</a>
+      <img *ngIf="authService.isAuthenticated" src="/icons8-avatar-48.png" class="avatar dropdown-toggle" alt="ảnh đại diện" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+     
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+        <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+        <li><a class="dropdown-item" (click)="logout()">Đăng xuất</a></li>
+      </ul>
+      <!-- Show login link if user is not authenticated -->
+      <a *ngIf="!authService.isAuthenticated" class="nav-link" routerLink="/auth/login">Đăng nhập</a>
     </div>
   </nav>
   </nav>

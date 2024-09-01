@@ -1,5 +1,5 @@
-<form (ngSubmit)="onSubmitRegister(myForm)" class="form" #myForm="ngForm">
-  <div class="form-group">
+<form (ngSubmit)="onSubmitRegister(myForm)" class="form row g-3" #myForm="ngForm" [ngStyle]="{'margin-top': isRegisterMode ? '200px' : '100px'}">
+  <div class="form-group" *ngIf="!isRegisterMode">
     <label for="registerUsername">Tên tài khoản</label>
     <input
       type="text"
@@ -16,24 +16,7 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="registerEmail">Email</label>
-    <input
-      type="email"
-      class="form-control"
-      id="registerEmail"
-      placeholder="Nhập email..."
-      name="email"
-      ngModel
-      required
-      #email="ngModel"
-    />
-    <div class="invalid-feedback" *ngIf="email.invalid && email.touched">
-      Vui lòng nhập email hợp lệ.
-    </div>
-  </div>
-
-  <div class="form-group">
+  <div class="form-group" *ngIf="!isRegisterMode">
     <label for="registerPassword">Mật khẩu</label>
     <input
       type="password"
@@ -51,8 +34,117 @@
     </div>
   </div>
 
+  <div class="form-group" *ngIf="!isRegisterMode">
+    <label for="registerRePassword">Nhập lại mật khẩu</label>
+    <input
+      type="password"
+      class="form-control"
+      id="registerRePassword"
+      placeholder="Nhập lại mật khẩu..."
+      name="repassword"
+      ngModel
+      required
+      minlength="1"
+      #password="ngModel"
+    />
+    <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
+      Vui lòng nhập mật khẩu.
+    </div>
+  </div>
+
+
+  <div *ngIf="isRegisterMode">
+    <div class="row">
+ <div class="col-md-12 col">
+      <label for="firstname">Tên</label>
+      <input
+        type="text"
+        class="form-control"
+        id="firstname"
+        placeholder="Nhập tên..."
+        name="firstname"
+        ngModel
+        required
+        #firstname="ngModel"
+      />
+      <div class="invalid-feedback" *ngIf="firstname.invalid && firstname.touched">
+        Vui lòng nhập tên.
+      </div>
+    </div>
+
+    <div class="col-md-12 col">
+      <label for="lastname">Họ</label>
+      <input
+        type="text"
+        class="form-control"
+        id="lastname"
+        placeholder="Nhập họ..."
+        name="lastname"
+        ngModel
+        required
+        #lastname="ngModel"
+      />
+      <div class="invalid-feedback" *ngIf="lastname.invalid && lastname.touched">
+        Vui lòng nhập họ.
+      </div>
+    </div>
+
+    </div>
+    <div class="form-group col-md-12">
+      <label for="registerEmail">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="registerEmail"
+        placeholder="Nhập email..."
+        name="email"
+        ngModel
+        required
+        #email="ngModel"
+      />
+      <div class="invalid-feedback" *ngIf="email.invalid && email.touched">
+        Vui lòng nhập email hợp lệ.
+      </div>
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="address">Địa chỉ</label>
+      <input
+        type="text"
+        class="form-control"
+        id="address"
+        placeholder="Nhập địa chỉ..."
+        name="address"
+        ngModel
+        required
+        #address="ngModel"
+      />
+      <div class="invalid-feedback" *ngIf="address.invalid && address.touched">
+        Vui lòng nhập địa chỉ.
+      </div>
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="phone">Số điện thoại</label>
+      <input
+        type="tel"
+        class="form-control"
+        id="phone"
+        placeholder="Nhập số điện thoại..."
+        name="phone"
+        ngModel
+        required
+        #phone="ngModel"
+      />
+      <div class="invalid-feedback" *ngIf="phone.invalid && phone.touched">
+        Vui lòng nhập số điện thoại.
+      </div>
+    </div>
+  </div>
+
   <div class="btn-login">
-    <button type="submit" class="btn btn-primary">Đăng ký</button>
+    <button type="submit" *ngIf="!isRegisterMode" (click)="onRegisterMode()" class="btn btn-primary">Tiếp tục</button>
+    <button type="submit" *ngIf="isRegisterMode" (click)="onRegisterMode()" class="btn btn-primary">Đăng ký</button>
   </div>
 
   <div class="form-group form-check form-option">

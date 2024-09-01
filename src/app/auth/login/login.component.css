@@ -18,3 +18,24 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .btn-login{
+    display: flex;
+    justify-content: center;
+  }
+
+  .register-link {
+    color: blue; /* Màu sắc của liên kết, thay đổi theo yêu cầu */
+    text-decoration: underline; /* Gạch dưới liên kết */
+    font-size: 16px; /* Kích thước chữ, thay đổi theo yêu cầu */
+    cursor: pointer;
+  }
+
+  .invalid-feedback {
+    display: none;
+    color: #dc3545; /* Màu đỏ cho thông báo lỗi */
+  }
+  
+  input.ng-touched.ng-invalid ~ .invalid-feedback {
+    display: block;
+  }

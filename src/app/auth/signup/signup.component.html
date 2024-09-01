@@ -1,46 +1,61 @@
-<form>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="inputEmail4">Email</label>
-        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="inputPassword4">Password</label>
-        <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-      </div>
+<form (ngSubmit)="onSubmitRegister(myForm)" class="form" #myForm="ngForm">
+  <div class="form-group">
+    <label for="registerUsername">Tên tài khoản</label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Nhập tên tài khoản...."
+      id="registerUsername"
+      name="username"
+      ngModel
+      required
+      #username="ngModel"
+    />
+    <div class="invalid-feedback" *ngIf="username.invalid && username.touched">
+      Vui lòng nhập tên tài khoản.
     </div>
-    <div class="form-group">
-      <label for="inputAddress">Address</label>
-      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+  </div>
+
+  <div class="form-group">
+    <label for="registerEmail">Email</label>
+    <input
+      type="email"
+      class="form-control"
+      id="registerEmail"
+      placeholder="Nhập email..."
+      name="email"
+      ngModel
+      required
+      #email="ngModel"
+    />
+    <div class="invalid-feedback" *ngIf="email.invalid && email.touched">
+      Vui lòng nhập email hợp lệ.
     </div>
-    <div class="form-group">
-      <label for="inputAddress2">Address 2</label>
-      <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+  </div>
+
+  <div class="form-group">
+    <label for="registerPassword">Mật khẩu</label>
+    <input
+      type="password"
+      class="form-control"
+      id="registerPassword"
+      placeholder="Nhập mật khẩu..."
+      name="password"
+      ngModel
+      required
+      minlength="1"
+      #password="ngModel"
+    />
+    <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
+      Vui lòng nhập mật khẩu.
     </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="inputCity">City</label>
-        <input type="text" class="form-control" id="inputCity">
-      </div>
-      <div class="form-group col-md-4">
-        <label for="inputState">State</label>
-        <select id="inputState" class="form-control">
-          <option selected>Choose...</option>
-          <option>...</option>
-        </select>
-      </div>
-      <div class="form-group col-md-2">
-        <label for="inputZip">Zip</label>
-        <input type="text" class="form-control" id="inputZip">
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck">
-        <label class="form-check-label" for="gridCheck">
-          Check me out
-        </label>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
-  </form>
+  </div>
+
+  <div class="btn-login">
+    <button type="submit" class="btn btn-primary">Đăng ký</button>
+  </div>
+
+  <div class="form-group form-check form-option">
+    <a class="login-link" (click)="onToggleMode()">Đã có tài khoản? Đăng nhập</a>
+  </div>
+</form>

@@ -1,67 +1,66 @@
 <div class="container-fluid full-height">
+  <nav class="navbar-container">
+    <nav class="navbar bg-warning navbar-container-son">
+      <ul class="navbar-nav d-flex flex-row justify-content-around align-items-center w-100 ms-3">
+        <li class="nav-item flex-grow-1">
+          <a class="nav-link" routerLink="/">
+            <img width="100" height="70" src="/icons8-bookstore-66.png" alt="Trang chủ">
+          </a>
+        </li>
+        <li class="nav-item flex-grow-1 mt-3">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Tìm kiếm..." aria-label="Recipient's username"
+              aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Tìm kiếm</button>
+          </div>
+        </li>
 
-  <nav>
-  <nav class="navbar bg-warning">
-  <ul class="navbar-nav d-flex flex-row justify-content-around align-items-center w-100 ms-3">
-    <li class="nav-item flex-grow-1">
-     <a class="nav-link"  routerLink="/">
-      <img width="30" height="30" src="/icons8-bookstore-66.png" alt="Trang chủ">
-     </a> 
-    </li>
-    <li class="nav-item flex-grow-1 mt-3">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Tìm kiếm..." aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Tìm kiếm</button>
-      </div>
-    </li>
+        <li class="nav-item">
+          <button type="button" class="btn btn-warning">
+            <i class="bi bi-bell"></i>
+            Thông báo</button>
+        </li>
 
-    <li class="nav-item" >
-      <button type="button" class="btn btn-warning">
-        <i class="bi bi-bell"></i>
-        Thông báo</button>
-    </li>
+        <li class="nav-item">
+          <button type="button" class="btn btn-warning">
+            <i class="bi bi-cart"></i>
+            Giỏ hàng
+          </button>
+        </li>
 
-    <li class="nav-item">
-        <button type="button" class="btn btn-warning">
-          <i class="bi bi-cart"></i>
-          Giỏ hàng 
-        </button>
-    </li>
+        <li class="nav-item">
+          <img *ngIf="authService.isAuthenticated" src="/icons8-avatar-48.png" class="avatar dropdown-toggle"
+            alt="ảnh đại diện" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 
-    <li class="nav-item">
-      <img *ngIf="authService.isAuthenticated" src="/icons8-avatar-48.png" class="avatar dropdown-toggle" alt="ảnh đại diện" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-     
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
-        <li><a class="dropdown-item" href="#">Cài đặt</a></li>
-        <li><a class="dropdown-item" (click)="logout()">Đăng xuất</a></li>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+            <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+            <li><a class="dropdown-item" (click)="logout()">Đăng xuất</a></li>
+          </ul>
+          <a *ngIf="!authService.isAuthenticated" class="nav-link" routerLink="/auth/login">
+            <i class="bi bi-person-fill"></i>
+            Đăng nhập
+          </a>
+        </li>
       </ul>
-      <a *ngIf="!authService.isAuthenticated" class="nav-link" routerLink="/auth/login">
-        <i class="bi bi-person-fill"></i>
-        Đăng nhập
-      </a>
-    </li>
-  </ul>
-    <!-- <div class="float-end me-3">
-      <img *ngIf="authService.isAuthenticated" src="/icons8-avatar-48.png" class="avatar dropdown-toggle" alt="ảnh đại diện" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-     
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
-        <li><a class="dropdown-item" href="#">Cài đặt</a></li>
-        <li><a class="dropdown-item" (click)="logout()">Đăng xuất</a></li>
-      </ul>
-     
-      <a *ngIf="!authService.isAuthenticated" class="nav-link" routerLink="/auth/login">Đăng nhập</a>
-    </div> -->
+    </nav>
   </nav>
-  </nav>
-  <main class="d-flex" style="height: 100vh;">
-    <article class="col-md-9 bg-body-secondary  full-width"> 
+  <main class="d-flex" >
+    <article class="col-md-9 bg-body-secondary  full-width">
       <div class="table-container">
-          <router-outlet></router-outlet>
+        <router-outlet></router-outlet>
       </div>
-      
+
     </article>
-   
+
   </main>
+
+  <footer>
+      <ul class="d-flex flex-row navbar-nav">
+        <li></li>
+        <li>Dịch vụ</li>
+        <li>Hỗ trợ</li>
+        <li>Tài khoản của tôi</li>
+      </ul>
+  </footer>
 </div>

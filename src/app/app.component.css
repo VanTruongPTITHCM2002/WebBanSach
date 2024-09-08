@@ -5,14 +5,19 @@
     box-sizing: border-box;
   }
 
+
+.navbar-container-son{
+  padding: 0 110px;
+  }
   .full-width {
     width: 100%;
   }
 
   .table-container {
-    padding: 0 110px;
     margin: 10px 0;
   }
+  
+
 
 
 

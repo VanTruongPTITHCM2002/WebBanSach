@@ -1,9 +1,9 @@
 @import "bootstrap-icons/font/bootstrap-icons.css";
-.full-height {
+/* .full-height {
     margin:0;
     padding:0;
     box-sizing: border-box;
-  }
+  } */
 
 
 .navbar-container-son{
@@ -58,6 +58,8 @@
     right: 0; /* Align to the right edge of the dropdown container */
     left: auto; /* Override any default left alignment */
   }
+
+
   
   /* Handle overflow for very narrow viewports */
   @media (max-width: 576px) {

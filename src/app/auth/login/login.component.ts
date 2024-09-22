@@ -23,8 +23,8 @@ export class LoginComponent {
 
     if(form.valid){
       const {username,password} = form.value;
-      this.http.post<{ accessToken: string }>('http://localhost:5000/auth/login', { username, password }).subscribe({
-        next: (v) => this.cookieService.set('token',v.accessToken),
+      this.http.post('http://localhost:5000/auth/login', { username, password }).subscribe({
+        next: (v) => this.cookieService.set('token',(Object.values(v).at(2))),
         error: (e) => alert(e.error.message),
         complete: ()=> {alert('Đăng nhập thành công'); this.router.navigate(['/'])},
        

@@ -37,7 +37,8 @@
             <li><a class="dropdown-item" href="#">Cài đặt</a></li>
             <li><a class="dropdown-item" (click)="logout()">Đăng xuất</a></li>
           </ul>
-          <a *ngIf="!authService.isAuthenticated" class="nav-link" routerLink="/auth/login">
+          
+          <a *ngIf="!authService.isAuthenticated" class="nav-link btn btn-warning" routerLink="/auth/login">
             <i class="bi bi-person-fill"></i>
             Đăng nhập
           </a>

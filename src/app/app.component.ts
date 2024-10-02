@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CategoryComponent } from './category/category.component';
 import { EmployeeService } from './employee/employee.service';
@@ -11,21 +11,31 @@ import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,HttpClientModule, AuthComponent,CommonModule],
+  imports: [RouterOutlet, RouterLink, HttpClientModule, AuthComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   template: '<app-category></app-category>',
-  providers: [EmployeeService,AuthService]
+  providers: [EmployeeService, AuthService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
   constructor(public authService: AuthService, private router: Router,
-    private cookieService: CookieService) {}
+    public cookieService: CookieService, private cdRef: ChangeDetectorRef) {}
+  ngOnInit(): void {
+    this.cookieService.set('isFormLogin',String(false));
+  }
 
   logout() {
-    // Remove the token from cookies or local storage
-    this.cookieService.delete('token'); // Adjust this if using another storage method
-    
-    // Redirect the user to the login page or home page
-    this.router.navigate(['/auth/login']); // Adjust this route if needed
+    this.cookieService.delete('token');
+    this.router.navigate(['/auth/login']);
+    this.cookieService.set('isFormLogin',String(true));
+  }
+
+  isClickFormLogin() {
+    this.cookieService.set('isFormLogin', String(true));
+  }
+
+  ngAfterViewInit() {
+    this.cdRef.detectChanges();
   }
 }

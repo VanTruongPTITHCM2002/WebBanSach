@@ -32,7 +32,7 @@
   }
 
   .invalid-feedback {
-    display: none;
+    display: block;
     color: #dc3545; /* Màu đỏ cho thông báo lỗi */
   }
   

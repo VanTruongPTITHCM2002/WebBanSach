@@ -1,7 +1,7 @@
 <div class="container-fluid full-height">
   <nav class="navbar-container">
     <nav class="navbar bg-warning navbar-container-son">
-      <ul class="navbar-nav d-flex flex-row justify-content-around align-items-center w-100 ms-3">
+      <ul class="navbar-nav d-flex flex-row justify-content-between align-items-center w-100 ms-3">
         <li class="nav-item flex-grow-1">
           <a class="nav-link" routerLink="/">
             <img width="100" height="70" src="/icons8-bookstore-66.png" alt="Trang chủ">
@@ -11,7 +11,9 @@
           <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Tìm kiếm..." aria-label="Recipient's username"
               aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Tìm kiếm</button>
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                <i class="bi bi-search"> Tìm kiếm </i>
+            </button>
           </div>
         </li>
 
@@ -38,7 +40,9 @@
             <li><a class="dropdown-item" (click)="logout()">Đăng xuất</a></li>
           </ul>
           
-          <a *ngIf="!authService.isAuthenticated" class="nav-link btn btn-warning" routerLink="/auth/login">
+          <a *ngIf="!authService.isAuthenticated" class="nav-link btn btn-warning" routerLink="/auth/login"
+          (click) = "isClickFormLogin()"
+          >
             <i class="bi bi-person-fill"></i>
             Đăng nhập
           </a>
@@ -47,7 +51,9 @@
     </nav>
   </nav>
   <main class="d-flex" >
-    <article class="col-md-9 bg-body-secondary  full-width">
+    <article class="col-md-9 bg-body-secondary full-width"
+    [ngStyle]="{'height.px': (cookieService.get('isFormLogin') === 'true' ? 500 : null)}"
+    >
       <div class="table-container">
         <router-outlet></router-outlet>
       </div>
@@ -56,7 +62,7 @@
 
   </main>
 
-  <footer class="row">
+  <footer class="row" *ngIf="cookieService.get('isFormLogin') === 'false'  ">
       <div class="col-md-4 mt-2">
             <img width="200" height="100" src="/your-own-library-landing-page-template_151150-680.jpg" alt="" srcset="">
             <p>Địa chỉ: 27, Võ Văn Vân, Vĩnh Lộc, TP.HCM</p>

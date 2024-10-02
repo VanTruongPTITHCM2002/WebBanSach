@@ -1,4 +1,5 @@
   <!-- Form Đăng nhập -->
+
   <form (ngSubmit)="onSubmit(myForm)" class="form" #myForm="ngForm">
     <div class="form-group">
       <label for="exampleInputEmail1">Tên tài khoản</label>
@@ -12,7 +13,9 @@
         required
         #username="ngModel"
       />
-      <div class="invalid-feedback" *ngIf="username.invalid && username.touched">
+      <div class="invalid-feedback"
+      
+      *ngIf="isSubmit && username.hasError('required')">
         Vui lòng nhập tên tài khoản.
       </div>
     </div>
@@ -30,11 +33,12 @@
         minlength="1"
         #password="ngModel"
       />
-      <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
+      <div class="invalid-feedback" *ngIf="isSubmit && password.hasError('required')">
         Vui lòng nhập mật khẩu.
       </div>
     </div>
-
+    
+   
     <div class="form-group form-check form-option">
       <div>
         <input type="checkbox" class="form-check-input" id="exampleCheck1" name="check" ngModel />
@@ -44,6 +48,10 @@
     </div>
 
     <div class="btn-login">
-      <button type="submit" class="btn btn-primary">Đăng nhập</button>
+      <button type="submit"
+       
+      class="btn btn-primary">Đăng nhập</button>
     </div>
+
+   
   </form>

@@ -16,11 +16,7 @@ li:hover{
     cursor: pointer;
 }
 
-.dropdown-toggle::after{
-    position: absolute;
-    top: 40%;
-    right: 1rem;
-}
+
 
 .title-new-book{
     margin-top: 10px;
@@ -35,3 +31,10 @@ li:hover{
     height: 50px;
 }
 
+
+
+.card-sub:hover{
+    border-right: 1px solid #939292;
+    border-left: 1px solid #939292;
+    cursor: pointer;
+}

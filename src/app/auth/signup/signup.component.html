@@ -1,3 +1,4 @@
+
 <form (ngSubmit)="onSubmitRegister(myForm)" class="form row g-3" #myForm="ngForm" [ngStyle]="{'margin-top': isRegisterMode ? '200px' : '100px'}">
   <div class="form-group" *ngIf="!isRegisterMode">
     <label for="registerUsername">Tên tài khoản</label>
@@ -11,7 +12,7 @@
       required
       #username="ngModel"
     />
-    <div class="invalid-feedback" *ngIf="username.invalid && username.touched">
+    <div class="invalid-feedback" *ngIf="isContinue && username.hasError('required')">
       Vui lòng nhập tên tài khoản.
     </div>
   </div>
@@ -29,7 +30,7 @@
       minlength="1"
       #password="ngModel"
     />
-    <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
+    <div class="invalid-feedback" *ngIf="isContinue && password.hasError('required')">
       Vui lòng nhập mật khẩu.
     </div>
   </div>
@@ -47,7 +48,7 @@
       minlength="1"
       #password="ngModel"
     />
-    <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
+    <div class="invalid-feedback" *ngIf="isContinue && password.hasError('required')">
       Vui lòng nhập mật khẩu.
     </div>
   </div>
@@ -143,8 +144,8 @@
   </div>
 
   <div class="btn-login">
-    <button type="submit" *ngIf="!isRegisterMode" (click)="onRegisterMode()" class="btn btn-primary">Tiếp tục</button>
-    <button type="submit" *ngIf="isRegisterMode" (click)="onRegisterMode()" class="btn btn-primary">Đăng ký</button>
+    <button type="submit" *ngIf="!isRegisterMode" (click)="onRegisterMode(myForm)" class="btn btn-primary">Tiếp tục</button>
+    <button type="submit" *ngIf="isRegisterMode"  class="btn btn-primary">Đăng ký</button>
   </div>
 
   <div class="form-group form-check form-option">

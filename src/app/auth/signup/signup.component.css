@@ -7,6 +7,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     font-size: 13px;
+    overflow: hidden;
   }
 
 
@@ -31,10 +32,11 @@
     justify-content: center;
   }
 
-  /* .invalid-feedback {
-    display: none;
+  .invalid-feedback {
+    display: block;
     color: #dc3545; 
-  } */
+    font-size: 12px;
+  }
   
   input.ng-touched.ng-invalid ~ .invalid-feedback {
     display: block;

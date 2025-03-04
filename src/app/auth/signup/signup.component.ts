@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
     lastname: '',
     email: '',
     address: '',
-    phone: ''
+    phone: '',
   }; // Khởi tạo formData với giá trị mặc định
   onRegisterMode(form:NgForm) {
     if(form.invalid){
@@ -45,7 +45,6 @@ export class SignupComponent implements OnInit {
   onSubmitRegister(form: NgForm) {
    
     if(form.valid){
-      console.log(this.isRegisterMode)
       const forms = form.value as registerRequest;
       this.formData = { ...this.formData, ...forms };
       if(!this.isRegisterMode){
@@ -53,7 +52,7 @@ export class SignupComponent implements OnInit {
         this.http.post('http://localhost:5000/auth/signup',this.formData)
         .subscribe({
           next: (v)=> console.log(v),
-          error: (e) => alert(e.error.message),
+          error: (e) => console.log(e.error),
           complete: ()=>{alert('Đăng ký thành công'); this.router.navigate(['/'])},
         })
       }

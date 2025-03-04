@@ -18,13 +18,22 @@
         </li>
 
         <li class="nav-item">
-          <button type="button" class="btn btn-warning">
-            <i class="bi bi-bell"></i>
-            Thông báo</button>
+          <div class="dropdown">
+            <button class="btn btn-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-bell"></i>
+              Thông báo
+            </button>
+          
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
         </li>
 
         <li class="nav-item">
-          <button type="button" class="btn btn-warning">
+          <button type="button" class="btn btn-warning" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
             <i class="bi bi-cart"></i>
             Giỏ hàng
           </button>
@@ -56,7 +65,17 @@
       <div class="table-container">
         <router-outlet></router-outlet>
       </div>
+      <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Giỏ hàng</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <p>Try scrolling the rest of the page to see this option in action.</p>
+        </div>
+      </div>
 
+      
     </article>
 
   </main>

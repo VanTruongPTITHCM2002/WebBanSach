@@ -6,5 +6,5 @@ export default interface registerRequest{
     lastname:string;
     email:string;
     address:string;
-    phone:string
+    phone:string;
 }

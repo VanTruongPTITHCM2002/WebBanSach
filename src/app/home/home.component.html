@@ -3,17 +3,8 @@
 
     <div class="container-list w-25 ms-3 border-2">
       <h3 class="title-list">Danh mục sản phẩm</h3>
-      <ul class="list-group btn-group dropend list-book">
-        <li class="list-group-item " [routerLink]="['/detail']">
-          Sách tiểu thuyết
-        </li>
-        <li class="list-group-item " [routerLink]="['/detail']">Sách khoa học viễn tưởng </li>
-        <li class="list-group-item " [routerLink]="['/detail']">Sách hồi ký</li>
-        <li class="list-group-item " [routerLink]="['/detail']">Sách huyền bí</li>
-        <li class="list-group-item " [routerLink]="['/detail']">Sách phi hư cấu</li>
-        <li class="list-group-item " [routerLink]="['/detail']">Sách kinh tế</li>
-        <li class="list-group-item " [routerLink]="['/detail']">Sách văn học</li>
-        <li class="list-group-item " [routerLink]="['/detail']">Sách ngoại ngữ</li>
+      <ul class="list-group btn-group dropend list-book"  *ngFor="let c of category">
+        <li class="list-group-item " [routerLink]="['/detail']">{{c.categoryName}}</li>
       </ul>
     </div>
 

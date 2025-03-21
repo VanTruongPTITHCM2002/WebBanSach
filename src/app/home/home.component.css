@@ -16,8 +16,6 @@ li:hover{
     cursor: pointer;
 }
 
-
-
 .title-new-book{
     margin-top: 10px;
     background-color: rgb(0 92 223);
@@ -30,8 +28,6 @@ li:hover{
     width: 50px;
     height: 50px;
 }
-
-
 
 .card-sub:hover{
     border-right: 1px solid #939292;

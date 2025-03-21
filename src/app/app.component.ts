@@ -18,7 +18,6 @@ import { CookieService } from 'ngx-cookie-service';
   providers: [EmployeeService, AuthService]
 })
 export class AppComponent implements OnInit {
-  footerPage = false;
   constructor(public authService: AuthService, private router: Router,
     public cookieService: CookieService, private cdRef: ChangeDetectorRef) {}
   ngOnInit(): void {
@@ -33,7 +32,6 @@ export class AppComponent implements OnInit {
 
   isClickFormLogin() {
     this.cookieService.set('isFormLogin', String(true));
-    this.footerPage = true;
   }
 
   ngAfterViewInit() {

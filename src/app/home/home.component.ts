@@ -4,6 +4,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Category } from '../../entity/Category';
+import { CategoryService } from '../../service/CategoryService';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -14,12 +16,15 @@ import { Category } from '../../entity/Category';
 })
 export class HomeComponent implements OnInit,OnDestroy {
     category: Category[] = [];
-    constructor(private cookieService:CookieService,private httpClient: HttpClient){}
+    getCategroy: Subscription;
+    constructor(private cookieService:CookieService,private categoryService: CategoryService){
+      this.getCategroy = new Subscription();
+    }
   ngOnInit(): void {
-    this.httpClient.get('http://localhost:5000/categories').subscribe((data: any) => {
-      this.category = data.data;
-    });
-    console.log(this.category);
+     this.getCategroy = this.categoryService.getCategories().subscribe((data)=>{
+      this.category = data.data ?? [];
+     });
+      
   }
   ngOnDestroy(): void {
   

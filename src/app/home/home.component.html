@@ -4,7 +4,7 @@
     <div class="container-list w-25 ms-3 border-2">
       <h3 class="title-list">Danh mục sản phẩm</h3>
       <ul class="list-group btn-group dropend list-book"  *ngFor="let c of category">
-        <li class="list-group-item " [routerLink]="['/detail']">{{c.categoryName}}</li>
+        <li class="list-group-item " [routerLink]="['/detail',c.categoryId]">{{c.categoryName}}</li>
       </ul>
     </div>
 

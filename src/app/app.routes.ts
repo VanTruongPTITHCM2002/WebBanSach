@@ -11,8 +11,8 @@ export const routes: Routes = [
     {path:'',component:HomeComponent,title:"Trang chủ"},
     {path:'auth/login',component:AuthComponent,title:"Đăng nhập"},
     {path:'auth/signup',component:AuthComponent,title:"Đăng ký"},
-    {path:'detail',component:DetailComponent,title:"Danh sách sách"},
-    {path:'detail/book',component:BookComponent,title:"Chi tiết sách"},
+    {path:'detail/:id',component:DetailComponent,title:"Danh sách sách"},
+    {path:'book',component:BookComponent,title:"Chi tiết sách"},
     // { path: 'contact', redirectTo: '/lien-he', pathMatch: 'full' },
     // { path: 'category/:id', component:CategoryComponent },
     // { path: '**', component: NotFoundComponent }

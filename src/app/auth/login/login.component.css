@@ -2,12 +2,19 @@
     width: 100%;
     min-width: 500px; /* Đặt chiều rộng tối đa của form */
     padding: 20px;
-    margin: 10px;
+    margin: 50px auto; /* Canh giữa form */
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     font-size: 13px;
+  }
+
+  .title{
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      color:orange;
   }
 
   .form-group{
@@ -35,7 +42,17 @@
     display: block;
     color: #dc3545; /* Màu đỏ cho thông báo lỗi */
   }
-  
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 2px solid rgb(224, 224, 72);
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
   input.ng-touched.ng-invalid ~ .invalid-feedback {
     display: block;
   }

@@ -38,66 +38,18 @@
             </div>
 
 
-            <div class="row row-cols-1 row-cols-md-4 g-4 p-4">
-              <a routerLink="/detail/book">
+            <div class="row row-cols-1 row-cols-md-4 g-4 p-4" *ngFor = "let book of books">
                 <div class="col">
-                    <div class="card card-responsive">
+                    <div class="card card-responsive" [routerLink]="['/book']">
                     <img src="https://pibook.vn/upload/products/loi-hua-lo-lem-tap-7-23122024-1.jpg" class="img-fluid" 
                     width="180" height="200"
                     alt="...">
                     <div class="card-body">
-                      <h5 class="card-title">Sách thủy thủ mặt trăng</h5>
+                      <h5 class="card-title">{{book.title}}</h5>
                       <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                     </div>
                   </div>
                 </div>
-                </a>
-                <div class="col">
-                    <div class="card card-responsive">
-                        <img src="https://pibook.vn/upload/products/loi-hua-lo-lem-tap-7-23122024-1.jpg" class="img-fluid" 
-                        width="180" height="200"
-                        alt="...">
-                        <div class="card-body">
-                          <h5 class="card-title">Sách thủy thủ mặt trăng</h5>
-                          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        </div>
-                      </div>
-                </div>
-                <div class="col">
-                    <div class="card card-responsive">
-                        <img src="https://pibook.vn/upload/products/loi-hua-lo-lem-tap-7-23122024-1.jpg" class="img-fluid" 
-                        width="180" height="200"
-                        alt="...">
-                        <div class="card-body">
-                          <h5 class="card-title">Sách thủy thủ mặt trăng</h5>
-                          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        </div>
-                      </div>
-                </div>
-                <div class="col">
-                    <div class="card card-responsive">
-                        <img src="https://pibook.vn/upload/products/loi-hua-lo-lem-tap-7-23122024-1.jpg" class="img-fluid" 
-                        width="180" height="200"
-                        alt="...">
-                        <div class="card-body">
-                          <h5 class="card-title">Sách thủy thủ mặt trăng</h5>
-                          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        </div>
-                      </div>
-              </div>
-
-              <div class="col">
-                <div class="card card-responsive">
-                    <img src="https://pibook.vn/upload/products/loi-hua-lo-lem-tap-7-23122024-1.jpg" class="img-fluid" 
-                    width="180" height="200"
-                    alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">Sách thủy thủ mặt trăng</h5>
-                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                  </div>
-          </div>
-
       </div>
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">

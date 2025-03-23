@@ -1,7 +1,7 @@
 
 <form (ngSubmit)="onSubmitRegister(myForm)" class="form row g-3" #myForm="ngForm" [ngStyle]="{'margin-top': isRegisterMode ? '100px' : '100px'}">
+  <h3 class="title">Đăng ký</h3>
   <div class="form-group" *ngIf="!isRegisterMode">
-    <label for="registerUsername">Tên tài khoản</label>
     <input
       type="text"
       class="form-control"
@@ -18,7 +18,6 @@
   </div>
 
   <div class="form-group" *ngIf="!isRegisterMode">
-    <label for="registerPassword">Mật khẩu</label>
     <input
       type="password"
       class="form-control"
@@ -36,7 +35,6 @@
   </div>
 
   <div class="form-group" *ngIf="!isRegisterMode">
-    <label for="registerRePassword">Nhập lại mật khẩu</label>
     <input
       type="password"
       class="form-control"
@@ -54,10 +52,8 @@
   </div>
 
 
-  <div *ngIf="isRegisterMode">
-    <div class="row">
- <div class="col-md-12 col">
-      <label for="firstname">Tên</label>
+  <div class="register" *ngIf="isRegisterMode">
+ <div class="form-group col-md-12 gap-2">
       <input
         type="text"
         class="form-control"
@@ -68,13 +64,9 @@
         required
         #firstname="ngModel"
       />
-      <div class="invalid-feedback" *ngIf="firstname.invalid && firstname.touched">
-        Vui lòng nhập tên.
-      </div>
     </div>
 
-    <div class="col-md-12 col">
-      <label for="lastname">Họ</label>
+    <div class="form-group col-md-12">
       <input
         type="text"
         class="form-control"
@@ -85,14 +77,9 @@
         required
         #lastname="ngModel"
       />
-      <div class="invalid-feedback" *ngIf="lastname.invalid && lastname.touched">
-        Vui lòng nhập họ.
-      </div>
     </div>
 
-    </div>
     <div class="form-group col-md-12">
-      <label for="registerEmail">Email</label>
       <input
         type="email"
         class="form-control"
@@ -103,13 +90,9 @@
         required
         #email="ngModel"
       />
-      <div class="invalid-feedback" *ngIf="email.invalid && email.touched">
-        Vui lòng nhập email hợp lệ.
-      </div>
     </div>
 
     <div class="form-group col-md-12">
-      <label for="address">Địa chỉ</label>
       <input
         type="text"
         class="form-control"
@@ -120,13 +103,9 @@
         required
         #address="ngModel"
       />
-      <div class="invalid-feedback" *ngIf="address.invalid && address.touched">
-        Vui lòng nhập địa chỉ.
-      </div>
     </div>
 
     <div class="form-group col-md-12">
-      <label for="phone">Số điện thoại</label>
       <input
         type="tel"
         class="form-control"
@@ -137,9 +116,6 @@
         required
         #phone="ngModel"
       />
-      <div class="invalid-feedback" *ngIf="phone.invalid && phone.touched">
-        Vui lòng nhập số điện thoại.
-      </div>
     </div>
   </div>
 

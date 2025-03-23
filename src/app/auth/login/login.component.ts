@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import Swal from 'sweetalert2'
 import { showResponseSuccess } from '../../response/sweetAlert';
+import { enviroment } from '../../../enviroment';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit,OnDestroy {
     this.isSubmit = true;
     if(form.valid){
       const {username,password} = form.value;
-      this.http.post('http://localhost:5000/auth/login', { username, password }).subscribe({
+      this.http.post(`${enviroment.API_ROUTE}/auth/login`, { username, password }).subscribe({
         next: (v) => {this.cookieService.set('token',(Object.values(v).at(2))); this.showAlert = Object.values(v).at(1)
           ,showResponseSuccess(this.showAlert)
           this.router.navigate(['/'])

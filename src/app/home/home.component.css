@@ -24,10 +24,11 @@ li:hover{
     padding: 10px;
 }
 
-.card-item{
-    width: 50px;
-    height: 50px;
+.card-item, .card-sub{
+    width: 200px;
+    height: auto;
 }
+
 
 .card-sub:hover{
     border-right: 1px solid #939292;

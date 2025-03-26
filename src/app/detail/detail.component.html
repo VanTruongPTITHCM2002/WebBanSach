@@ -37,28 +37,26 @@
                 </select>
             </div>
 
-
-            <div class="row row-cols-1 row-cols-md-4 g-4 p-4" *ngFor = "let book of books">
-                <div class="col">
-                    <div class="card card-responsive" [routerLink]="['/book']">
-                    <img src="https://pibook.vn/upload/products/loi-hua-lo-lem-tap-7-23122024-1.jpg" class="img-fluid" 
-                    width="180" height="200"
-                    alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">{{book.title}}</h5>
-                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
+            <div class="container">
+              <div class="d-flex flex-wrap gap-3 p-4 justify-content-start align-items-center">
+                <div class="card card-responsive" *ngFor="let book of books" [routerLink]="['/book']">
+                  <img src="https://pibook.vn/upload/products/loi-hua-lo-lem-tap-7-23122024-1.jpg" class="img-fluid" 
+                  width="180" height="200" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
                   </div>
                 </div>
-      </div>
+              </div>
+            </div>
+            
+            
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
           <li class="page-item disabled">
             <a class="page-link" href="#" tabindex="-1">Previous</a>
           </li>
           <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
           <li class="page-item">
             <a class="page-link" href="#">Next</a>
           </li>

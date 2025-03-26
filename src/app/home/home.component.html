@@ -3,7 +3,7 @@
 
     <div class="container-list w-25 ms-3 border-2">
       <h3 class="title-list">Danh mục sản phẩm</h3>
-      <ul class="list-group btn-group dropend list-book"  *ngFor="let c of category">
+      <ul class="list-group btn-group dropend list-book" *ngFor="let c of category">
         <li class="list-group-item " [routerLink]="['/detail',c.categoryId]">{{c.categoryName}}</li>
       </ul>
     </div>
@@ -14,63 +14,16 @@
   </div>
 
   <h2 class="title-new-book">Sản phẩm mới</h2>
-
-  <div class="row row-cols-1 row-cols-md-3 g-4" [routerLink]="['/detail/book']">
-    <div class="col" style="width: 200px;margin-left: 10px;">
-      <div class="card card-sub" >
-        <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text</p>
+  <div class="container" >
+    <div class="d-flex flex-nowrap gap-3  justify-content-start align-items-center">
+        <div class="card card-sub" [routerLink]="['/detail/book']" *ngFor="let b of book">
+          <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
+          <div class="card-body">
+            <h5 class="card-title">{{b.title}}</h5>
+            <p class="card-text">This is a longer card with supporting text</p>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col" style="width: 200px;">
-      <div class="card card-sub">
-        <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text</p>
-        </div>
-      </div>
-    </div>
-    <div class="col" style="width: 200px;">
-      <div class="card card-sub" >
-        <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text</p>
-        </div>
-      </div>
-    </div>
-    <div class="col" style="width: 200px;">
-      <div class="card card-sub" >
-        <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text</p>
-        </div>
-      </div>
-    </div>
-    <div class="col" style="width: 200px;">
-      <div class="card card-sub" >
-        <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text</p>
-        </div>
-      </div>
-    </div>
-
-
-     <div class="col" style="width: 200px;">
-      <div class="card card-sub" >
-        <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text</p>
-        </div>
-      </div>
     </div>
   </div>
+
 </div>

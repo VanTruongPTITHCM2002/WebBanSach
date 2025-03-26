@@ -6,6 +6,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { Category } from '../../entity/Category';
 import { CategoryService } from '../../service/CategoryService';
 import { Subscription } from 'rxjs';
+import { Book } from '../../entity/Book';
+import { BookService } from '../../service/BookService';
 
 @Component({
   selector: 'app-home',
@@ -16,15 +18,23 @@ import { Subscription } from 'rxjs';
 })
 export class HomeComponent implements OnInit,OnDestroy {
     category: Category[] = [];
+    book: Book[] = [];
     getCategroy: Subscription;
-    constructor(private cookieService:CookieService,private categoryService: CategoryService){
+    getBook: Subscription;
+    constructor(private cookieService:CookieService,private categoryService: CategoryService
+        ,private bookService:BookService
+    ){
       this.getCategroy = new Subscription();
+      this.getBook = new Subscription();
     }
   ngOnInit(): void {
      this.getCategroy = this.categoryService.getCategories().subscribe((data)=>{
       this.category = data.data ?? [];
      });
-      
+   
+     this.getBook = this.bookService.getBooks().subscribe((data)=>{
+      this.book = data.data ?? [];
+     });
   }
   ngOnDestroy(): void {
   

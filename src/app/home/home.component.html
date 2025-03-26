@@ -18,7 +18,7 @@
     <div class="d-flex flex-nowrap gap-3  justify-content-start align-items-center">
         <div class="card card-sub" [routerLink]="['/detail/book']" *ngFor="let b of book">
           <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-          <div class="card-body">
+          <div class="card-body" routerLink="/book">
             <h5 class="card-title">{{b.title}}</h5>
             <p class="card-text">This is a longer card with supporting text</p>
           </div>

@@ -4,7 +4,7 @@
     <div class="container-list w-25 ms-3 border-2">
       <h3 class="title-list">Danh mục sản phẩm</h3>
       <ul class="list-group btn-group dropend list-book" *ngFor="let c of category">
-        <li class="list-group-item " [routerLink]="['/detail',c.categoryId]">{{c.categoryName}}</li>
+        <li class="list-group-item " [routerLink]="['/category',c.categoryId]">{{c.categoryName}}</li>
       </ul>
     </div>
 
@@ -13,12 +13,25 @@
     </div>
   </div>
 
-  <h2 class="title-new-book">Sản phẩm mới</h2>
-  <div class="container" >
+  <h2 class="title-new-book">Các sản phẩm sách bán chạy</h2>
+  <div class="container m-sm-0 me-lg-0">
     <div class="d-flex flex-nowrap gap-3  justify-content-start align-items-center">
-        <div class="card card-sub" [routerLink]="['/detail/book']" *ngFor="let b of book">
-          <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-          <div class="card-body" routerLink="/book">
+        <div class="card card-sub" *ngFor="let b of book">
+          <div class="card-body" routerLink="/book">  
+            <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
+            <h5 class="card-title">{{b.title}}</h5>
+            <p class="card-text">This is a longer card with supporting text</p>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <h2 class="title-new-book">Các sản phẩm sách được đánh giá cao</h2>
+  <div class="container m-sm-0 me-lg-0" >
+    <div class="d-flex flex-nowrap gap-3  justify-content-start align-items-center">
+        <div class="card card-sub" *ngFor="let b of book">
+          <div class="card-body" routerLink="/book">  
+            <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
             <h5 class="card-title">{{b.title}}</h5>
             <p class="card-text">This is a longer card with supporting text</p>
           </div>

@@ -13,4 +13,8 @@ export class BookService{
         getBooks(): Observable<ResponseData<Book[]>>{
           return this.http.get<any>('http://localhost:5000/books');
         }
+
+        getBooksByBuys(): Observable<ResponseData<Book[]>>{
+          return this.http.get<any>('http://localhost:5000/books/buys');
+        }
 }

@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit,OnDestroy {
       this.category = data.data ?? [];
      });
    
-     this.getBook = this.bookService.getBooks().subscribe((data)=>{
+     this.getBook = this.bookService.getBooksByBuys().subscribe((data)=>{
       this.book = data.data ?? [];
      });
   }

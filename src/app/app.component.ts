@@ -7,17 +7,21 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, HttpClientModule, CommonModule],
+  imports: [RouterOutlet, RouterLink, HttpClientModule, CommonModule
+    ,FormsModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   template: '<app-category></app-category>',
   providers: [EmployeeService, AuthService]
 })
 export class AppComponent implements OnInit {
+  txtSearch = '';
   constructor(public authService: AuthService, private router: Router,
     public cookieService: CookieService, private cdRef: ChangeDetectorRef) {}
   ngOnInit(): void {
@@ -32,6 +36,11 @@ export class AppComponent implements OnInit {
 
   isClickFormLogin() {
     this.cookieService.set('isFormLogin', String(true));
+  }
+
+  searchValue(strSearch: string){
+    this.txtSearch = strSearch;
+    console.log(this.txtSearch);
   }
 
   ngAfterViewInit() {

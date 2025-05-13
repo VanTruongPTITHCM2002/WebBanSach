@@ -37,9 +37,11 @@ export class LoginComponent implements OnInit,OnDestroy {
     if(form.valid){
       const {username,password} = form.value;
       this.http.post(`${enviroment.API_ROUTE}/auth/login`, { username, password }).subscribe({
-        next: (v) => {this.cookieService.set('token',(Object.values(v).at(2))); this.showAlert = Object.values(v).at(1)
+        next: (v) => {
+          this.cookieService.set('token',(Object.values(v).at(2))); this.showAlert = Object.values(v).at(1)
           ,showResponseSuccess(this.showAlert)
           this.router.navigate(['/'])
+          this.cookieService.set('username', username);
         },
         error: (e) => alert(e.error.message),
         // complete: ()=> {console.log(this.showAlert),this.router.navigate(['/'])},

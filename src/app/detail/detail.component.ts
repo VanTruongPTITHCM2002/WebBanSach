@@ -4,11 +4,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Book } from '../../entity/Book';
 import { CategoryService } from '../../service/CategoryService';
 import { NgFor } from '@angular/common';
+import { AuthService } from '../auth/auth.service';
+import { SubDetailComponent } from "./sub-detail/sub-detail.component";
 
 @Component({
   selector: 'app-detail',
   standalone: true,
-  imports: [RouterLink,NgFor],
+  imports: [RouterLink, NgFor, SubDetailComponent],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.css'
 })
@@ -17,7 +19,9 @@ export class DetailComponent implements OnInit {
   books:Book[] =[];
   categorys: Category[] = [];
   category: string = '';
-  constructor(private route: ActivatedRoute,private categoryService: CategoryService) {
+  constructor(private route: ActivatedRoute,private categoryService: CategoryService,
+    private authService: AuthService
+  ) {
     this.id = String(route.snapshot.paramMap.get('id'));
   }
 

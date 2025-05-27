@@ -1,0 +1,34 @@
+<div class="bg-light p-3">
+       <hr class="my-4">
+       <div class="detail-price">
+          <h6>Giá</h6>
+        <div class="d-flex gap-2 align-items-center">
+            <input type="checkbox" title="Giá">
+            <p class="mb-0">{{0 | currency: "VND"}} - {{150000 | currency: 'VND'}}</p>
+        </div>
+        
+        <div class="d-flex gap-2 align-items-center">
+            <input type="checkbox" title="Giá">
+            <p class="mb-0">{{150000 | currency: "VND"}} - {{300000 | currency: 'VND'}}</p>
+        </div>
+        
+        <div class="d-flex gap-2 align-items-center">
+            <input type="checkbox" title="Giá">
+            <p class="mb-0">{{300000 | currency: "VND"}} - {{500000 | currency: 'VND'}}</p>
+        </div>
+        
+        <div class="d-flex gap-2 align-items-center">
+            <input type="checkbox" title="Giá">
+            <p class="mb-0"> {{500000 | currency: 'VND'}} - Trở lên</p>
+        </div>
+        </div>
+
+        <hr class="my-4">
+        <h6>Nhà xuất bản</h6>
+        <div class="detai-publish" *ngFor="let publisher of publishers">
+            <div class="d-flex gap-2 align-items-center">
+                    <input type="checkbox" name="" id="" title="Nhà xuất bản">
+                    <p class="mb-0">{{publisher.publisherName}}</p>
+            </div>
+        </div>
+</div>

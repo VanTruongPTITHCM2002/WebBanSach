@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { AuthService } from "../auth/auth.service";
 import { Router, RouterLink } from "@angular/router";
 import { CookieService } from "ngx-cookie-service";
-import { Cart } from "../../entity/Cart";
+import { Cart, CartItem, UpdateCartItem } from "../../entity/Cart";
 import { Subscription } from "rxjs/internal/Subscription";
 import { CartService } from "../../service/CartService";
 
@@ -19,12 +19,14 @@ export class HeaderComponent implements OnInit{
     txtSearch = '';
     cart: Cart | null = null;
     getCarts: Subscription;
+    updateCart: Subscription;
     total: number  = 0;
     constructor(public authService: AuthService, private router: Router,
         public cookieService: CookieService,
         public cartService: CartService,
       ){
           this.getCarts = new Subscription();
+          this.updateCart = new Subscription();
         }
 
     searchValue(strSearch: string) {
@@ -47,7 +49,22 @@ export class HeaderComponent implements OnInit{
     this.authService.logout();
   }
 
-  updateTotal(){
+  updateTotal(item: CartItem){
+    const token = this.authService.getToken();
+    const updateItem:UpdateCartItem = {
+      cartDto: {
+        username: this.authService.getUsername(),
+        createAt: this.cart?.createAt!,
+      },
+      bookName: item.title,
+      quantity: item.quantity,
+      cartItemId: item.cartItemId
+    }
+
+    this.updateCart = this.cartService.updateCart(this.cart?.cartId!,
+      updateItem,token).subscribe((data) => {
+          console.log(data);
+      });
      this.total = this.cart?.cartItems.reduce((acc, item) => {
       return acc + (Number(item.price) * Number(item.quantity));
     }, 0)!;

@@ -1,4 +1,5 @@
 export interface CartItem {
+  cartItemId: number;
   quantity: number;
   price: number;
   title: string;
@@ -20,4 +21,8 @@ export interface CreateCartItem{
   cartDto: CartDTO;
   bookName:string;
   quantity: number;
+}
+
+export interface UpdateCartItem extends CreateCartItem{
+  cartItemId: number;
 }

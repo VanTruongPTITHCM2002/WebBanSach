@@ -42,12 +42,12 @@
                 <h5>{{title}}</h5>
                 <div class="d-flex gap-2">
                     <div>
-                        <p>Nhà xuất bản: Thiên am bên bờ vũ trụ</p>
+                        <p>Nhà xuất bản: {{book?.publisherId?.publisherName}}</p>
                         <p>Nhà phát hành: Đệ nhất quốc sư Trần Dần</p>
                     </div>
                 
                     <div>
-                        <p>Tác giả: Nhà thơ Trần Dần</p>
+                        <p>Tác giả: {{book?.authorId?.firstname}}  {{book?.authorId?.lastname}}</p>
                         <p>Trạng thái: Còn hàng</p>
                     </div>
                 </div>

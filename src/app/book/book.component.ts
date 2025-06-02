@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { CartService } from '../../service/CartService';
 import { Subscription } from 'rxjs';
+import { BookResponse } from '../../entity/Book';
+import { BookService } from '../../service/BookService';
 
 @Component({
   selector: 'app-book',
@@ -14,13 +16,20 @@ import { Subscription } from 'rxjs';
 export class BookComponent implements OnInit{
   title = '';
   addCart: Subscription;
+  getBookById: Subscription;
+  book: BookResponse | null = null;
   constructor(private router: Router, private authService: AuthService,
-    private cartService: CartService
+    private bookService: BookService, private route: ActivatedRoute
   ){
     this.addCart = new Subscription();
+    this.getBookById = new Subscription();
   }
   ngOnInit(): void {
     this.title = history.state.title;
+    const id = this.route.snapshot.paramMap.get('id');
+    this.getBookById = this.bookService.getBookById(Number(id)).subscribe((data) =>
+      this.book = data.data!
+    )
   }
 
   addInCart(){

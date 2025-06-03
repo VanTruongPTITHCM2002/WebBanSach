@@ -35,6 +35,7 @@ export class DetailComponent implements OnInit {
     next: (v) => {
      this.categorys = v.data!
    }})
+
 }
   getNameCategory(){
     return this.categorys.find((v) => v.categoryId == Number(this.id))?.categoryName;

@@ -7,6 +7,8 @@ export interface Book {
     title: string;
     price: number;
     stock: number;
+    status: boolean;
+    imageBase64:string;
 }
 
 export interface BookResponse extends Book{

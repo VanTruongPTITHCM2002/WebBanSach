@@ -28,7 +28,7 @@
 
               <div class="col">
                 <div class="card card-responsive">
-                    <img src="https://pibook.vn/upload/products/loi-hua-lo-lem-tap-7-23122024-1.jpg" class="img-fluid" 
+                    <img [src]="book?.imageBase64" class="img-fluid" 
                     width="300" height="200"
                     alt="...">
                     <div class="card-body">
@@ -48,7 +48,7 @@
                 
                     <div>
                         <p>Tác giả: {{book?.authorId?.firstname}}  {{book?.authorId?.lastname}}</p>
-                        <p>Trạng thái: Còn hàng</p>
+                        <p>Trạng thái: {{book?.status ? "Còn hàng" : "Hết hàng"}}</p>
                     </div>
                 </div>
 

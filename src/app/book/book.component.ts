@@ -28,7 +28,7 @@ export class BookComponent implements OnInit{
     this.title = history.state.title;
     const id = this.route.snapshot.paramMap.get('id');
     this.getBookById = this.bookService.getBookById(Number(id)).subscribe((data) =>
-      this.book = data.data!
+    this.book = data.data!
     )
   }
 

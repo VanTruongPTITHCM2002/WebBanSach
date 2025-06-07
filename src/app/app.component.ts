@@ -19,8 +19,6 @@ import { FooterComponent } from './footer/footer.component';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  template: '<app-category></app-category>',
-  providers: [EmployeeService, AuthService]
 })
 export class AppComponent implements OnInit {
 

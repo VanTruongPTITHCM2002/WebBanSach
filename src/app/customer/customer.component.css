@@ -1,0 +1,61 @@
+.full-height {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    overflow: hidden;
+    
+  }
+
+
+.navbar-container-son{
+  padding: 0 110px;
+  }
+  .full-width {
+    width: 100%;
+  }
+
+  .table-container {
+    margin: 10px 0;
+  }
+  
+
+
+
+
+  .dropdown {
+    position: relative; /* Ensure dropdown is positioned relative to this container */
+  }
+  
+  .avatar {
+    cursor: pointer;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%; /* Position it directly below the avatar */
+    left: 50%; /* Align to the left of the avatar */
+    margin-top: 0.5rem; /* Space between the avatar and the dropdown */
+    min-width: 160px; /* Optional: set a minimum width for the dropdown */
+    z-index: 1000; /* Ensure it appears above other content */
+  }
+
+  .dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -35px; /* Position the triangle above the menu */
+    left: 37px; /* Adjust left position to align with the avatar */
+    border-width: 16px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent; /* Triangle pointing downwards */
+    border-bottom-color: #fff; /* Color of the triangle */
+  }
+  
+  
+  /* Ensure the dropdown menu aligns correctly when shown */
+  .dropdown-menu-end {
+    right: 30px; /* Align to the right edge of the dropdown container */
+    left: auto; /* Override any default left alignment */
+  }

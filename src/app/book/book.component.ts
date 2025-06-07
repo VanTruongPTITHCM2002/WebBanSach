@@ -5,6 +5,7 @@ import { CartService } from '../../service/CartService';
 import { Subscription } from 'rxjs';
 import { BookResponse } from '../../entity/Book';
 import { BookService } from '../../service/BookService';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-book',
@@ -19,7 +20,8 @@ export class BookComponent implements OnInit{
   getBookById: Subscription;
   book: BookResponse | null = null;
   constructor(private router: Router, private authService: AuthService,
-    private bookService: BookService, private route: ActivatedRoute
+    private bookService: BookService, private route: ActivatedRoute,
+    private cookieService: CookieService
   ){
     this.addCart = new Subscription();
     this.getBookById = new Subscription();
@@ -35,5 +37,12 @@ export class BookComponent implements OnInit{
   addInCart(){
       const token = this.authService.getToken();
       // this.addCart = this.cartService.addCart( ,token)
+  }
+
+  isAuthentication (): void{
+    const isCheckToken = this.cookieService.get('token');
+    if(!isCheckToken){
+      this.router.navigate(['/auth/login']);
+    }
   }
 }

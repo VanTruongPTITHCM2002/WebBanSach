@@ -14,7 +14,7 @@ export interface Cart{
 
 export interface CartDTO{
     username: string;
-    createAt: string;
+    createAt?: string;
 }
 
 export interface CreateCartItem{

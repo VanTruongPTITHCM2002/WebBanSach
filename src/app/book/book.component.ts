@@ -3,24 +3,29 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { CartService } from '../../service/CartService';
 import { Subscription } from 'rxjs';
-import { BookResponse } from '../../entity/Book';
+import { Book, BookResponse } from '../../entity/Book';
 import { BookService } from '../../service/BookService';
 import { CookieService } from 'ngx-cookie-service';
+import { CreateCartItem } from '../../entity/Cart';
+import { FormsModule } from '@angular/forms';
+import { showResponseSuccess } from '../response/sweetAlert';
 
 @Component({
   selector: 'app-book',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css'
 })
 export class BookComponent implements OnInit{
   title = '';
   addCart: Subscription;
+  quantity: number = 1;
   getBookById: Subscription;
   book: BookResponse | null = null;
   constructor(private router: Router, private authService: AuthService,
     private bookService: BookService, private route: ActivatedRoute,
+    private cartService: CartService,
     private cookieService: CookieService
   ){
     this.addCart = new Subscription();
@@ -34,15 +39,25 @@ export class BookComponent implements OnInit{
     )
   }
 
-  addInCart(){
-      const token = this.authService.getToken();
-      // this.addCart = this.cartService.addCart( ,token)
-  }
-
-  isAuthentication (): void{
-    const isCheckToken = this.cookieService.get('token');
-    if(!isCheckToken){
+  addCartBook (book: BookResponse): void{
+    const token = this.cookieService.get('token');
+    if(!token){
       this.router.navigate(['/auth/login']);
     }
+    const username = this.authService.getUsername();
+     const createCartItem:CreateCartItem = {
+          cartDto: {
+            username: username,
+          },
+          bookName: book.title,
+          quantity: this.quantity,
+         
+        }
+    //  console.log(this.quantity);
+    this.addCart = this.cartService.addCart(createCartItem, token).subscribe(data => 
+    { 
+        showResponseSuccess('Thêm vào giỏ hàng thành công');
+        setTimeout(() =>  window.location.reload(), 3000);  
+    });
   }
 }

@@ -11,18 +11,18 @@ import { CookieService } from "ngx-cookie-service";
 })
 export class AdminDashboardComponent{
 
-    constructor(
-        private cookieService: CookieService,
-        private router: Router
-    ){
+    // constructor(
+    //     private cookieService: CookieService,
+    //     private router: Router
+    // ){
 
-    }
+    // }
 
-    logOut(){
-        this.cookieService.delete('token');
-        this.cookieService.delete('username');
-        this.router.navigate([
-            '/login'
-        ]);
-    }
+    // logOut(){
+    //     this.cookieService.delete('token','/');
+    //     this.cookieService.delete('username','/');
+    //     this.router.navigate([
+    //         '/login'
+    //     ]);
+    // }
 }

@@ -1,0 +1,21 @@
+ .sidebar {
+      min-width: 250px;
+      max-width: 250px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #343a40;
+      padding-top: 20px;
+  }
+
+  .sidebar a {
+      color: #fff;
+      padding: 15px 20px;
+      display: block;
+      text-decoration: none;
+  }
+
+  .sidebar a:hover {
+      background-color: #495057;
+  }

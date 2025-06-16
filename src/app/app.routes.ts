@@ -10,6 +10,9 @@ import { AdminLoginComponents } from './admin/login/login.component';
 import { CustomerLayoutComponent } from './customer/customer.component';
 import { AdminLayoutComponent } from './admin/admin.component';
 import { AdminDashboardComponent } from './admin/dashboard/dashboard.component';
+import { AuthGuard } from '../guard/admin.gurad';
+import { AdminBookComponent } from './admin/book/book.component';
+import { AuthorsComponent } from './admin/authors/authors.component';
 
 export const routes: Routes = [
 
@@ -29,7 +32,9 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
+      { path: 'books', component: AdminBookComponent, canActivate: [AuthGuard]},
+      { path: 'authors', component: AuthorsComponent, canActivate: [AuthGuard]}
       // ... các route cho admin
     ]
   }

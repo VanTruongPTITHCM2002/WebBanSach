@@ -25,9 +25,6 @@ export class AdminLoginComponents {
     onSubmit(form: NgForm) {
         if (form.valid) {
             const { username, password } = form.value;
-
-            console.log(username, password);
-
             this.http.post(`${enviroment.API_ROUTE}/auth/login`, { username, password }).subscribe({
                 next: (v: any) => {
                     showResponseSuccess(v.message)
@@ -37,6 +34,5 @@ export class AdminLoginComponents {
                 error: (e) => alert(e.error.message),
             })
         }
-
     }
 }

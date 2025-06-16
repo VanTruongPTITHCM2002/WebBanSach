@@ -1,0 +1,11 @@
+body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .main-content {
+      margin-left: 250px;
+      padding: 20px;
+      flex: 1;
+  }

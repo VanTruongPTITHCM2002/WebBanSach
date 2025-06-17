@@ -10,8 +10,8 @@ import { Book, BookResponse } from "../entity/Book";
 export class BookService{
     constructor(private http: HttpClient){}
     
-        getBooks(): Observable<ResponseData<Book[]>>{
-          return this.http.get<any>('http://localhost:5000/books');
+        getBooks(page: number = 1, size: number = 5): Observable<ResponseData<Book[]>>{
+          return this.http.get<any>(`http://localhost:5000/books?page=${page}&size=${size}`);
         }
 
         getBooksByBuys(): Observable<ResponseData<Book[]>>{

@@ -8,6 +8,7 @@ export interface Book {
     price: number;
     stock: number;
     status: boolean;
+    image?: string;
     imageBase64:string;
 }
 

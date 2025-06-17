@@ -1,6 +1,12 @@
 <h4 class="text-center mt-4">Danh sách sản phẩm sách</h4>
 <button type="button" class="btn btn-outline-primary float-end">Thêm sách</button>
-<table class="table align-middle mb-0 bg-white">
+<div class="table-reponsive">
+  <div class="input-group w-auto" style="max-width: 300px;">
+    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+      aria-describedby="search-addon" />
+    <button type="button" class="btn btn-outline-primary">Tìm</button>
+  </div>
+  <table class="table align-middle table-striped mb-0 bg-white">
   <thead class="bg-light" class="datatable">
     <tr>
       <th>Hình ảnh</th>
@@ -11,110 +17,33 @@
       <th>Hành động</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
+  <tbody >
+    <tr *ngFor = "let book of books">
       <td>
-        <div class="d-flex align-items-center">
-          <img
-              src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-              alt=""
-              style="width: 45px; height: 45px"
-              class="rounded-circle"
-              />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">John Doe</p>
-            <p class="text-muted mb-0">john.doeail.com</p>
-          </div>
-        </div>
+      <img [src]="book.imageBase64" alt="Ảnh" class="rounded-circle"
+     style="width: 45px; height: 45px; object-fit: cover;" />
       </td>
       <td>
-        <p class="fw-normal mb-1">Software engineer</p>
-        <p class="text-muted mb-0">IT department</p>
+        <p class="fw-normal mb-1">{{book.title}}</p>
       </td>
       <td>
-        <span class="badge badge-success rounded-pill d-inline">Active</span>
+        <p>{{book.stock}}</p>
       </td>
-      <td>Senior</td>
-      <td>
-        <button type="button" class="btn btn-link btn-sm btn-rounded">
-          Edit
-        </button>
-
-        <button type="button" class="btn btn-danger">Xóa</button>
+      <td>{{book.price}}</td>
+       <td>
+        <span class="badge rounded-pill d-inline" [ngClass]="book.status ? 'bg-success' : 'bg-danger'">
+          <i class="fas" [ngClass]="book.status ? 'fa-check-circle' : 'fa-times-circle'"></i>
+          {{ book.status ? 'Còn hàng' : 'Hết hàng' }}
+        </span>
       </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="d-flex align-items-center">
-          <img
-              src="https://mdbootstrap.com/img/new/avatars/6.jpg"
-              class="rounded-circle"
-              alt=""
-              style="width: 45px; height: 45px"
-              />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">Alex Ray</p>
-            <p class="text-muted mb-0">alex.raygmail.com</p>
-          </div>
-        </div>
-      </td>
-      <td>
-        <p class="fw-normal mb-1">Consultant</p>
-        <p class="text-muted mb-0">Finance</p>
-      </td>
-      <td>
-        <span class="badge badge-primary rounded-pill d-inline"
-              >Onboarding</span
-          >
-      </td>
-      <td>Junior</td>
-      <td>
-        <button
-                type="button"
-                class="btn btn-link btn-rounded btn-sm fw-bold"
-                data-mdb-ripple-color="dark"
-                >
-          Edit
-        </button>
-
-        
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="d-flex align-items-center">
-          <img
-              src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-              class="rounded-circle"
-              alt=""
-              style="width: 45px; height: 45px"
-              />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">Kate Hunington</p>
-            <p class="text-muted mb-0">kate.huningtonmail.com</p>
-          </div>
-        </div>
-      </td>
-      <td>
-        <p class="fw-normal mb-1">Designer</p>
-        <p class="text-muted mb-0">UI/UX</p>
-      </td>
-      <td>
-        <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
-      </td>
-      <td>Senior</td>
-      <td>
-        <button
-                type="button"
-                class="btn btn-link btn-rounded btn-sm fw-bold"
-                data-mdb-ripple-color="dark"
-                >
-          Edit
-        </button>
+      <td class="">
+        <button type="button" class="btn btn-warning me-2"><i class="fas fa-edit"></i> Sửa</button>
+        <button type="button" class="btn btn-danger"> <i class="fas fa-trash-alt"></i> Xóa</button>
       </td>
     </tr>
   </tbody>
 </table>
+</div>
 <nav class="float-end mt-2" aria-label="...">
   <ul class="pagination">
     <li class="page-item disabled">

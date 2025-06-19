@@ -1,0 +1,50 @@
+<h5 class="text-center mt-1">Thêm sách</h5>
+<form class="row g-1 fs-6-text">
+   <div class="mb-3">
+    <label for="title" class="form-label">Tiêu đề</label>
+    <input type="text" id="title" name="title" class="form-control" maxlength="45" required [(ngModel)]="book.title">
+  </div>
+
+  <div class="mb-3">
+    <label for="authorId" class="form-label">Tác giả</label>
+    <input type="number" id="authorId" name="authorId" class="form-control" required [(ngModel)]="book.authorId">
+  </div>
+
+  <div class="mb-3">
+    <label for="publisherId" class="form-label">Nhà xuất bản</label>
+    <input type="number" id="publisherId" name="publisherId" class="form-control" required [(ngModel)]="book.publisherId">
+  </div>
+
+  <div class="mb-3">
+    <label for="categoryId" class="form-label">Thể loại</label>
+    <input type="number" id="categoryId" name="categoryId" class="form-control" required [(ngModel)]="book.category.categoryId">
+  </div>
+
+  <div class="mb-3">
+    <label for="price" class="form-label">Giá</label>
+    <input type="number" id="price" name="price" class="form-control" required [(ngModel)]="book.price">
+  </div>
+
+  <div class="mb-3">
+    <label for="stock" class="form-label">Số lượng trong kho</label>
+    <input type="number" id="stock" name="stock" class="form-control" required [(ngModel)]="book.stock">
+  </div>
+
+  <div class="mb-3">
+    <label for="status" class="form-label">Trạng thái</label>
+    <select id="status" name="status" [value]="book.status" class="form-select" required [(ngModel)]="book.status">
+      <option [value]="true">Còn hàng</option>
+      <option [value]="false">Hết hàng</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="image" class="form-label">Ảnh sách</label>
+    <input type="file" id="image" name="image" class="form-control" (change)="onImageChange($event)">
+  </div>
+  <div class="mb-3 gap-2 d-inline-flex">
+     <button type="submit" class="btn btn-primary">Lưu sách</button>
+  <button type="submit" class="btn btn-danger" (click)="goBack()">Hủy</button>
+  </div>
+ 
+</form>

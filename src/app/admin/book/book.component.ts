@@ -4,11 +4,13 @@ import { Book } from "../../../entity/Book";
 import { BookService } from "../../../service/BookService";
 import { Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { FormsModule } from "@angular/forms";
 
 @Component({
     selector: 'admin-book',
     standalone: true,
-    imports:[CommonModule],
+    imports:[CommonModule, RouterLink, FormsModule],
     styleUrl: './book.component.css',
     templateUrl:'./book.component.html'
 })
@@ -17,6 +19,9 @@ export class AdminBookComponent implements OnInit{
     page: number = 1;
     size: number = 5;
     getBooksPage: Subscription;
+    filterStatus: boolean | null = null;
+    minPrice: number | null = null;
+    maxPrice: number | null = null;
 
     constructor(private bookService: BookService){
         this.getBooksPage = new Subscription();
@@ -27,5 +32,13 @@ export class AdminBookComponent implements OnInit{
             this.books = data.data ?? []}
         );
     }
-
+    filteredBooks(): Book[] {
+        return this.books.filter(book => {
+            const matchStatus = this.filterStatus === null || book.status === this.filterStatus;
+            const matchMinPrice = this.minPrice === null || book.price >= this.minPrice;
+            const matchMaxPrice = this.maxPrice === null || book.price <= this.maxPrice;
+            return matchStatus && (matchMinPrice && matchMaxPrice);
+        });
+}
+    
 }

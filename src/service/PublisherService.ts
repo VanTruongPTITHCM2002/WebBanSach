@@ -11,8 +11,8 @@ import { Publisher } from '../entity/Publisher';
 export class PublisherService{
     constructor(private http: HttpClient){}
 
-    getPublishers(): Observable<ResponseData<Publisher[]>>{
-      return this.http.get<any>('http://localhost:5000/publishers');
+    getPublishers(page: number = 1, size: number = 5): Observable<ResponseData<Publisher[]>>{
+      return this.http.get<any>(`http://localhost:5000/publishers?page=${page}&size=${size}`);
     }
 
 }

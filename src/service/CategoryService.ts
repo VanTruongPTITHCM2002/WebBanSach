@@ -11,8 +11,8 @@ import { Book } from '../entity/Book';
 export class CategoryService{
     constructor(private http: HttpClient){}
 
-    getCategories(): Observable<ResponseData<Category[]>>{
-      return this.http.get<any>('http://localhost:5000/categories');
+    getCategories(page: number = 1, size: number = 5): Observable<ResponseData<Category[]>>{
+      return this.http.get<any>(`http://localhost:5000/categories?page=${page}&size=${size}`);
     }
 
     getBooksByCategory(id: number): Observable<ResponseData<Book[]>>{

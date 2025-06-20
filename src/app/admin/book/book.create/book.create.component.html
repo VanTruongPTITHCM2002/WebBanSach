@@ -1,23 +1,68 @@
 <h5 class="text-center mt-1">Thêm sách</h5>
 <form class="row g-1 fs-6-text">
-   <div class="mb-3">
+  <div class="mb-3">
     <label for="title" class="form-label">Tiêu đề</label>
     <input type="text" id="title" name="title" class="form-control" maxlength="45" required [(ngModel)]="book.title">
   </div>
 
   <div class="mb-3">
     <label for="authorId" class="form-label">Tác giả</label>
-    <input type="number" id="authorId" name="authorId" class="form-control" required [(ngModel)]="book.authorId">
+    <select name="authorId" id="authorId" class="form-control" required [(ngModel)]="book.authorId">
+      <option [value]="''" disabled selected>-- Chọn tác giả --</option>
+      <option *ngFor="let author of authors" [value]="author.authorId">
+        {{ author.firstname + ' ' + author.lastname }}
+      </option>
+    </select>
+
+     <div class="mt-2 d-flex justify-content-between">
+    <button type="button" class="btn btn-sm btn-secondary" (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">
+      Trang trước
+    </button>
+    <span class="align-self-center">Trang {{ currentPage }} / {{ totalPages }}</span>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages">
+      Trang sau
+    </button>
+  </div>
   </div>
 
   <div class="mb-3">
     <label for="publisherId" class="form-label">Nhà xuất bản</label>
-    <input type="number" id="publisherId" name="publisherId" class="form-control" required [(ngModel)]="book.publisherId">
+   <select name="publisherId" id="publisherId" class="form-control" required [(ngModel)]="book.publisherId">
+    <option [value]="''" disabled selected>-- Chọn nhà xuất bản --</option>
+    <option *ngFor="let publisher of pagedPublishers" [ngValue]="publisher.publisherName">
+      {{ publisher.publisherName }}
+    </option>
+  </select>
+
+  <div class="mt-2 d-flex justify-content-between">
+    <button type="button" class="btn btn-sm btn-secondary" (click)="publisherPage = publisherPage - 1" [disabled]="publisherPage === 1">
+      Trang trước
+    </button>
+    <span class="align-self-center">Trang {{ publisherPage }} / {{ totalPublisherPages }}</span>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="publisherPage = publisherPage + 1" [disabled]="publisherPage === totalPublisherPages">
+      Trang sau
+    </button>
+  </div>
   </div>
 
   <div class="mb-3">
     <label for="categoryId" class="form-label">Thể loại</label>
-    <input type="number" id="categoryId" name="categoryId" class="form-control" required [(ngModel)]="book.category.categoryId">
+    <select name="categoryId" id="categoryId" class="form-control" required [(ngModel)]="book.category">
+    <option [value]="''" disabled selected>-- Chọn thể loại --</option>
+    <option *ngFor="let category of pagedCategories" [ngValue]="category.categoryName">
+      {{ category.categoryName }}
+    </option>
+  </select>
+
+  <div class="mt-2 d-flex justify-content-between">
+    <button type="button" class="btn btn-sm btn-secondary" (click)="categoryPage = categoryPage - 1" [disabled]="categoryPage === 1">
+      Trang trước
+    </button>
+    <span class="align-self-center">Trang {{ categoryPage }} / {{ totalCategoryPages }}</span>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="categoryPage = categoryPage + 1" [disabled]="categoryPage === totalCategoryPages">
+      Trang sau
+    </button>
+  </div>
   </div>
 
   <div class="mb-3">
@@ -43,8 +88,8 @@
     <input type="file" id="image" name="image" class="form-control" (change)="onImageChange($event)">
   </div>
   <div class="mb-3 gap-2 d-inline-flex">
-     <button type="submit" class="btn btn-primary">Lưu sách</button>
-  <button type="submit" class="btn btn-danger" (click)="goBack()">Hủy</button>
+    <button type="submit" class="btn btn-primary">Lưu sách</button>
+    <button type="submit" class="btn btn-danger" (click)="goBack()">Hủy</button>
   </div>
- 
+
 </form>

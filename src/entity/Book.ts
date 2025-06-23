@@ -9,11 +9,21 @@ export interface Book {
     stock: number;
     status: boolean;
     image?: string;
-    imageBase64:string;
+    imageBase64?:string;
 }
 
 export interface BookResponse extends Book{
     authorId: Author,
     publisherId: Publisher,
     category: Category
+}
+
+export interface BookCreate{
+    title: string,
+    authorName: string,
+    publisherName: string,
+    categoryName: string,
+    price: number,
+    stock: number,
+    file?: File
 }

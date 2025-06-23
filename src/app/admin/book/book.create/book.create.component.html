@@ -1,15 +1,15 @@
 <h5 class="text-center mt-1">Thêm sách</h5>
-<form class="row g-1 fs-6-text">
+<form class="row g-1 fs-6-text" #bookCreateForm="ngForm" (ngSubmit)="onSubmit(bookCreateForm)">
   <div class="mb-3">
     <label for="title" class="form-label">Tiêu đề</label>
     <input type="text" id="title" name="title" class="form-control" maxlength="45" required [(ngModel)]="book.title">
   </div>
 
   <div class="mb-3">
-    <label for="authorId" class="form-label">Tác giả</label>
-    <select name="authorId" id="authorId" class="form-control" required [(ngModel)]="book.authorId">
+    <label for="authorName" class="form-label">Tác giả</label>
+    <select title="Chọn tác giả" name="authorName" id="authorName" class="form-control" required [(ngModel)]="book.authorId">
       <option [value]="''" disabled selected>-- Chọn tác giả --</option>
-      <option *ngFor="let author of authors" [value]="author.authorId">
+      <option *ngFor="let author of authors" [value]="author.firstname + ' ' + author.lastname">
         {{ author.firstname + ' ' + author.lastname }}
       </option>
     </select>
@@ -26,8 +26,8 @@
   </div>
 
   <div class="mb-3">
-    <label for="publisherId" class="form-label">Nhà xuất bản</label>
-   <select name="publisherId" id="publisherId" class="form-control" required [(ngModel)]="book.publisherId">
+    <label for="publisherName" class="form-label">Nhà xuất bản</label>
+   <select title="Chọn nhà xuất bản" name="publisherName" id="publisherName" class="form-control" required [(ngModel)]="book.publisherId">
     <option [value]="''" disabled selected>-- Chọn nhà xuất bản --</option>
     <option *ngFor="let publisher of pagedPublishers" [ngValue]="publisher.publisherName">
       {{ publisher.publisherName }}
@@ -46,8 +46,8 @@
   </div>
 
   <div class="mb-3">
-    <label for="categoryId" class="form-label">Thể loại</label>
-    <select name="categoryId" id="categoryId" class="form-control" required [(ngModel)]="book.category">
+    <label for="categoryName" class="form-label">Thể loại</label>
+    <select name="categoryName" id="categoryName" class="form-control" required [(ngModel)]="book.category">
     <option [value]="''" disabled selected>-- Chọn thể loại --</option>
     <option *ngFor="let category of pagedCategories" [ngValue]="category.categoryName">
       {{ category.categoryName }}

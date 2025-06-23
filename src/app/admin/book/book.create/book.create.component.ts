@@ -1,7 +1,7 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Book, BookResponse } from '../../../../entity/Book';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Book, BookCreate, BookResponse } from '../../../../entity/Book';
 import { Category } from '../../../../entity/Category';
 import { Author } from '../../../../entity/Author';
 import { Publisher } from '../../../../entity/Publisher';
@@ -11,6 +11,8 @@ import { CategoryService } from '../../../../service/CategoryService';
 import { PublisherService } from '../../../../service/PublisherService';
 import { BookService } from '../../../../service/BookService';
 import { AuthorService } from '../../../../service/AuthorService';
+import { showResponseFailure, showResponseSuccess } from '../../../response/sweetAlert';
+
 
 @Component({
   selector: 'admin-book-create',
@@ -26,9 +28,11 @@ export class BookCreateComponent implements OnInit{
   getCategories: Subscription;
   getAuthors: Subscription;
   getPublishers: Subscription;
+  selectedFile?: File;
   constructor(private location: Location, private authorService: AuthorService,
     private categoryService: CategoryService, private publisherService: PublisherService,
-    private bookService: BookService
+    private bookService: BookService,
+    private authService: AuthService
   ){
     this.getCategories = new Subscription();
     this.getAuthors = new Subscription();
@@ -109,13 +113,9 @@ get totalCategoryPages() {
 
 
 onImageChange(event: any) {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.book.image = reader.result?.toString(); // base64 string để gửi về backend
-    };
-    reader.readAsDataURL(file);
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    this.selectedFile = input.files[0];
   }
 }
 
@@ -123,5 +123,35 @@ goBack(){
   this.location.back();
 }
 
+onSubmit (form: NgForm){
+
+  console.log('asdasda');
+
+  if (!form.invalid){
+      const formData = form.value;
+
+    const formDATA = new FormData();
+    formDATA.append('title', formData.title);
+    formDATA.append('authorName', formData.authorName);
+    formDATA.append('categoryName', formData.categoryName);
+    formDATA.append('publisherName', formData.publisherName);
+    formDATA.append('price', formData.price.toString());
+    formDATA.append('stock', formData.stock.toString());
+
+    if (this.selectedFile) {
+       formDATA.append('image',this.selectedFile);
+    }
+
+      const token = this.authService.getToken();
+      this.bookService.createBook(token,formDATA).subscribe({
+        next(value) {
+            showResponseSuccess(value.message)
+        },
+        error(err) {
+            showResponseFailure(err.message);
+        },
+      })
+  }
+}
 
 }

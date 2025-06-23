@@ -22,15 +22,13 @@ export class AdminBookComponent implements OnInit{
     filterStatus: boolean | null = null;
     minPrice: number | null = null;
     maxPrice: number | null = null;
-
+    isLastPage = false;
     constructor(private bookService: BookService){
         this.getBooksPage = new Subscription();
     }
     
     ngOnInit(): void {
-        this.getBooksPage = this.bookService.getBooks().subscribe((data) =>{
-            this.books = data.data ?? []}
-        );
+       this.loadBooks(this.currentPage);
     }
     filteredBooks(): Book[] {
         return this.books.filter(book => {
@@ -44,9 +42,6 @@ export class AdminBookComponent implements OnInit{
     currentPage = 1;
     pageSize = 5;
 
-    get totalPages(): number {
-        return Math.ceil(this.books.length / this.pageSize);
-    }
 
     get paginatedBooks() {
         const start = (this.currentPage - 1) * this.pageSize;
@@ -54,8 +49,23 @@ export class AdminBookComponent implements OnInit{
     }
 
     setPage(page: number) {
-        if (page >= 1 && page <= this.totalPages) {
-            this.currentPage = page;
-        }
+        if (page < 1) return; // Không cho trang nhỏ hơn 1
+        if (page === this.currentPage) return; // Không reload trang hiện tại
+        if (this.isLastPage && page > this.currentPage) return; // Nếu là trang cuối rồi, không sang trang tiếp theo
+
+        this.loadBooks(page);
     }
+    
+
+  loadBooks(page: number) {
+    this.getBooksPage.unsubscribe(); // Hủy subscribe cũ nếu có
+    this.getBooksPage = this.bookService.getBooks(page, this.pageSize).subscribe(data => {
+      this.books = data.data || [];
+      this.currentPage = page;
+      console.log(this.books)
+      // Nếu số bản ghi trả về < pageSize => đây là trang cuối
+      this.isLastPage = this.books.length < this.pageSize;
+    });
+  }
+
 }

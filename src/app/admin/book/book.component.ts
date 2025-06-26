@@ -6,6 +6,9 @@ import { Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
+import { AuthService } from "../../auth/auth.service";
+import { showResponseFailure, showResponseSuccess } from "../../response/sweetAlert";
+import Swal from "sweetalert2";
 
 @Component({
     selector: 'admin-book',
@@ -19,12 +22,16 @@ export class AdminBookComponent implements OnInit{
     page: number = 1;
     size: number = 5;
     getBooksPage: Subscription;
+    delete: Subscription;
     filterStatus: boolean | null = null;
     minPrice: number | null = null;
     maxPrice: number | null = null;
-    isLastPage = false;
-    constructor(private bookService: BookService){
+    isLastPage = false;  
+    currentPage = 1;
+    pageSize = 5;
+    constructor(private bookService: BookService, private authService: AuthService){
         this.getBooksPage = new Subscription();
+        this.delete = new Subscription();
     }
     
     ngOnInit(): void {
@@ -37,12 +44,8 @@ export class AdminBookComponent implements OnInit{
             const matchMaxPrice = this.maxPrice === null || book.price <= this.maxPrice;
             return matchStatus && (matchMinPrice && matchMaxPrice);
         });
-}
-    
-    currentPage = 1;
-    pageSize = 5;
-
-
+    }
+  
     get paginatedBooks() {
         const start = (this.currentPage - 1) * this.pageSize;
         return this.filteredBooks().slice(start, start + this.pageSize);
@@ -62,10 +65,32 @@ export class AdminBookComponent implements OnInit{
     this.getBooksPage = this.bookService.getBooks(page, this.pageSize).subscribe(data => {
       this.books = data.data || [];
       this.currentPage = page;
-      console.log(this.books)
       // Nếu số bản ghi trả về < pageSize => đây là trang cuối
       this.isLastPage = this.books.length < this.pageSize;
     });
   }
 
+  deleteBook(bookId: number){
+      Swal.fire({
+          title: "Bạn có chắc chắn muốn xóa sản phẩm này?",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Có",
+          denyButtonText: `Không`
+      }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+              const token = this.authService.getToken();
+              this.delete = this.bookService.deleteBook(token, bookId).subscribe({
+                  next: (v: any) => {
+                      showResponseSuccess(v.message)
+                      this.books = this.books.filter((book) => book.bookid != bookId)
+                  },
+                  error: (e: any) => showResponseFailure(e.message)
+              }
+              )
+          }
+      });
+    
+  }
 }

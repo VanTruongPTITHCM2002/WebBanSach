@@ -29,4 +29,13 @@ export class BookService{
             }
           });
         }
+
+
+        deleteBook(token: string, bookId: number): Observable<ResponseData<string>>{
+          return this.http.delete<any>(`http://localhost:5000/books/${bookId}`,{
+            headers: {
+              Authorization: 'Bearer ' + token
+            }
+          });
+        }
 }

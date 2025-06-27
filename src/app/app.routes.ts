@@ -14,6 +14,7 @@ import { AuthGuard } from '../guard/admin.gurad';
 import { AdminBookComponent } from './admin/book/book.component';
 import { AuthorsComponent } from './admin/authors/authors.component';
 import { BookCreateComponent } from './admin/book/book.create/book.create.component';
+import { UpdateComponent } from './admin/book/update/update.component';
 
 export const routes: Routes = [
 
@@ -36,7 +37,8 @@ export const routes: Routes = [
       { path: 'dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
       { path: 'books', component: AdminBookComponent, canActivate: [AuthGuard]},
       { path: 'authors', component: AuthorsComponent, canActivate: [AuthGuard]},
-      { path: 'books/create', component: BookCreateComponent, canActivate: [AuthGuard]}
+      { path: 'books/create', component: BookCreateComponent, canActivate: [AuthGuard]},
+      { path: 'books/update/:id', component: UpdateComponent, canActivate: [AuthGuard]}
       // ... các route cho admin
     ]
   }

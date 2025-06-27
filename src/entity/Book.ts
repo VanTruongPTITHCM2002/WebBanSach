@@ -27,3 +27,12 @@ export interface BookCreate{
     stock: number,
     file?: File
 }
+
+export interface BookUpdate {
+    title?: string,
+    authorName?: string,
+    publisherName?: string,
+    categoryName?: string,
+    price?: number,
+    stock?: number,
+}

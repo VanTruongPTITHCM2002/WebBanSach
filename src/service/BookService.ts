@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ResponseData } from "../app/response/ResponseData";
 import { Observable } from "rxjs";
-import { Book, BookCreate, BookResponse } from "../entity/Book";
+import { Book, BookCreate, BookResponse, BookUpdate } from "../entity/Book";
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +24,14 @@ export class BookService{
 
         createBook(token: string, bookCreate: FormData):Observable<ResponseData<BookResponse>>{
           return this.http.post<any>(`http://localhost:5000/books`,bookCreate,{
+            headers:{
+              Authorization: 'Bearer ' + token
+            }
+          });
+        }
+
+        updateBook(token: string, bookId: number ,bookUpdate: BookUpdate){
+            return this.http.patch<any>(`http://localhost:5000/books/${bookId}`,bookUpdate,{
             headers:{
               Authorization: 'Bearer ' + token
             }

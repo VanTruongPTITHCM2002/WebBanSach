@@ -78,7 +78,6 @@ export class AdminBookComponent implements OnInit{
           confirmButtonText: "Có",
           denyButtonText: `Không`
       }).then((result) => {
-          /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
               const token = this.authService.getToken();
               this.delete = this.bookService.deleteBook(token, bookId).subscribe({

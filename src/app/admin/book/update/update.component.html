@@ -1,0 +1,108 @@
+<h5 class="text-center mt-1">Cập nhật sách</h5>
+<form class="row g-1 fs-6-text" #bookUpdateForm="ngForm" (ngSubmit)="onSubmit(bookUpdateForm)">
+  <div class="mb-3">
+    <label for="title" class="form-label">Tiêu đề</label>
+    <input type="text" id="title" name="title" class="form-control"
+    maxlength="45" required [(ngModel)]="book.title">
+  </div>
+
+  <div class="mb-3">
+    <label for="authorName" class="form-label">Tác giả</label>
+     <select
+  name="authorName"
+  id="authorName"
+  class="form-control"
+  required
+  [(ngModel)]="book.authorId"
+  [compareWith]="compareAuthors"
+>
+  <option [ngValue]="null" disabled>-- Chọn tác giả --</option>
+  <option *ngFor="let author of authors" [ngValue]="author">
+    {{ author.firstname + ' ' + author.lastname }}
+  </option>
+</select>
+    
+     <div class="mt-2 d-flex justify-content-between">
+    <button type="button" class="btn btn-sm btn-secondary" (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">
+      Trang trước
+    </button>
+    <span class="align-self-center">Trang {{ currentPage }} / {{ totalPages }}</span>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages">
+      Trang sau
+    </button>
+  </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="publisherName" class="form-label">Nhà xuất bản</label>
+   <select title="Chọn nhà xuất bản" name="publisherName"
+    id="publisherName" class="form-control" required [(ngModel)]="book.publisherId"
+    [compareWith]="comparePublishers"
+    >
+    <option [value]="''" disabled selected>-- Chọn nhà xuất bản --</option>
+    <option *ngFor="let publisher of pagedPublishers" [ngValue]="publisher">
+      {{ publisher.publisherName }}
+    </option>
+  </select>
+
+  <div class="mt-2 d-flex justify-content-between">
+    <button type="button" class="btn btn-sm btn-secondary" (click)="publisherPage = publisherPage - 1" [disabled]="publisherPage === 1">
+      Trang trước
+    </button>
+    <span class="align-self-center">Trang {{ publisherPage }} / {{ totalPublisherPages }}</span>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="publisherPage = publisherPage + 1" [disabled]="publisherPage === totalPublisherPages">
+      Trang sau
+    </button>
+  </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="categoryName" class="form-label">Thể loại</label>
+    <select name="categoryName" id="categoryName" class="form-control" required [(ngModel)]="book.category"
+    [compareWith]="compareCategories"
+    >
+    <option [value]="''" disabled selected>-- Chọn thể loại --</option>
+    <option *ngFor="let category of pagedCategories" [ngValue]="category">
+      {{ category.categoryName }}
+    </option>
+  </select>
+
+  <div class="mt-2 d-flex justify-content-between">
+    <button type="button" class="btn btn-sm btn-secondary" (click)="categoryPage = categoryPage - 1" [disabled]="categoryPage === 1">
+      Trang trước
+    </button>
+    <span class="align-self-center">Trang {{ categoryPage }} / {{ totalCategoryPages }}</span>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="categoryPage = categoryPage + 1" [disabled]="categoryPage === totalCategoryPages">
+      Trang sau
+    </button>
+  </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="price" class="form-label">Giá</label>
+    <input type="number" id="price" name="price" class="form-control" required [(ngModel)]="book.price">
+  </div>
+
+  <div class="mb-3">
+    <label for="stock" class="form-label">Số lượng trong kho</label>
+    <input type="number" id="stock" name="stock" class="form-control" required [(ngModel)]="book.stock">
+  </div>
+
+  <div class="mb-3">
+    <label for="status" class="form-label">Trạng thái</label>
+    <select id="status" name="status" [value]="book.status" class="form-select" required [(ngModel)]="book.status">
+      <option [value]="true">Còn hàng</option>
+      <option [value]="false">Hết hàng</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="image" class="form-label">Ảnh sách</label>
+    <input type="file" id="image" name="image" class="form-control" (change)="onImageChange($event)">
+  </div>
+  <div class="mb-3 gap-2 d-inline-flex">
+    <button type="submit" class="btn btn-primary">Cập nhật sách</button>
+    <button type="button" class="btn btn-danger" (click)="goBack()">Hủy</button>
+  </div>
+
+</form>

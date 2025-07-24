@@ -1,17 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService{
- 
+
     private authState = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(private cookieService: CookieService) {
+  constructor(private cookieService: CookieService, private http:HttpClient) {
      this.authState.next(this.hasToken());
+    
   }
 
   private hasToken(): boolean {
@@ -28,15 +30,34 @@ export class AuthService{
     return this.authState.value;
   }
 
+  checkAuthStatus(): Observable<boolean> {
+  return this.http.get<{ authenticated: boolean }>('http://localhost:5000/auth/status', {
+    withCredentials: true
+  }).pipe(
+    map(response => response.authenticated),
+    catchError(() => of(false))
+  );
+}
+
   login(token: string, username: string) {
-    this.cookieService.set('token', token);
-    this.cookieService.set('username', username);
+    this.cookieService.set('token', token, {
+  expires: 7,
+  path: '/',
+  secure: false,
+  sameSite: 'Lax'
+});
+   this.cookieService.set('username', username, {
+  expires: 7,
+  path: '/',
+  secure: false,
+  sameSite: 'Lax'
+});
     this.authState.next(true); // 🔔 Báo đã login
   }
 
   logout() {
-    this.cookieService.delete('token');
-    this.cookieService.delete('username');
+    this.cookieService.delete('token', '/');
+    this.cookieService.delete('username', '/');
     this.authState.next(false); // 🔔 Báo đã logout
   }
 

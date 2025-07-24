@@ -16,7 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class SignupComponent implements OnInit {
   constructor(private http:HttpClient, private router:Router,private cookieService:CookieService){}
   ngOnInit(): void {
-    //this.cookieService.set('isFormLogin',String(false));
+
   }
   @Output() toggleMode = new EventEmitter<void>(); // Khai báo EventEmitter
   isRegisterMode = false;

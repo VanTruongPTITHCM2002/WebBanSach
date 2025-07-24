@@ -44,7 +44,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <div *ngIf="authService.isAuthenticated">
+          <div *ngIf="isAuthenticated">
               <ul *ngFor="let item of cart?.cartItems; let i = index" class="list-unstyled">
                 <li class="row mb-4 d-flex justify-content-between align-items-center">
                   <hr class="my-4">
@@ -78,7 +78,7 @@
 
 
         <li class="nav-item">
-          <img *ngIf="authService.isAuthenticated" src="/icons8-avatar-48.png" class="avatar dropdown-toggle"
+          <img *ngIf="isAuthenticated" src="/icons8-avatar-48.png" class="avatar dropdown-toggle"
             alt="ảnh đại diện" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
@@ -87,7 +87,7 @@
             <li><a class="dropdown-item" href="#" (click)="logout()">Đăng xuất</a></li>
           </ul>
           
-          <a *ngIf="!authService.isAuthenticated" class="nav-link btn btn-warning" routerLink="/auth/login"
+          <a *ngIf="!isAuthenticated" class="nav-link btn btn-warning" routerLink="/auth/login"
           (click) = "isClickFormLogin()"
           >
             <i class="bi bi-person-fill"></i>

@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit{
     getCarts: Subscription;
     updateCart: Subscription;
     total: number  = 0;
+    isAuthenticated = false;
     constructor(public authService: AuthService, private router: Router,
         public cookieService: CookieService,
         public cartService: CartService,
@@ -31,22 +32,22 @@ export class HeaderComponent implements OnInit{
 
     searchValue(strSearch: string) {
         this.txtSearch = strSearch;
-        console.log(this.txtSearch);
   }
 
    ngOnInit(): void {
-    this.authService.isAuthenticated$.subscribe(isAuth => {
-      if (isAuth) {
-          this.getCartsUsername();
-      }});
+     this.authService.checkAuthStatus().subscribe(isAuth => {
+       this.isAuthenticated = isAuth;
+      // this.getCartsUsername();
+     });
    }
 
    isClickFormLogin() {
-    this.cookieService.set('isFormLogin', String(true));
+   // this.cookieService.set('isFormLogin', String(true));
   }
 
   logout() {
     this.authService.logout();
+    this.router.navigate(['/']);
   }
 
   updateTotal(item: CartItem){
@@ -71,9 +72,8 @@ export class HeaderComponent implements OnInit{
   }
 
   getCartsUsername(){
-      const token = this.authService.getToken()
-      const username = this.authService.getUsername();
-   this.getCarts = this.cartService.getCartByUsername(username, token).subscribe((data)=>{
+    const username = localStorage.getItem('username')!;
+   this.getCarts = this.cartService.getCartByUsername(username).subscribe((data)=>{
       this.cart = data.data ?? this.cart;  
     this.total = this.cart?.cartItems.reduce((acc, item) => {
       return acc + (Number(item.price) * Number(item.quantity));

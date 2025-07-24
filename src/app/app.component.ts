@@ -20,17 +20,11 @@ import { FooterComponent } from './footer/footer.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  constructor(public authService: AuthService,
-    public cookieService: CookieService, private cdRef: ChangeDetectorRef,
-  public cartService: CartService) {
+  constructor(private cdRef: ChangeDetectorRef){
   
   }
-  ngOnInit(): void {
-    this.cookieService.set('isFormLogin',String(false));
-  }
-
   ngAfterViewInit() {
     this.cdRef.detectChanges();
   }

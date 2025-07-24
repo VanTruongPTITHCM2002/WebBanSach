@@ -13,11 +13,9 @@ export class CartService{
       
      }
 
-      getCartByUsername(username: string, token: string): Observable<ResponseData<Cart>>{
-         token = 'Bearer ' + token;
-      const headers = new HttpHeaders().set('Authorization', token);
+      getCartByUsername(username: string): Observable<ResponseData<Cart>>{
                return this.http.get<any>(`http://localhost:5000/carts/${username}`,{
-                  headers
+                  withCredentials: true
                });
              }
     

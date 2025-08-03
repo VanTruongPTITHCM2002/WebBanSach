@@ -10,6 +10,7 @@ export interface Book {
     status: boolean;
     image?: string;
     imageBase64?:string;
+    link?: string;
 }
 
 export interface BookResponse extends Book{
@@ -25,7 +26,8 @@ export interface BookCreate{
     categoryName: string,
     price: number,
     stock: number,
-    file?: File
+    file?: File,
+    link?:string,
 }
 
 export interface BookUpdate {

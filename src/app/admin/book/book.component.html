@@ -40,8 +40,12 @@
   <tbody >
     <tr *ngFor="let book of books">
       <td>
-      <img [src]="book.imageBase64" alt="Ảnh" class="rounded-circle"
-     style="width: 45px; height: 45px; object-fit: cover;" />
+        <ng-template [ngIf]="book.imageBase64" [ngIfElse]="second"> <img [src]="book.imageBase64" alt="Ảnh"
+            class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;" /> </ng-template>
+        <ng-template #second>
+              <img [src]="book.link" alt="" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;" >
+        </ng-template>
+     
       </td>
       <td>
         <p class="fw-normal mb-1">{{book.title}}</p>

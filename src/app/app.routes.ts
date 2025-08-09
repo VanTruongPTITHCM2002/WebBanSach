@@ -15,6 +15,7 @@ import { AdminBookComponent } from './admin/book/book.component';
 import { AuthorsComponent } from './admin/authors/authors.component';
 import { BookCreateComponent } from './admin/book/book.create/book.create.component';
 import { UpdateComponent } from './admin/book/update/update.component';
+import { AdminCategoryComponent } from './admin/category/category.component';
 
 export const routes: Routes = [
 
@@ -35,6 +36,7 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       { path: 'dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
+      { path: 'categories', component: AdminCategoryComponent, canActivate: [AuthGuard]},
       { path: 'books', component: AdminBookComponent, canActivate: [AuthGuard]},
       { path: 'authors', component: AuthorsComponent, canActivate: [AuthGuard]},
       { path: 'books/create', component: BookCreateComponent, canActivate: [AuthGuard]},

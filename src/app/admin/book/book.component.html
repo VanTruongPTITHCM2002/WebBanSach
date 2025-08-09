@@ -3,27 +3,27 @@
 <div class="table-reponsive">
   <div class="input-group w-auto" style="max-width: 300px;">
     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-      aria-describedby="search-addon" />
-    <button type="button" class="btn btn-outline-primary">Tìm</button>
+      aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
+    <button type="button" class="btn btn-outline-primary" (click)="handleSearch()">Tìm</button>
   </div>
   <div class="row mb-3 mt-1">
-  <div class="col-md-3">
+  <!-- <div class="col-md-3">
     <label>Trạng thái</label>
-    <select title='s' [(ngModel)]="filterStatus" class="form-select">
+    <select title='status' [(ngModel)]="filterStatus" (ngModelChange)="handleChange()" class="form-select">
       <option [ngValue]="null">Tất cả</option>
       <option [ngValue]="true">Còn hàng</option>
       <option [ngValue]="false">Hết hàng</option>
     </select>
-  </div>
+  </div> -->
 
   <div class="col-md-3">
     <label>Giá từ</label>
-    <input type="number" [(ngModel)]="minPrice" class="form-control" placeholder="Tối thiểu">
+    <input type="number" [(ngModel)]="minPrice" class="form-control" (ngModelChange)="handleChange()" placeholder="Tối thiểu">
   </div>
 
   <div class="col-md-3">
     <label>Đến</label>
-    <input type="number" [(ngModel)]="maxPrice" class="form-control" placeholder="Tối đa">
+    <input type="number" [(ngModel)]="maxPrice" class="form-control" (ngModelChange)="handleChange()" placeholder="Tối đa">
   </div>
 </div>
   <table class="table align-middle table-striped mb-0 bg-white">

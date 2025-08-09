@@ -1,0 +1,89 @@
+<h4 class="text-center mt-4">Danh sách danh mục sách</h4>
+<button type="button" class="btn btn-outline-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm danh mục</button>
+<div class="table-reponsive">
+  <div class="input-group w-auto" style="max-width: 300px;">
+    <!-- <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+      aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
+    <button type="button" class="btn btn-outline-primary" (click)="handleSearch()">Tìm</button> -->
+  </div>
+  <div class="row mb-3 mt-1">
+  <!-- <div class="col-md-3">
+    <label>Trạng thái</label>
+    <select title='status' [(ngModel)]="filterStatus" (ngModelChange)="handleChange()" class="form-select">
+      <option [ngValue]="null">Tất cả</option>
+      <option [ngValue]="true">Còn hàng</option>
+      <option [ngValue]="false">Hết hàng</option>
+    </select>
+  </div> -->
+
+</div>
+  <table class="table align-middle table-striped mb-0 bg-white">
+  <thead class="bg-light" class="datatable">
+    <tr>
+      <th>Mã danh mục</th>
+      <th>Tên danh mục</th>
+      <th>Số lượng sách thuộc danh mục</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody >
+    <tr *ngFor="let category of categories">
+      <td> <p class="fw-normal mb-1">{{category.categoryId}}</p> </td>
+      <td> <p>{{category.categoryName}}</p> </td>
+      <td class="text-center"> <p>{{category.bookCount}}</p> </td>
+      <td class="">
+        <a class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#updateModal" (click)="selectedCategory(category.categoryName, category.categoryId)"><i class="fas fa-edit"></i> Sửa</a>
+        <button type="button" class="btn btn-danger" (click)="removeCategory(category.categoryId)"><i class="fas fa-trash-alt"></i> Xóa</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<nav class="float-end mt-2" aria-label="...">
+  <ul class="pagination mt-3">
+  <li class="page-item" [class.disabled]="currentPage === 1">
+    <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">Previous</a>
+  </li>
+
+  <li class="page-item" [class.disabled]="isLastPage">
+    <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">Next</a>
+  </li>
+</ul>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục</h5>
+      </div>
+      <div class="modal-body">
+          <label for="categoryName">Tên danh mục</label>
+           <input type="text" class="form-control" [(ngModel)] = "categoryName" placeholder="Tên danh mục..." aria-label="categoryName" aria-describedby="basic-addon1">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" (click)="insertCategory()">Thêm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sửa danh mục</h5>
+      </div>
+      <div class="modal-body">
+          <label for="categoryName">Tên danh mục</label>
+           <input type="text" class="form-control" [(ngModel)] = "categoryName" placeholder="Tên danh mục..." aria-label="categoryName" aria-describedby="basic-addon1">
+      </div>
+      <div class="modal-footer">
+        <button #closeBtn type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" (click)="patchCategory()">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+</nav>

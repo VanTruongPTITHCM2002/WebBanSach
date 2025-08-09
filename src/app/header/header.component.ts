@@ -7,6 +7,8 @@ import { CookieService } from "ngx-cookie-service";
 import { Cart, CartItem, UpdateCartItem } from "../../entity/Cart";
 import { Subscription } from "rxjs/internal/Subscription";
 import { CartService } from "../../service/CartService";
+import { showResponseSuccess } from "../response/sweetAlert";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
     selector:'header-component',
@@ -25,6 +27,7 @@ export class HeaderComponent implements OnInit{
     constructor(public authService: AuthService, private router: Router,
         public cookieService: CookieService,
         public cartService: CartService,
+        private http:HttpClient
       ){
           this.getCarts = new Subscription();
           this.updateCart = new Subscription();
@@ -46,8 +49,15 @@ export class HeaderComponent implements OnInit{
   }
 
   logout() {
-    this.authService.logout();
-    this.router.navigate(['/']);
+  localStorage.removeItem('username');
+    this.http.post<any>('http://localhost:5000/auth/logout',{}, {withCredentials: true}).subscribe({
+      next: (v: any) => {
+        showResponseSuccess(v.message)
+      }
+    });
+    this.router.navigate([
+      '/'
+    ]);
   }
 
   updateTotal(item: CartItem){

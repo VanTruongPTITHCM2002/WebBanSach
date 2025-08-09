@@ -34,6 +34,8 @@ export class UpdateComponent {
     authorId: 0,
     firstname: '',
     lastname: '',
+    country:'',
+    quantity: 0,
   },
   publisherId: {
     publisherId: 0,
@@ -156,14 +158,13 @@ onSubmit (form: NgForm){
       categoryName: this.book.category.categoryName,
       price: this.book.price,
       stock: this.book.stock,
+      link: this.book.link,
     }
     // if (this.selectedFile) {
     //    formDATA.append('image',this.selectedFile);
     // }
-
-      const token = this.authService.getToken();
       const id = this.route.snapshot.paramMap.get('id')!;
-      this.bookService.updateBook(token, +id, bookUpdate).subscribe({
+      this.bookService.updateBook(+id, bookUpdate).subscribe({
         next(value: any) {
             showResponseSuccess(value.message)
         },

@@ -64,6 +64,8 @@ export class BookCreateComponent implements OnInit{
     authorId: 0,
     firstname: '',
     lastname: '',
+    country: '',
+    quantity: 0,
   },
   publisherId: {
     publisherId: 0,
@@ -143,7 +145,7 @@ onSubmit (form: NgForm){
     }
 
       const token = this.authService.getToken();
-      this.bookService.createBook(token,formDATA).subscribe({
+      this.bookService.createBook(formDATA).subscribe({
         next(value) {
             showResponseSuccess(value.message)
         },

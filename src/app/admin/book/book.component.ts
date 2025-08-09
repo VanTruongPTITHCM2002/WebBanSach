@@ -21,6 +21,7 @@ export class AdminBookComponent implements OnInit{
     books:Book[] = [];
     page: number = 1;
     size: number = 5;
+    txtSearch = '';
     getBooksPage: Subscription;
     delete: Subscription;
     filterStatus: boolean | null = null;
@@ -37,20 +38,7 @@ export class AdminBookComponent implements OnInit{
     ngOnInit(): void {
        this.loadBooks(this.currentPage);
     }
-    filteredBooks(): Book[] {
-        return this.books.filter(book => {
-            const matchStatus = this.filterStatus === null || book.status === this.filterStatus;
-            const matchMinPrice = this.minPrice === null || book.price >= this.minPrice;
-            const matchMaxPrice = this.maxPrice === null || book.price <= this.maxPrice;
-            return matchStatus && (matchMinPrice && matchMaxPrice);
-        });
-    }
-  
-    get paginatedBooks() {
-        const start = (this.currentPage - 1) * this.pageSize;
-        return this.filteredBooks().slice(start, start + this.pageSize);
-    }
-
+ 
     setPage(page: number) {
         if (page < 1) return; // Không cho trang nhỏ hơn 1
         if (page === this.currentPage) return; // Không reload trang hiện tại
@@ -70,6 +58,22 @@ export class AdminBookComponent implements OnInit{
     });
   }
 
+  handleSearch(){
+    if(this.txtSearch === '') this.loadBooks(this.page);
+    this.books = this.books.filter(book => book.title.match(this.txtSearch));
+  }
+
+  handleChange(){
+    if (this.getBooksPage) this.getBooksPage.unsubscribe();
+    this.getBooksPage = this.bookService.getFilterBooks(this.page, this.pageSize, this.minPrice, this.maxPrice).subscribe(data => {
+      this.books = data.data || [];
+      this.currentPage = this.page;
+      // Nếu số bản ghi trả về < pageSize => đây là trang cuối
+     this.isLastPage = this.books.length < this.pageSize;
+
+    });
+  }
+
   deleteBook(bookId: number){
       Swal.fire({
           title: "Bạn có chắc chắn muốn xóa sản phẩm này?",
@@ -79,8 +83,7 @@ export class AdminBookComponent implements OnInit{
           denyButtonText: `Không`
       }).then((result) => {
           if (result.isConfirmed) {
-              const token = this.authService.getToken();
-              this.delete = this.bookService.deleteBook(token, bookId).subscribe({
+              this.delete = this.bookService.deleteBook(bookId).subscribe({
                   next: (v: any) => {
                       showResponseSuccess(v.message)
                       this.books = this.books.filter((book) => book.bookid != bookId)

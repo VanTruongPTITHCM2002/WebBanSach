@@ -1,3 +1,5 @@
+import { showResponseSuccess } from './../../response/sweetAlert';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -12,15 +14,19 @@ import { CookieService } from 'ngx-cookie-service';
 export class SidebarComponent {
 
   constructor(
-    private cookieService: CookieService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
 
   }
 
   logOut() {
-    this.cookieService.delete('token', '/');
-    this.cookieService.delete('username', '/');
+    localStorage.removeItem('username');
+    this.http.post<any>('http://localhost:5000/auth/logout',{}, {withCredentials: true}).subscribe({
+      next: (v: any) => {
+        showResponseSuccess(v.message)
+      }
+    });
     this.router.navigate([
       '/login'
     ]);

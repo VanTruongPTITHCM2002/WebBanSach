@@ -18,4 +18,20 @@ export class CategoryService{
     getBooksByCategory(id: number): Observable<ResponseData<Book[]>>{
       return this.http.get<any>(`http://localhost:5000/categories/${id}`);
     }
+
+    addCategory(categoryName: string): Observable<ResponseData<Category>>{
+      return this.http.post<any>(`http://localhost:5000/categories`,{
+        categoryName: categoryName
+      },{withCredentials: true})
+    }
+
+    updateCategory(categoryId: number, categoryName: string):Observable<ResponseData<Category>>{
+      return this.http.patch<any>(`http://localhost:5000/categories/${categoryId}`,{
+        categoryName: categoryName
+      },{withCredentials: true})
+    }
+
+    deleteCategory(categoryId: number):Observable<ResponseData<string>>{
+      return this.http.delete<any>(`http://localhost:5000/categories/${categoryId}`,{withCredentials: true});
+    }
 }

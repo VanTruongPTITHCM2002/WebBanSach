@@ -37,4 +37,5 @@ export interface BookUpdate {
     categoryName?: string,
     price?: number,
     stock?: number,
+    link?:string;
 }

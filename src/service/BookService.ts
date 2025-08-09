@@ -14,6 +14,13 @@ export class BookService{
           return this.http.get<any>(`http://localhost:5000/books?page=${page}&size=${size}`);
         }
 
+        getFilterBooks(page: number = 1, size: number = 5, minPrice: number | null = null,
+           maxPrice: number | null = null){
+          return this.http.get<any>(`http://localhost:5000/books/filter?page=${page}&size=${size}
+            &minPrice=${minPrice}&maxPrice=${maxPrice}
+            `,{withCredentials: true})
+        }
+
         getBooksByBuys(): Observable<ResponseData<Book[]>>{
           return this.http.get<any>('http://localhost:5000/books/buys');
         }
@@ -22,28 +29,22 @@ export class BookService{
           return this.http.get<any>(`http://localhost:5000/books/${id}`)
         }
 
-        createBook(token: string, bookCreate: FormData):Observable<ResponseData<BookResponse>>{
+        createBook(bookCreate: FormData):Observable<ResponseData<BookResponse>>{
           return this.http.post<any>(`http://localhost:5000/books`,bookCreate,{
-            headers:{
-              Authorization: 'Bearer ' + token
-            }
+            withCredentials: true,
           });
         }
 
-        updateBook(token: string, bookId: number ,bookUpdate: BookUpdate){
+        updateBook(bookId: number ,bookUpdate: BookUpdate){
             return this.http.patch<any>(`http://localhost:5000/books/${bookId}`,bookUpdate,{
-            headers:{
-              Authorization: 'Bearer ' + token
-            }
+              withCredentials: true
           });
         }
 
 
-        deleteBook(token: string, bookId: number): Observable<ResponseData<string>>{
+        deleteBook(bookId: number): Observable<ResponseData<string>>{
           return this.http.delete<any>(`http://localhost:5000/books/${bookId}`,{
-            headers: {
-              Authorization: 'Bearer ' + token
-            }
+            withCredentials: true
           });
         }
 }

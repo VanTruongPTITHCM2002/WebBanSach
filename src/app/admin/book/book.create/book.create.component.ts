@@ -126,9 +126,6 @@ goBack(){
 }
 
 onSubmit (form: NgForm){
-
-  console.log('asdasda');
-
   if (!form.invalid){
       const formData = form.value;
 
@@ -143,8 +140,6 @@ onSubmit (form: NgForm){
     if (this.selectedFile) {
        formDATA.append('image',this.selectedFile);
     }
-
-      const token = this.authService.getToken();
       this.bookService.createBook(formDATA).subscribe({
         next(value) {
             showResponseSuccess(value.message)

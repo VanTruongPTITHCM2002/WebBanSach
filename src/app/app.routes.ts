@@ -16,6 +16,7 @@ import { AuthorsComponent } from './admin/authors/authors.component';
 import { BookCreateComponent } from './admin/book/book.create/book.create.component';
 import { UpdateComponent } from './admin/book/update/update.component';
 import { AdminCategoryComponent } from './admin/category/category.component';
+import { AdminPublishersComponent } from './admin/publishers/publishers.component';
 
 export const routes: Routes = [
 
@@ -35,12 +36,13 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
-      { path: 'categories', component: AdminCategoryComponent, canActivate: [AuthGuard]},
-      { path: 'books', component: AdminBookComponent, canActivate: [AuthGuard]},
-      { path: 'authors', component: AuthorsComponent, canActivate: [AuthGuard]},
-      { path: 'books/create', component: BookCreateComponent, canActivate: [AuthGuard]},
-      { path: 'books/update/:id', component: UpdateComponent, canActivate: [AuthGuard]}
+      { path: 'dashboard', component: AdminDashboardComponent,title: "Trang chủ quản lý" ,canActivate: [AuthGuard] },
+      { path: 'categories', component: AdminCategoryComponent, title:"Quản lý danh mục",canActivate: [AuthGuard]},
+      { path: 'books', component: AdminBookComponent, title: "Quản lý sách",canActivate: [AuthGuard]},
+      { path: 'publishers', component: AdminPublishersComponent, title: 'Quản lý nhà xuất bản', canActivate: [AuthGuard]},
+      { path: 'authors', component: AuthorsComponent, title:"Quản lý tác giả",canActivate: [AuthGuard]},
+      { path: 'books/create', title:"Tạo sách",component: BookCreateComponent, canActivate: [AuthGuard]},
+      { path: 'books/update/:id',title:"Sửa sách", component: UpdateComponent, canActivate: [AuthGuard]}
       // ... các route cho admin
     ]
   }

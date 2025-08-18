@@ -15,4 +15,15 @@ export class PublisherService{
       return this.http.get<any>(`http://localhost:5000/publishers?page=${page}&size=${size}`);
     }
 
+    addPublisher(publisher:Publisher):Observable<ResponseData<Publisher>>{
+      return this.http.post<any>(`http://localhost:5000/publishers`, publisher, {withCredentials: true});
+    }
+
+    updatePublisher (publiserId: number, publisher: Publisher): Observable<ResponseData<Publisher>>{
+      return this.http.patch<any>(`http://localhost:5000/publishers/${publiserId}`,publisher,{withCredentials: true});
+    }
+
+    deletePublisher(publisherId: number):Observable<ResponseData<Publisher>>{
+      return this.http.delete<any>(`http://localhost:5000/publishers/${publisherId}`,{withCredentials: true});
+    }
 }

@@ -19,3 +19,9 @@
   .sidebar a:hover {
       background-color: #495057;
   }
+
+  .active {
+  background: #007bff;
+  color: #fff;
+  border-radius: 5px;
+}

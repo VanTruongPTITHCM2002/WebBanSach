@@ -1,13 +1,13 @@
 import { showResponseSuccess } from './../../response/sweetAlert';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'admin-sidebar',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })

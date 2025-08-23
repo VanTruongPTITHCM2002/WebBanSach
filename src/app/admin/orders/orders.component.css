@@ -1,0 +1,13 @@
+.status-box {
+  padding: 1px;
+  border-radius: 4px;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+}
+.status-0 { background: #007bff; } /* Mới */
+.status-1 { background: #28a745; } /* Hoàn tất */
+.status-2 { background: #fd7e14; } /* Đang xử lý */
+.status-3 { background: #ffc107; color: #000; } /* Đang giao */
+.status--1 { background: #dc3545; } /* Hủy */
+.status-4 { background: #6f42c1; } /* Hoàn tiền */

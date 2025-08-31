@@ -38,18 +38,40 @@
             <p>{{order.totalAmount | currency: 'VND'}}</p>
         </td>
         <td>
-        <div class="status-box fw-normal mb-1" [style.backgroundColor]="getStatus(order.status).color">
-            <h5>{{ getStatus(order.status).label }}</h5>
-        </div>
+          <ng-container *ngIf="editOrderId !== order.orderId; else editMode">
+            <div class="status-box" [style.backgroundColor]="getStatus(order.status).color">
+              <h5>{{ getStatus(order.status).label }}</h5>
+            </div>
+          </ng-container>
+          <ng-template #editMode>
+            <select [(ngModel)]="editedStatus" class="form-select">
+              <option *ngFor="let s of getStatusOrder()" [value]="s.value"
+               [disabled]="!canSelectedStatus(order.status, s.value)"
+              >{{ s.label }}</option>
+            </select>
+          </ng-template>
         </td>
         <td class="fw-normal mb-1">
             <p>{{order.methodPay === 'COD' ? 'Tiền mặt': 'Ngân hàng'}}</p>
         </td>
         <td>
             <div class="d-flex">
-                <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#updateModal"
-                    ><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-info" [routerLink]="[order.orderId]"> <i
+
+                <button *ngIf="editOrderId === order.orderId && editedStatus !== originalStatus" class="btn btn-success me-2" (click)="update(order.orderId)">
+                  <i class="fas fa-check"></i>
+                </button>
+                
+                <!-- Nút Hủy -->
+                <button *ngIf="editOrderId === order.orderId" class="btn btn-secondary me-2" (click)="cancelEdit()">
+                  <i class="fas fa-times"></i>
+                </button>
+
+                <button *ngIf="editOrderId !== order.orderId" [disabled]="order.status === -1"
+                
+                class="btn btn-warning me-2" (click)="startEdit(order)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button *ngIf="editOrderId !== order.orderId" type="button" class="btn btn-info" [routerLink]="[order.orderId]"> <i
                         class="fas fa-eye"></i></button>
             </div>
         </td>

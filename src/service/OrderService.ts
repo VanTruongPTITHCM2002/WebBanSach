@@ -15,6 +15,10 @@ export class OrderService {
     }
 
     getOrderById(orderId: number): Observable<ResponseData<Order>>{
-        return this.http.get<any>(`http://localhost:5000/orders/${orderId}`, {withCredentials: true})
+        return this.http.get<any>(`http://localhost:5000/orders/${orderId}`, {withCredentials: true});
+    }
+
+    updateOrder(orderId: number, status: number):Observable<ResponseData<Order>>{
+        return this.http.patch<any>(`http://localhost:5000/orders/${orderId}`, {status: status}, {withCredentials: true});
     }
 }

@@ -26,6 +26,7 @@ export class AdminCategoryComponent implements OnInit{
     currentPage = 1;
     pageSize = 5;
     categoryName: string = '';
+    updateCategoryName: string = '';
     categoryId: number = 0;
     @ViewChild('closeBtn',{static: false}) closeBtn!: ElementRef<HTMLButtonElement>;
     
@@ -66,12 +67,12 @@ export class AdminCategoryComponent implements OnInit{
 
     selectedCategory(categoryName:string, categoryId: number){
       this.isUpdate = true;
-      this.categoryName = categoryName;
+      this.updateCategoryName = categoryName;
       this.categoryId = categoryId;
     }
 
     patchCategory(){
-      this.updateCategory = this.categoryService.updateCategory(this.categoryId, this.categoryName).subscribe((data) => {
+      this.updateCategory = this.categoryService.updateCategory(this.categoryId, this.updateCategoryName).subscribe((data) => {
         showResponseSuccess(data.message);
         this.closeBtn.nativeElement.click();
         this.loadCategories(this.page);

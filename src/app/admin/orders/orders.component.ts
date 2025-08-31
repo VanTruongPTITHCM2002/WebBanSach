@@ -4,8 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { OrderService } from '../../../service/OrderService';
 import { Order } from '../../../entity/Order';
-import { getOrderMethodPay, getOrderStatusInfo } from '../../../utils/order.utils';
+import { getOrderMethodPay, getOrderStatusInfo , getStatusOrders, canSelectedOrderStatus} from '../../../utils/order.utils';
 import { RouterLink } from '@angular/router';
+import { showResponseFailure, showResponseSuccess } from '../../response/sweetAlert';
 
 @Component({
   selector: 'app-orders',
@@ -22,9 +23,15 @@ export class AdminOrdersComponent implements OnInit{
     size: number = 5;
     isLastPage:boolean = false;
     txtSearch: string = '';
+    editOrderId: number | null = null;
+    originalStatus: number | null = null;
+    editedStatus: number | null = null;
+    updateOrderSub: Subscription;
+
 
     constructor(private orderService: OrderService){
       this.getOrders = new Subscription();
+      this.updateOrderSub =new Subscription();
     }
 
     ngOnInit(): void {
@@ -52,6 +59,14 @@ export class AdminOrdersComponent implements OnInit{
     return getOrderStatusInfo(status);
   }
 
+  getStatusOrder(){
+    return getStatusOrders();
+  }
+
+  canSelectedStatus(current: number, target: number){
+    return canSelectedOrderStatus(current, target);
+  }
+
   handleSearch(){
     if (!this.txtSearch) return this.loadOrders(this.page);
 
@@ -61,5 +76,32 @@ export class AdminOrdersComponent implements OnInit{
   )
     this.currentPage = this.page;
     this.isLastPage = this.orders.length < this.size;
+  }
+
+  startEdit(order: any) {
+    this.editOrderId = order.orderId;
+    this.originalStatus = order.status;
+    this.editedStatus = order.status;
+  }
+
+  cancelEdit() {
+    this.editOrderId = null;
+    this.originalStatus = null;
+    this.editedStatus = null;
+  }
+
+  update(orderId: number){
+    this.updateOrderSub?.unsubscribe();
+    this.updateOrderSub = this.orderService.updateOrder(orderId, this.editedStatus!).subscribe({
+      next: (data) => {
+        showResponseSuccess(data.message)
+    
+        this.cancelEdit();
+        this.loadOrders(this.page)
+      },
+      error: (err) => {
+        showResponseFailure(err.message);
+      }
+    });
   }
 }

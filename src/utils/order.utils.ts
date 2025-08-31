@@ -10,7 +10,7 @@ export enum OrderStatus {
 export function getOrderStatusInfo(status: number) {
   switch (status) {
     case OrderStatus.Pending:
-      return { label: 'Mới', color: 'blue' };       // xanh dương
+      return { label: 'Đang chờ', color: 'blue' };       // xanh dương
     case OrderStatus.Completed:
       return { label: 'Hoàn tất', color: 'green' }; // xanh lá
     case OrderStatus.Processing:
@@ -26,8 +26,30 @@ export function getOrderStatusInfo(status: number) {
   }
 }
 
+export function getStatusOrders (){
+  return [
+    { value: 0, label: 'Đang chờ' },
+    { value: 1, label: 'Hoàn tất' },
+    { value: 2, label: 'Đang xử lý' },
+    { value: 3, label: 'Đang giao' },
+    { value: -1, label: 'Hủy' },
+    { value: 4, label: 'Hoàn tiền' }
+  ];
+}
+
 export function getOrderMethodPay(methodPay: string){
     if (methodPay === 'COD')
       return "Tiền mặt";
     return "Ngân hàng";
+}
+
+export function canSelectedOrderStatus (current: number, target: number): boolean{
+   if (current == target) return true;
+   if (target == -1 ) return false;
+
+     const order = [0, 2, 3, 1, 4];
+  const currentIndex = order.indexOf(current);
+  const targetIndex = order.indexOf(target);
+
+  return targetIndex >= currentIndex; 
 }

@@ -4,7 +4,7 @@
             <div class="row row-cols-1 row-cols-md-4 g-4 p-4">
               <div class="col">
                 <div class="card card-responsive">
-                    <img [src]="book?.imageBase64" class="img-fluid" 
+                    <img [src]="book?.link" class="img-fluid" 
                     width="300" height="200"
                     alt="...">
                     <div class="card-body">
@@ -48,7 +48,7 @@
 
                 <div class="d-flex gap-4 mt-5">
                     <button class="btn btn-secondary" (click)="addCartBook(book!)">Thêm vào giỏ hàng</button>
-                    <button class="btn btn-warning">Mua ngay</button>
+                    <button class="btn btn-warning" (click)="buyBook(book!)">Mua ngay</button>
                 </div>
           </div>
 

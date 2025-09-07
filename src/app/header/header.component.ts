@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AuthService } from "../auth/auth.service";
 import { Router, RouterLink } from "@angular/router";
+import {AuthService as Auth}  from "../../service/AuthService";
 import { CookieService } from "ngx-cookie-service";
 import { Cart, CartItem, UpdateCartItem } from "../../entity/Cart";
 import { Subscription } from "rxjs/internal/Subscription";
@@ -24,7 +25,9 @@ export class HeaderComponent implements OnInit{
     updateCart: Subscription;
     total: number  = 0;
     isAuthenticated = false;
+    isUser: any;
     constructor(public authService: AuthService, private router: Router,
+        private auth: Auth,
         public cookieService: CookieService,
         public cartService: CartService,
         private http:HttpClient
@@ -42,6 +45,7 @@ export class HeaderComponent implements OnInit{
        this.isAuthenticated = isAuth;
       // this.getCartsUsername();
      });
+     this.isUser = this.auth.isAuthenticated;
    }
 
    isClickFormLogin() {
@@ -55,6 +59,7 @@ export class HeaderComponent implements OnInit{
         showResponseSuccess(v.message)
       }
     });
+    this.auth.logout();
     this.router.navigate([
       '/'
     ]);

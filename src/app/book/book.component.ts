@@ -60,4 +60,11 @@ export class BookComponent implements OnInit{
         setTimeout(() =>  window.location.reload(), 3000);  
     });
   }
+
+  buyBook (book: Book){
+    const token = this.cookieService.get('token');
+    if (!token) {
+      this.router.navigate(['/auth/login']);
+    }
+  }
 }

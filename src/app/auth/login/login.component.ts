@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpStatusCode } from '@angular/common/http';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { showResponseSuccess } from '../../response/sweetAlert';
+import { showResponseFailure, showResponseSuccess } from '../../response/sweetAlert';
 import { enviroment } from '../../../enviroment';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../../service/AuthService';
+
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -39,11 +41,14 @@ export class LoginComponent implements OnInit,OnDestroy {
       const {username,password} = form.value;
       this.http.post(`${enviroment.API_ROUTE}/auth/login`, { username, password }, {withCredentials: true}).subscribe({
         next: (v: any) => {
+          if (v.statusCode === HttpStatusCode.Unauthorized) return showResponseFailure(v.message);
+          
          showResponseSuccess(v.message)
+         this.authService.login();
          localStorage.setItem('username',username);
          this.router.navigate(['/']);
         },
-        error: (e) => alert(e.error.message)
+        error: (e) => showResponseFailure(e.message)
     });
     }else {
       console.log('Form is invalid');

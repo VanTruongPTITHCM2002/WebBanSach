@@ -1,0 +1,98 @@
+<h4 class="text-center mt-4">Danh sách hóa đơn của khách hàng</h4>
+<div class="table-reponsive">
+  <div class="input-group w-auto" style="max-width: 300px;">
+    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+      aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
+    <button type="button" class="btn btn-outline-primary">Tìm</button>
+  </div>
+  <table class="table align-middle table-striped mb-0 bg-white">
+    <thead class="bg-light" class="datatable">
+    <tr>
+        <th>Mã hóa đơn</th>
+        <th>Ngày phát hành</th>
+        <th>Thuế VAT (%)</th>
+        <th>Phí vận chuyển</th>
+        <th>Giảm giá</th>
+        <th>Tổng thanh toán</th>
+        <th>Trạng thái thanh toán</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invoice of invoices">
+        <td class="fw-normal mb-1">
+          <span><p>{{invoice.invoiceCode}}</p></span>
+        </td>
+        <td class="fw-normal mb-1">
+          <p>{{invoice.issueDate | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+        </td>
+        <td class="fw-normal mb-1">
+          <p>{{invoice.vatPercent}}</p>
+        </td>
+        <td class="fw-normal mb-1">
+            <p>{{invoice.shippingFee | currency: 'VND'}}</p>
+        </td>
+
+        <td class="fw-normal mb-1">
+            <p>{{invoice.discountAmount | currency: 'VND'}}</p>
+        </td>
+           <td class="fw-normal mb-1">
+            <p>{{invoice.totalAmount | currency: 'VND'}}</p>
+        </td>  
+        
+        <td class="fw-normal mb-1">
+            <p>{{invoice.paymentStatus}}</p>
+        </td>
+
+        <td>
+          <!-- <ng-container *ngIf="editOrderId !== order.orderId; else editMode">
+            <div class="status-box" [style.backgroundColor]="getStatus(order.status).color">
+              <h5>{{ getStatus(order.status).label }}</h5>
+            </div>
+          </ng-container>
+          <ng-template #editMode>
+            <select [(ngModel)]="editedStatus" class="form-select">
+              <option *ngFor="let s of getStatusOrder()" [value]="s.value"
+               [disabled]="!canSelectedStatus(order.status, s.value)"
+              >{{ s.label }}</option>
+            </select>
+          </ng-template> -->
+        </td>
+      
+        <td>
+            <div class="d-flex">
+<!-- 
+                <button *ngIf="editOrderId === order.orderId && editedStatus !== originalStatus" class="btn btn-success me-2" (click)="update(order.orderId)">
+                  <i class="fas fa-check"></i>
+                </button>
+                
+                <button *ngIf="editOrderId === order.orderId" class="btn btn-secondary me-2" (click)="cancelEdit()">
+                  <i class="fas fa-times"></i>
+                </button>
+
+                <button *ngIf="editOrderId !== order.orderId" [disabled]="order.status === -1"
+                
+                class="btn btn-warning me-2" (click)="startEdit(order)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button *ngIf="editOrderId !== order.orderId" type="button" class="btn btn-info" [routerLink]="[order.orderId]"> <i
+                        class="fas fa-eye"></i></button> -->
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<nav class="float-end mt-2" aria-label="...">
+  <ul class="pagination mt-3">
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">Previous</a>
+    </li>
+
+    <li class="page-item" [class.disabled]="isLastPage">
+      <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">Next</a>
+    </li>
+  </ul>
+</nav>
+
+

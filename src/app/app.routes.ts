@@ -19,6 +19,7 @@ import { AdminCategoryComponent } from './admin/category/category.component';
 import { AdminPublishersComponent } from './admin/publishers/publishers.component';
 import { AdminOrdersComponent } from './admin/orders/orders.component';
 import { AdminOrderdetailComponent } from './admin/orderdetail/orderdetail.component';
+import { AdminInvoiceComponent } from './admin/invoice/invoice.component';
 
 export const routes: Routes = [
 
@@ -47,7 +48,7 @@ export const routes: Routes = [
       { path: 'books/update/:id',title:"Sửa sách", component: UpdateComponent, canActivate: [AuthGuard]},
       { path: 'orders', title: 'Quản lý đơn hàng', component: AdminOrdersComponent, canActivate: [AuthGuard]},
       { path: 'orders/:id', title: `Chi tiết đơn hàng`, component: AdminOrderdetailComponent, canActivate:[AuthGuard]},
-      // ... các route cho admin
+      {path: 'invoices', title: 'Quản lý hóa đơn', component: AdminInvoiceComponent, canActivate: [AuthGuard]}
     ]
   }
     // { path: 'contact', redirectTo: '/lien-he', pathMatch: 'full' },

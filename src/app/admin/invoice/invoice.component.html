@@ -3,7 +3,9 @@
   <div class="input-group w-auto" style="max-width: 300px;">
     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
       aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
-    <button type="button" class="btn btn-outline-primary">Tìm</button>
+    <button type="button" class="btn btn-outline-primary"
+      (click)="handleSearch()"
+    >Tìm</button>
   </div>
   <table class="table align-middle table-striped mb-0 bg-white">
     <thead class="bg-light" class="datatable">
@@ -14,6 +16,7 @@
         <th>Phí vận chuyển</th>
         <th>Giảm giá</th>
         <th>Tổng thanh toán</th>
+        <th>Phương thức thanh toán</th>
         <th>Trạng thái thanh toán</th>
         <th>Hành động</th>
     </tr>
@@ -41,42 +44,42 @@
         </td>  
         
         <td class="fw-normal mb-1">
-            <p>{{invoice.paymentStatus}}</p>
+            <p>{{invoice.paymentMethod}}</p>
         </td>
 
         <td>
-          <!-- <ng-container *ngIf="editOrderId !== order.orderId; else editMode">
-            <div class="status-box" [style.backgroundColor]="getStatus(order.status).color">
-              <h5>{{ getStatus(order.status).label }}</h5>
+          <ng-container *ngIf="editInvoiceId !== invoice.invoiceId; else editMode">
+            <div class="status-box p-1" [style.backgroundColor]="getStatusInvoice(invoice.paymentStatus).color">
+              <h5>{{ getStatusInvoice(invoice.paymentStatus).label }}</h5>
             </div>
           </ng-container>
           <ng-template #editMode>
             <select [(ngModel)]="editedStatus" class="form-select">
-              <option *ngFor="let s of getStatusOrder()" [value]="s.value"
-               [disabled]="!canSelectedStatus(order.status, s.value)"
+              <option *ngFor="let s of getStatusInvoices()" [value]="s.value"
+               [disabled]="!canSelectedStatus(invoice.paymentStatus, s.value)"
               >{{ s.label }}</option>
             </select>
-          </ng-template> -->
+          </ng-template>
         </td>
       
         <td>
             <div class="d-flex">
-<!-- 
-                <button *ngIf="editOrderId === order.orderId && editedStatus !== originalStatus" class="btn btn-success me-2" (click)="update(order.orderId)">
+
+                <button *ngIf="editInvoiceId === invoice.invoiceId && editedStatus !== originStatus" class="btn btn-success me-2">
                   <i class="fas fa-check"></i>
                 </button>
                 
-                <button *ngIf="editOrderId === order.orderId" class="btn btn-secondary me-2" (click)="cancelEdit()">
+                <button *ngIf="editInvoiceId === invoice.invoiceId" class="btn btn-secondary me-2" (click)="cancelEdit()">
                   <i class="fas fa-times"></i>
                 </button>
 
-                <button *ngIf="editOrderId !== order.orderId" [disabled]="order.status === -1"
+                <button *ngIf="editInvoiceId !== invoice.invoiceId" 
                 
-                class="btn btn-warning me-2" (click)="startEdit(order)">
+                class="btn btn-warning me-2" (click)="startEdit(invoice)">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button *ngIf="editOrderId !== order.orderId" type="button" class="btn btn-info" [routerLink]="[order.orderId]"> <i
-                        class="fas fa-eye"></i></button> -->
+                <button *ngIf="editInvoiceId !== invoice.invoiceId" type="button" class="btn btn-info" [routerLink]="[invoice.invoiceId]"> <i
+                        class="fas fa-eye"></i></button>
             </div>
         </td>
       </tr>

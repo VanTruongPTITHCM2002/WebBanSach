@@ -35,7 +35,9 @@ export class AdminLoginComponents{
                     console.log(v.statusCode);
                     if(v.statusCode !== HttpStatusCode.Ok) return showResponseFailure(v.message);
                     showResponseSuccess(v.message)
-                    localStorage.setItem('username',username);
+                    if (typeof window !== undefined) {
+                         localStorage.setItem('username',username);
+                    }
                     this.router.navigate(['/admin/dashboard'])
                 },
                 error: (e) => {

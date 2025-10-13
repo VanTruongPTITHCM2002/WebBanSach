@@ -89,51 +89,5 @@
       <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">Next</a>
     </li>
   </ul>
-
-<!-- <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm tác giả</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form #createForm ="ngForm" (ngSubmit)="onSubmit(createForm)">
-          <label for="firstName">Tên NXB:</label>
-          <input class="form-control" placeholder="Nhập tên của NXB...." type="text" name="publisherName" id="publisherName" ngModel/>
-          <br>
-          <label for="lastName">Địa chỉ NXB:</label>
-          <input type="text"  name="publisherAddress" placeholder="Nhập địa chỉ của NXB...." id="publisherAddress" class="form-control" ngModel>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="submit" class="btn btn-primary">Thêm</button>
-      </div>
-    </form> 
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- <div class="modal fade" id="updateModal" tabindex="-1"  *ngIf="updatePublisher" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm tác giả</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-          <label for="publisherName">Họ:</label>
-          <input class="form-control" placeholder="Nhập tên của NXB..." type="text" name="publisherName" id="publisherName" [(ngModel)]="updatePublisher.publisherName"/>
-          <br>
-          <label for="publisherAddress">Tên:</label>
-          <input type="text" name="publisherAddress" placeholder="Nhập địa chỉ của NXB...." id="publisherAddress" class="form-control"  [(ngModel)]="updatePublisher.publisherAddress">
-      </div> 
-      <div class="modal-footer">
-        <button type="button" #closeBtn class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" (click)="update()">Lưu</button>
-      </div>
-    </div>
-  </div>
-</div> -->
 </nav>
 

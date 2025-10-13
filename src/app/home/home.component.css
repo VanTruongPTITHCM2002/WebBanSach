@@ -4,10 +4,11 @@
 }
 
 .title-list{
-    background-color: #ef8400;
+    background-color: #ef8b00;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color:#fff;
+    padding: 0.8rem;
     margin:0;
 }
 

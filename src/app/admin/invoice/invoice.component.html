@@ -1,5 +1,5 @@
 <h4 class="text-center mt-4">Danh sách hóa đơn của khách hàng</h4>
-<div class="table-reponsive">
+<div class="table-responsive">
   <div class="input-group w-auto" style="max-width: 300px;">
     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
       aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
@@ -7,45 +7,29 @@
       (click)="handleSearch()"
     >Tìm</button>
   </div>
-  <table class="table align-middle table-striped mb-0 bg-white">
-    <thead class="bg-light" class="datatable">
+  <table class="mt-1 table table-bordered align-middle table-striped mb-0 bg-white table-hover shadow">
+    <thead class="table-light sticky-top text-nowrap datatable">
     <tr>
-        <th>Mã hóa đơn</th>
-        <th>Ngày phát hành</th>
-        <th>Thuế VAT (%)</th>
-        <th>Phí vận chuyển</th>
-        <th>Giảm giá</th>
-        <th>Tổng thanh toán</th>
-        <th>Phương thức thanh toán</th>
-        <th>Trạng thái thanh toán</th>
-        <th>Hành động</th>
+        <th class="fw-bold">Mã hóa đơn</th>
+        <th class="fw-bold">Ngày phát hành</th>
+        <th class="fw-bold">Thuế VAT (%)</th>
+        <th class="fw-bold">Phí vận chuyển</th>
+        <th class="fw-bold">Giảm giá</th>
+        <th class="fw-bold">Tổng thanh toán</th>
+        <th class="fw-bold">Phương thức thanh toán</th>
+        <th class="fw-bold">Trạng thái thanh toán</th>
+        <th class="fw-bold">Hành động</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="text-center">
       <tr *ngFor="let invoice of invoices">
-        <td class="fw-normal mb-1">
-          <span><p>{{invoice.invoiceCode}}</p></span>
-        </td>
-        <td class="fw-normal mb-1">
-          <p>{{invoice.issueDate | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
-        </td>
-        <td class="fw-normal mb-1">
-          <p>{{invoice.vatPercent}}</p>
-        </td>
-        <td class="fw-normal mb-1">
-            <p>{{invoice.shippingFee | currency: 'VND'}}</p>
-        </td>
-
-        <td class="fw-normal mb-1">
-            <p>{{invoice.discountAmount | currency: 'VND'}}</p>
-        </td>
-           <td class="fw-normal mb-1">
-            <p>{{invoice.totalAmount | currency: 'VND'}}</p>
-        </td>  
-        
-        <td class="fw-normal mb-1">
-            <p>{{invoice.paymentMethod}}</p>
-        </td>
+        <td class="fw-normal">{{invoice.invoiceCode}}</td>
+            <td class="fw-normal">{{invoice.issueDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+            <td class="fw-normal">{{invoice.vatPercent}}%</td>
+            <td class="text-success">{{invoice.shippingFee | currency: 'VND'}}</td>
+            <td class="text-success">{{invoice.discountAmount | currency: 'VND'}}</td>
+            <td class="text-primary font-weight-bold">{{invoice.totalAmount | currency: 'VND'}}</td>
+            <td class="fw-normal">{{invoice.paymentMethod}}</td>
 
         <td>
           <ng-container *ngIf="editInvoiceId !== invoice.invoiceId; else editMode">
@@ -65,7 +49,7 @@
         <td>
             <div class="d-flex">
 
-                <button *ngIf="editInvoiceId === invoice.invoiceId && editedStatus !== originStatus" class="btn btn-success me-2">
+                <button *ngIf="editInvoiceId === invoice.invoiceId && editedStatus !== originStatus" class="btn btn-success me-2" (click) = "update(invoice.invoiceId)">
                   <i class="fas fa-check"></i>
                 </button>
                 
@@ -86,16 +70,28 @@
     </tbody>
   </table>
 </div>
-<nav class="float-end mt-2" aria-label="...">
-  <ul class="pagination mt-3">
+<nav class="float-end mt-2" aria-label="Pagination">
+  <ul class="pagination pagination-modern shadow-sm rounded-pill">
     <li class="page-item" [class.disabled]="currentPage === 1">
-      <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">Previous</a>
+      <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">
+        <i class="fa-solid fa-chevron-left"></i>
+      </a>
+    </li>
+
+    <li class="page-item disabled">
+      <span class="page-link px-3 bg-light text-dark border-0">
+        Trang {{ currentPage }}
+      </span>
     </li>
 
     <li class="page-item" [class.disabled]="isLastPage">
-      <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">Next</a>
+      <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
     </li>
   </ul>
 </nav>
+
+
 
 

@@ -13,4 +13,12 @@ export class InvoiceService {
     getInvoices(page: number, size: number): Observable<ResponseData<Invoice[]>>{
             return this.http.get<any>(`http://localhost:5000/invoice?page=${page}&size=${size}`,{withCredentials: true});
         }
+    
+    updateInvoice(invoiceId: number, status: string): Observable<ResponseData<Invoice>>{
+        return this.http.patch<any>(`http://localhost:5000/invoice/${invoiceId}`, {status: status}, {withCredentials: true});
+    }
+
+    getInvoiceById (invoiceId: number): Observable<ResponseData<Invoice>>{
+        return this.http.get<any>(`http://localhost:5000/invoice/${invoiceId}`, {withCredentials: true});
+    }
 }

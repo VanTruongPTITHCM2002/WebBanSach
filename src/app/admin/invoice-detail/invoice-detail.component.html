@@ -1,0 +1,72 @@
+<h4 class="text-center mt-4">Chi tiết hóa đơn</h4>
+<button  type="button" 
+  class="btn btn-close-white d-flex align-items-center gap-2 shadow-sm px-3 py-2 rounded-pill" 
+  [routerLink]="['../']">
+  <i class="fas fa-arrow-left"></i>Quay lại</button>
+<div class="table-reponsive">
+  <div class="input-group w-auto" style="max-width: 300px;">
+    <!-- <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+      aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
+    <button type="button" class="btn btn-outline-primary" (click)="handleSearch()">Tìm</button> -->
+  </div>
+  <table class="table align-middle table-striped mb-0 bg-white">
+    <thead class="bg-light" class="datatable">
+      <tr>
+        <th>Hình ảnh</th>
+        <th>Tên sách</th>
+        <th>Số lượng</th>
+        <th>Giá</th>
+        <th>Tổng tiền</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invoicedetail of invoice?.items">
+        <td class="fw-normal mb-1">
+          <img [src]="invoicedetail.image" width="50" height="50" alt="Ảnh sách">
+        </td>
+        <td class="fw-normal mb-1">
+          <p>{{invoicedetail.title}}</p>
+        </td> 
+        <td class="fw-normal mb-1">
+          <p>{{invoicedetail.quantity}}</p>
+        </td>
+        <td class="fw-normal mb-1">
+          <p>{{invoicedetail.unitPrice | currency: "VND"}}</p>
+        </td>
+         <td class="fw-normal mb-1">
+          <p>{{invoicedetail.totalLine| currency: 'VND'}}</p>
+        </td>
+       
+        <!-- <td class="fw-normal mb-1">
+            <p>{{order.orderDate | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+        </td>
+
+        <td class="fw-normal mb-1">
+            <p>{{order.totalAmount | currency: 'VND'}}</p>
+        </td>
+        <td>
+        <div class="status-box fw-normal mb-1" [style.backgroundColor]="getStatus(order.status).color">
+            <h5>{{ getStatus(order.status).label }}</h5>
+        </div>
+        </td>
+        <td class="fw-normal mb-1">
+            <p>{{order.methodPay === 'COD' ? 'Tiền mặt': 'Ngân hàng'}}</p>
+        </td> -->
+        <td>
+            <!-- <div class="d-flex">
+                <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#updateModal"
+                    ><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-info" [routerLink]="[order.orderId]"> <i
+                        class="fas fa-eye"></i></button>
+            </div> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <span class="float-end fw-bold"><p>Tổng tiền của đơn hàng: {{invoice?.totalAmount | currency: 'VND'}} </p></span>
+</div>
+<nav class="float-end mt-2" aria-label="...">
+
+</nav>
+
+

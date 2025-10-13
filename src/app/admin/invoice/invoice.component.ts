@@ -6,6 +6,7 @@ import { Invoice } from '../../../entity/Invoice';
 import { Subscription } from 'rxjs';
 import { InvoiceService } from '../../../service/InvoiceService';
 import { canSelectedInvoiceStatus, getInvoiceStatusInfo, getStatusInvoices } from '../../../utils/invoice.utils';
+import { showResponseFailure, showResponseSuccess } from '../../response/sweetAlert';
 
 @Component({
   selector: 'app-invoice',
@@ -14,7 +15,7 @@ import { canSelectedInvoiceStatus, getInvoiceStatusInfo, getStatusInvoices } fro
   templateUrl: './invoice.component.html',
   styleUrl: './invoice.component.css'
 })
-export class AdminInvoiceComponent implements OnInit{
+export class AdminInvoiceComponent implements OnInit {
   invoices: Invoice[] = [];
   getInvoices: Subscription;
   currentPage: number = 1;
@@ -58,17 +59,17 @@ export class AdminInvoiceComponent implements OnInit{
     return getInvoiceStatusInfo(status);
   }
 
-  getStatusInvoices(){
+  getStatusInvoices() {
     return getStatusInvoices();
   }
 
-  startEdit (invoice: Invoice) {
+  startEdit(invoice: Invoice) {
     this.editInvoiceId = invoice.invoiceId;
     this.originStatus = invoice.paymentStatus;
     this.editedStatus = invoice.paymentStatus;
   }
 
-  cancelEdit () {
+  cancelEdit() {
     this.editInvoiceId = null;
     this.originStatus = null;
     this.editedStatus = null;
@@ -78,11 +79,28 @@ export class AdminInvoiceComponent implements OnInit{
     return canSelectedInvoiceStatus(current, target);
   }
 
-  handleSearch(){
+  handleSearch() {
     if (!this.txtSearch) return this.loadInvoices(this.page);
 
     this.invoices = this.invoices.filter(
-      invoice => invoice.invoiceCode.match(this.txtSearch) 
+      invoice => invoice.invoiceCode.match(this.txtSearch)
     )
+  }
+
+  update(invoiceId: number){
+    this.updateInvoice.unsubscribe();
+    this.updateInvoice = this.invoiceService.updateInvoice(invoiceId, this.editedStatus!).subscribe(
+      {
+        next: (data) => {
+          showResponseSuccess(data.message);
+          this.cancelEdit();
+          this.loadInvoices(this.page);
+        }
+        ,
+        error: (err) => {
+          showResponseFailure(err.message);
+        }
+      }
+    );
   }
 }

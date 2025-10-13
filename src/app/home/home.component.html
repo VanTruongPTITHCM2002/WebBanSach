@@ -2,9 +2,9 @@
   <div class="main-container mt-3 d-flex overflow-hidden">
 
     <div class="container-list w-25 ms-3 border-2">
-      <h3 class="title-list">Danh mục sản phẩm</h3>
+      <h2 class="title-list">Danh mục sản phẩm</h2>
       <ul class="list-group btn-group dropend list-book" *ngFor="let c of category">
-        <li class="list-group-item " [routerLink]="['/category',c.categoryId]">{{c.categoryName}}</li>
+        <li class="list-group-item fs-5" [routerLink]="['/category',c.categoryId]">{{c.categoryName}}</li>
       </ul>
     </div>
 
@@ -18,8 +18,8 @@
     <div class="d-flex flex-nowrap gap-3  justify-content-start align-items-center">
         <div class="card card-sub" *ngFor="let b of book">
           <div class="card-body" routerLink="/book">  
-            <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-            <h5 class="card-title">{{b.title}}</h5>
+            <img src="{{b.link}}" width="130" height="200" class="card-img-top" alt="Ảnh">
+            <h5 class="card-title text-nowrap">{{b.title}}</h5>
             <p class="card-text">This is a longer card with supporting text</p>
           </div>
         </div>
@@ -31,8 +31,8 @@
     <div class="d-flex flex-nowrap gap-3  justify-content-start align-items-center">
         <div class="card card-sub" *ngFor="let b of book">
           <div class="card-body" routerLink="/book">  
-            <img src="/icons8-bookstore-66.png" width="130" height="200" class="card-img-top" alt="Ảnh">
-            <h5 class="card-title">{{b.title}}</h5>
+            <img src="{{b.link}}" width="130" height="200" class="card-img-top" alt="Ảnh">
+            <h5 class="card-title text-nowrap">{{b.title}}</h5>
             <p class="card-text">This is a longer card with supporting text</p>
           </div>
         </div>

@@ -25,7 +25,6 @@ export class AdminLoginComponents{
 
     onSubmit(form: NgForm) {
             if (!form.valid) {
-                console.log("Error.....");
                 form.control.markAllAsTouched();
                 return;
             }

@@ -40,20 +40,20 @@ export class AdminBookComponent implements OnInit{
     }
  
     setPage(page: number) {
-        if (page < 1) return; // Không cho trang nhỏ hơn 1
-        if (page === this.currentPage) return; // Không reload trang hiện tại
-        if (this.isLastPage && page > this.currentPage) return; // Nếu là trang cuối rồi, không sang trang tiếp theo
+        if (page < 1) return; 
+        if (page === this.currentPage) return; 
+        if (this.isLastPage && page > this.currentPage) return;
 
         this.loadBooks(page);
     }
     
 
   loadBooks(page: number) {
-    this.getBooksPage.unsubscribe(); // Hủy subscribe cũ nếu có
+    this.getBooksPage.unsubscribe();
     this.getBooksPage = this.bookService.getBooks(page, this.pageSize).subscribe(data => {
       this.books = data.data || [];
       this.currentPage = page;
-      // Nếu số bản ghi trả về < pageSize => đây là trang cuối
+    
       this.isLastPage = this.books.length < this.pageSize;
     });
   }
@@ -68,7 +68,7 @@ export class AdminBookComponent implements OnInit{
     this.getBooksPage = this.bookService.getFilterBooks(this.page, this.pageSize, this.minPrice, this.maxPrice).subscribe(data => {
       this.books = data.data || [];
       this.currentPage = this.page;
-      // Nếu số bản ghi trả về < pageSize => đây là trang cuối
+    
      this.isLastPage = this.books.length < this.pageSize;
 
     });

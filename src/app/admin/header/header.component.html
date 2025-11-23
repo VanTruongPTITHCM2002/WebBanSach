@@ -1,7 +1,65 @@
-<nav class="navbar-top d-flex justify-content-between align-items-center">
-    <h4 class="mb-0"></h4>
-    <div>
-        <span class="me-3"><i class="fas fa-user-circle"></i> Xin chào, Admin</span>
-        <button title="bell" class="btn btn-outline-secondary btn-sm"><i class="fas fa-bell"></i></button>
+<nav class="navbar-top">
+  <div class="navbar-container d-flex justify-content-between align-items-center">
+    <!-- Left Section: Logo/Title -->
+    <div class="navbar-brand d-flex align-items-center">
+      <h5 class="mb-0 fw-600">Quản lý Thư viện</h5>
     </div>
+
+    <!-- Right Section: Search, Notifications, User -->
+    <div class="navbar-actions d-flex align-items-center gap-3">
+      <!-- Search Bar -->
+      <div class="search-container">
+        <input 
+          type="text" 
+          class="form-control search-input" 
+          placeholder="Tìm kiếm..."
+          aria-label="Search">
+        <i class="fas fa-search search-icon"></i>
+      </div>
+
+      <!-- Notification Bell -->
+      <div class="notification-wrapper position-relative">
+        <button 
+          class="btn btn-icon notification-btn" 
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-label="Notifications">
+          <i class="fas fa-bell"></i>
+          <span class="notification-badge">3</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end notification-menu">
+          <li><h6 class="dropdown-header">Thông báo</h6></li>
+          <li><a class="dropdown-item" href="#">Có 5 đơn hàng mới</a></li>
+          <li><a class="dropdown-item" href="#">Sách mới được thêm vào</a></li>
+          <li><a class="dropdown-item" href="#">Cập nhật hệ thống</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-center small" href="#">Xem tất cả</a></li>
+        </ul>
+      </div>
+
+      <!-- User Profile Dropdown -->
+      <div class="user-profile-wrapper d-flex align-items-center">
+        <div class="user-avatar me-2">
+          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin" alt="Admin Avatar" class="avatar-img">
+        </div>
+        <div class="user-info d-none d-sm-block">
+          <p class="username mb-0">Admin</p>
+          <small class="user-role">Quản trị viên</small>
+        </div>
+        <button 
+          class="btn btn-icon user-dropdown-btn ms-2" 
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-label="User menu">
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end user-menu">
+          <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Hồ sơ</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </nav>

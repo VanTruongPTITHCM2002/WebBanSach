@@ -1,43 +1,93 @@
-<section class="vh-100">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-          class="img-fluid" alt="Sample image">
+<section class="login-section">
+  <div class="container-fluid">
+    <div class="row h-100 d-flex justify-content-center align-items-center">
+      <!-- Left side - Branding -->
+      <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center login-brand">
+        <div class="brand-content text-center">
+          <div class="brand-icon mb-4">
+            <i class="fas fa-book-reader fa-5x"></i>
+          </div>
+          <h1 class="brand-title mb-3">Quản Lý Sách</h1>
+          <p class="brand-subtitle">Hệ thống quản lý thư viện hiện đại và hiệu quả</p>
+          <p class="brand-description mt-4">Quản lý tài liệu và sách dễ dàng với giao diện trực quan</p>
+        </div>
       </div>
-      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <form #formLogin="ngForm" (ngSubmit)="onSubmit(formLogin)" novalidate>
-       
-          <div class="divider d-flex align-items-center my-4">
-            <h3 class="text-center fw-bold mx-3 mb-0">Đăng nhập trang quản lý</h3>
+
+      <!-- Right side - Login Form -->
+      <div class="col-md-10 col-lg-7 col-xl-6">
+        <div class="login-card">
+          <div class="login-header mb-5">
+            <h2 class="fw-bold text-center">Đăng nhập</h2>
+            <p class="text-center text-muted small mt-2">Trang quản lý tài liệu</p>
           </div>
 
-          <!-- Email input -->
-          <div data-mdb-input-init class="form-outline mb-4"> 
-            <label class="form-label" for="form3Example3">Tên đăng nhập</label>
-            <input type="text" name="username" id="form3Example3" ngModel #username="ngModel" class="form-control"
-              placeholder="Nhập tên tài khoản..."  required/>
-                <div *ngIf="username.invalid && username.touched" class="text-danger">
-                  Vui lòng nhập tên tài khoản
-                </div>
-          </div>
-
-          <!-- Password input -->
-          <div data-mdb-input-init class="form-outline mb-3"> 
-            <label class="form-label" for="form3Example4">Mật khẩu</label>
-            <input  type="password" name="password" id="form3Example4" ngModel #password="ngModel" class="form-control "
-              placeholder="Nhập mật khẩu..." required/>
-            <div *ngIf="password.invalid && password.touched" class="text-danger">
-              Vui lòng nhập mật khẩu
+          <form #formLogin="ngForm" (ngSubmit)="onSubmit(formLogin)" novalidate>
+            <!-- Username input -->
+            <div class="form-group mb-4">
+              <label class="form-label fw-500" for="username">Tên đăng nhập</label>
+              <div class="input-wrapper">
+                <i class="fas fa-user input-icon"></i>
+                <input 
+                  type="text" 
+                  name="username" 
+                  id="username" 
+                  ngModel 
+                  #username="ngModel" 
+                  class="form-control form-control-lg"
+                  placeholder="Nhập tên tài khoản..."
+                  required />
+              </div>
+              <div *ngIf="username.invalid && username.touched" class="invalid-feedback d-block mt-2">
+                <i class="fas fa-exclamation-circle me-1"></i>Vui lòng nhập tên tài khoản
+              </div>
             </div>
-          </div>
 
-          <div class="text-center  mt-4  pt-2">
-            <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;">Đăng nhập</button>
-          </div>
+            <!-- Password input -->
+            <div class="form-group mb-5">
+              <label class="form-label fw-500" for="password">Mật khẩu</label>
+              <div class="input-wrapper">
+                <i class="fas fa-lock input-icon"></i>
+                <input 
+                  type="password" 
+                  name="password" 
+                  id="password" 
+                  ngModel 
+                  #password="ngModel" 
+                  class="form-control form-control-lg"
+                  placeholder="Nhập mật khẩu..."
+                  required />
+              </div>
+              <div *ngIf="password.invalid && password.touched" class="invalid-feedback d-block mt-2">
+                <i class="fas fa-exclamation-circle me-1"></i>Vui lòng nhập mật khẩu
+              </div>
+            </div>
 
-        </form>
+            <!-- Submit Button -->
+            <button 
+              type="submit" 
+              class="btn btn-login btn-lg w-100 fw-600 mb-3">
+              <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập
+            </button>
+
+            <!-- Remember me -->
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="remember" />
+              <label class="form-check-label" for="remember">
+                Ghi nhớ tôi
+              </label>
+            </div>
+
+            <!-- Footer link -->
+            <p class="text-center text-muted small">
+              Liên hệ quản trị viên nếu bạn quên mật khẩu
+            </p>
+          </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="login-footer mt-4 text-center text-muted small">
+          <p>© 2025 Hệ thống quản lý sách. Bản quyền được bảo vệ.</p>
+        </div>
       </div>
     </div>
   </div>

@@ -1,81 +1,173 @@
-<h4 class="text-center mt-4">Danh sách sản phẩm sách</h4>
-<button type="button" class="btn btn-outline-primary float-end" routerLink="create">Thêm sách</button>
-<div class="table-reponsive">
-  <div class="input-group w-auto" style="max-width: 300px;">
-    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-      aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
-    <button type="button" class="btn btn-outline-primary" (click)="handleSearch()">Tìm</button>
-  </div>
-  <div class="row mb-3 mt-1">
-  <!-- <div class="col-md-3">
-    <label>Trạng thái</label>
-    <select title='status' [(ngModel)]="filterStatus" (ngModelChange)="handleChange()" class="form-select">
-      <option [ngValue]="null">Tất cả</option>
-      <option [ngValue]="true">Còn hàng</option>
-      <option [ngValue]="false">Hết hàng</option>
-    </select>
-  </div> -->
-
-  <div class="col-md-3">
-    <label>Giá từ</label>
-    <input type="number" [(ngModel)]="minPrice" class="form-control" (ngModelChange)="handleChange()" placeholder="Tối thiểu">
+<!-- Danh sách sách cải thiện -->
+<div class="container-fluid py-4">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h2 fw-bold mb-1">📚 Danh sách sách</h1>
+      <p class="text-muted small">Quản lý kho sách của bạn</p>
+    </div>
+    <button type="button" class="btn btn-primary btn-lg" routerLink="create">
+      <i class="fas fa-plus me-2"></i>Thêm sách mới
+    </button>
   </div>
 
-  <div class="col-md-3">
-    <label>Đến</label>
-    <input type="number" [(ngModel)]="maxPrice" class="form-control" (ngModelChange)="handleChange()" placeholder="Tối đa">
+  <!-- Search & Filter Section -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <div class="row g-3 mb-3">
+        <!-- Search Bar -->
+        <div class="col-md-6">
+          <label class="form-label fw-semibold small text-uppercase">Tìm kiếm sách</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="fas fa-search text-muted"></i>
+            </span>
+            <input 
+              type="search" 
+              class="form-control border-start-0" 
+              placeholder="Nhập tên sách..." 
+              [(ngModel)]="txtSearch"
+              (keyup.enter)="handleSearch()">
+            <button type="button" class="btn btn-primary" (click)="handleSearch()">
+              Tìm
+            </button>
+          </div>
+        </div>
+
+        <!-- Price Range Filter -->
+        <div class="col-md-3">
+          <label class="form-label fw-semibold small text-uppercase">Giá từ</label>
+          <input 
+            type="number" 
+            [(ngModel)]="minPrice" 
+            class="form-control" 
+            (ngModelChange)="handleChange()" 
+            placeholder="Tối thiểu">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold small text-uppercase">Đến</label>
+          <input 
+            type="number" 
+            [(ngModel)]="maxPrice" 
+            class="form-control" 
+            (ngModelChange)="handleChange()" 
+            placeholder="Tối đa">
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-  <table class="table align-middle table-striped mb-0 bg-white">
-  <thead class="bg-light" class="datatable">
-    <tr>
-      <th>Hình ảnh</th>
-      <th>Tên</th>
-      <th>Số lượng</th>
-      <th>Giá</th>
-      <th>Trạng thái</th>
-      <th>Hành động</th>
-    </tr>
-  </thead>
-  <tbody >
-    <tr *ngFor="let book of books">
-      <td>
-        <ng-template [ngIf]="book.imageBase64" [ngIfElse]="second"> <img [src]="book.imageBase64" alt="Ảnh"
-            class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;" /> </ng-template>
-        <ng-template #second>
-              <img [src]="book.link" alt="" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;" >
-        </ng-template>
-     
-      </td>
-      <td>
-        <p class="fw-normal mb-1">{{book.title}}</p>
-      </td>
-      <td>
-        <p>{{book.stock}}</p>
-      </td>
-      <td>{{book.price | currency: 'VND'}}</td>
-       <td>
-        <span class="badge rounded-pill d-inline" [ngClass]="book.status ? 'bg-success' : 'bg-danger'">
-          <i class="fas" [ngClass]="book.status ? 'fa-check-circle' : 'fa-times-circle'"></i>
-          {{ book.status ? 'Còn hàng' : 'Hết hàng' }}
+
+  <!-- Table Section -->
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light border-bottom">
+          <tr>
+            <th class="fw-semibold text-muted small text-uppercase">Hình ảnh</th>
+            <th class="fw-semibold text-muted small text-uppercase">Tên sách</th>
+            <th class="fw-semibold text-muted small text-uppercase">Số lượng</th>
+            <th class="fw-semibold text-muted small text-uppercase">Giá</th>
+            <th class="fw-semibold text-muted small text-uppercase">Trạng thái</th>
+            <th class="fw-semibold text-muted small text-uppercase">Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let book of books" class="border-bottom">
+            <!-- Image -->
+            <td>
+              <ng-template [ngIf]="book.imageBase64" [ngIfElse]="second">
+                <img 
+                  [src]="book.imageBase64" 
+                  alt="Ảnh sách"
+                  class="rounded" 
+                  style="width: 50px; height: 65px; object-fit: cover;">
+              </ng-template>
+              <ng-template #second>
+                <img 
+                  [src]="book.link" 
+                  alt="Ảnh sách"
+                  class="rounded" 
+                  style="width: 50px; height: 65px; object-fit: cover;">
+              </ng-template>
+            </td>
+
+            <!-- Title -->
+            <td>
+              <p class="fw-semibold mb-0">{{ book.title }}</p>
+            </td>
+
+            <!-- Stock -->
+            <td>
+              <span class="badge bg-light text-dark">{{ book.stock }} cuốn</span>
+            </td>
+
+            <!-- Price -->
+            <td>
+              <p class="fw-bold text-primary mb-0">{{ book.price | currency: 'VND' }}</p>
+            </td>
+
+            <!-- Status -->
+            <td>
+              <span 
+                class="badge rounded-pill" 
+                [ngClass]="book.status ? 'bg-success' : 'bg-danger'">
+                <i class="fas" [ngClass]="book.status ? 'fa-check-circle' : 'fa-times-circle'"></i>
+                {{ book.status ? 'Còn hàng' : 'Hết hàng' }}
+              </span>
+            </td>
+
+            <!-- Actions -->
+            <td>
+              <div class="btn-group btn-group-sm" role="group">
+                <a 
+                  class="btn btn-outline-warning" 
+                  [routerLink]="['update', book.bookid]"
+                  title="Sửa">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <button 
+                  type="button" 
+                  class="btn btn-outline-danger" 
+                  (click)="deleteBook(book.bookid)"
+                  title="Xóa">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination Section -->
+  <nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a 
+          href="#" 
+          class="page-link" 
+          (click)="setPage(currentPage - 1); $event.preventDefault()">
+          <i class="fas fa-chevron-left me-2"></i>Trước
+        </a>
+      </li>
+
+      <li class="page-item active">
+        <span class="page-link">
+          Trang {{ currentPage }}
         </span>
-      </td>
-      <td class="">
-        <a class="btn btn-warning me-2" [routerLink]="['update', book.bookid]"><i class="fas fa-edit"></i> Sửa</a>
-        <button type="button" class="btn btn-danger" (click)="deleteBook(book.bookid)"> <i class="fas fa-trash-alt"></i> Xóa</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<nav class="float-end mt-2" aria-label="...">
-  <ul class="pagination mt-3">
-  <li class="page-item" [class.disabled]="currentPage === 1">
-    <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">Previous</a>
-  </li>
+      </li>
 
-  <li class="page-item" [class.disabled]="isLastPage">
-    <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">Next</a>
-  </li>
-</ul>
-</nav>
+      <li class="page-item" [class.disabled]="isLastPage">
+        <a 
+          href="#" 
+          class="page-link" 
+          (click)="setPage(currentPage + 1); $event.preventDefault()">
+          Sau<i class="fas fa-chevron-right ms-2"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+

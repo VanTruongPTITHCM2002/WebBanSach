@@ -1,15 +1,259 @@
-.divider:after,
-.divider:before {
-content: "";
-flex: 1;
-height: 1px;
-background: #eee;
+/* Login Page Styling */
+.login-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
-.h-custom {
-height: calc(100% - 73px);
+
+.login-section .container-fluid {
+  max-width: 1200px;
 }
-@media (max-width: 450px) {
-.h-custom {
-height: 100%;
+
+.login-section .row {
+  min-height: 100vh;
 }
+
+/* Left Side - Branding */
+.login-brand {
+  color: white;
+  padding: 40px;
 }
+
+.brand-icon i {
+  color: rgba(255, 255, 255, 0.95);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.brand-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.brand-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+.brand-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+/* Right Side - Login Form Card */
+.login-card {
+  background: white;
+  border-radius: 16px;
+  padding: 48px 36px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.4s ease-out;
+  
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-header {
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 24px;
+}
+
+.login-header h2 {
+  color: #1a1a1a;
+  font-size: 2rem;
+}
+
+.login-header p {
+  color: #999;
+  font-size: 0.95rem;
+}
+
+/* Form Groups */
+.form-group {
+  position: relative;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 500;
+  display: block;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  color: #667eea;
+  font-size: 1rem;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.form-control {
+  padding-left: 44px !important;
+  height: 50px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  outline: none;
+}
+
+.form-control::placeholder {
+  color: #bbb;
+}
+
+/* Error Messages */
+.invalid-feedback {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+}
+
+.invalid-feedback i {
+  font-size: 0.75rem;
+}
+
+/* Buttons */
+.btn-login {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  height: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(102, 126, 234, 0.4);
+  color: white;
+}
+
+.btn-login:active {
+  transform: translateY(0);
+}
+
+.btn-login:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Checkbox */
+.form-check {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-input {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  accent-color: #667eea;
+}
+
+.form-check-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-check-label {
+  margin-left: 8px;
+  cursor: pointer;
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+/* Footer */
+.login-footer {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .login-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .login-card {
+    padding: 40px 28px;
+  }
+
+  .brand-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-section {
+    padding: 16px;
+  }
+
+  .login-card {
+    padding: 32px 20px;
+    border-radius: 12px;
+  }
+
+  .login-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .login-header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+  }
+
+  .brand-title {
+    font-size: 2rem;
+  }
+
+  .brand-subtitle {
+    font-size: 1rem;
+  }
+
+  .form-control {
+    height: 44px;
+  }
+
+  .btn-login {
+    height: 44px;
+    font-size: 0.95rem;
+  }
+}
+

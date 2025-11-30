@@ -49,7 +49,9 @@ export class AdminLoginComponents implements OnInit{
                 form.control.markAllAsTouched();
                 return;
             }
-            const { username, password, rememberMe } = form.value;
+            let { username, password, rememberMe } = form.value;
+            // console.log('Remember Me: ', rememberMe);
+            rememberMe = rememberMe ? true : false;
             this.http.post(`${enviroment.API_ROUTE}/auth/login`, 
                 { username, password, rememberMe},{withCredentials: true}).subscribe({
                 next: (v: any) => {
@@ -60,15 +62,14 @@ export class AdminLoginComponents implements OnInit{
                          localStorage.setItem('username',username);
                     }
 
-                        if (rememberMe) {
+                        if (rememberMe === true) {
                             localStorage.setItem("remember_username", username);
                             localStorage.setItem("remember_password", btoa(password));
-                            localStorage.setItem("remember_me", "true");
+                            localStorage.setItem("remember_me", rememberMe);
                         } else {
-                            
+                            localStorage.setItem("remember_me", rememberMe);
                             localStorage.removeItem("remember_username");
                             localStorage.removeItem("remember_password");
-                            localStorage.removeItem("remember_me");
                         }
 
                     this.router.navigate(['/admin/dashboard'])

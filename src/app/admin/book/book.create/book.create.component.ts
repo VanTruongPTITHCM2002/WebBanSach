@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Book, BookCreate, BookResponse } from '../../../../entity/Book';
 import { Category } from '../../../../entity/Category';
@@ -12,6 +12,7 @@ import { PublisherService } from '../../../../service/PublisherService';
 import { BookService } from '../../../../service/BookService';
 import { AuthorService } from '../../../../service/AuthorService';
 import { showResponseFailure, showResponseSuccess } from '../../../response/sweetAlert';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,10 +30,12 @@ export class BookCreateComponent implements OnInit{
   getAuthors: Subscription;
   getPublishers: Subscription;
   selectedFile?: File;
+  router = Inject(Router);
   constructor(private location: Location, private authorService: AuthorService,
     private categoryService: CategoryService, private publisherService: PublisherService,
     private bookService: BookService,
-    private authService: AuthService
+    private authService: AuthService,
+    // private router: Router,
   ){
     this.getCategories = new Subscription();
     this.getAuthors = new Subscription();
@@ -141,8 +144,9 @@ onSubmit (form: NgForm){
        formDATA.append('image',this.selectedFile);
     }
       this.bookService.createBook(formDATA).subscribe({
-        next(value) {
-            showResponseSuccess(value.message)
+        next: (value) => {
+            showResponseSuccess(value.message);
+            this.router.navigate(['/admin/books']);
         },
         error(err) {
             showResponseFailure(err.message);

@@ -1,4 +1,8 @@
-<div class="sidebar d-flex flex-column overflow-auto">
+<div class="sidebar d-flex flex-column overflow-auto" [class.collapsed] = "isCollapsed">
+
+   <button class="btn btn-light toggle-btn" (click)="toggleSidebar()">
+   <i class="fas {{ isCollapsed ? 'fa-arrow-right' : 'fa-arrow-left' }}"></i>
+  </button>
   <!-- Logo Header -->
   <h4 class="text-white text-center mb-4">
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">

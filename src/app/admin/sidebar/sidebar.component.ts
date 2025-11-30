@@ -22,13 +22,6 @@ export class SidebarComponent {
 
   logOut() {
     localStorage.removeItem('username');
-    const isRememberMe = localStorage.getItem('remember_me');
-
-    if (isRememberMe === 'false') {
-        localStorage.removeItem('remember_username');
-        localStorage.removeItem('remember_password');
-        localStorage.removeItem('remeber_me');
-    }
 
     this.http.post<any>('http://localhost:5000/auth/logout',{}, {withCredentials: true}).subscribe({
       next: (v: any) => {

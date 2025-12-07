@@ -70,6 +70,9 @@ export class BookCreateComponent implements OnInit{
     country: '',
     quantity: 0,
   },
+  authorName: '',
+  categoryName:'',
+  publishName:'',
   publisherId: {
     publisherId: 0,
     publisherName:'',
@@ -129,7 +132,10 @@ goBack(){
 }
 
 onSubmit (form: NgForm){
-  if (!form.invalid){
+  if (form.invalid) {
+    form.control.markAllAsTouched();
+    return;
+  }
       const formData = form.value;
 
     const formDATA = new FormData();
@@ -137,22 +143,22 @@ onSubmit (form: NgForm){
     formDATA.append('authorName', formData.authorName);
     formDATA.append('categoryName', formData.categoryName);
     formDATA.append('publisherName', formData.publisherName);
-    formDATA.append('price', formData.price.toString());
-    formDATA.append('stock', formData.stock.toString());
+    formDATA.append('price', String(formData.price));
+    formDATA.append('stock', String(formData.stock));
 
     if (this.selectedFile) {
        formDATA.append('image',this.selectedFile);
     }
+    
       this.bookService.createBook(formDATA).subscribe({
         next: (value) => {
             showResponseSuccess(value.message);
-            this.router.navigate(['/admin/books']);
+            form.reset();
         },
         error(err) {
             showResponseFailure(err.message);
         },
       })
   }
-}
 
 }

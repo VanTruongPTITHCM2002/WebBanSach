@@ -11,6 +11,9 @@ export interface Book {
     image?: string;
     imageBase64?:string;
     link?: string;
+    authorName?:string;
+    publishName?:string;
+    categoryName?:string;
 }
 
 export interface BookResponse extends Book{

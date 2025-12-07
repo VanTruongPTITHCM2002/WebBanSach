@@ -30,6 +30,7 @@ export class AdminBookComponent implements OnInit{
     isLastPage = false;  
     currentPage = 1;
     pageSize = 5;
+    isOpen = false;
     constructor(private bookService: BookService, private authService: AuthService){
         this.getBooksPage = new Subscription();
         this.delete = new Subscription();

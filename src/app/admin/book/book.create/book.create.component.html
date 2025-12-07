@@ -1,35 +1,52 @@
 <form class="row g-3 p-3 bg-light rounded shadow-sm fs-6-text" #bookCreateForm="ngForm" (ngSubmit)="onSubmit(bookCreateForm)">
-  <h5 class="text-center mb-3 fw-bold">Thêm sách</h5>
+  <h2 class="text-center mb-3 fw-bold">Thêm sách</h2>
 
   <!-- Tiêu đề -->
   <div class="col-12">
     <label for="title" class="form-label fw-semibold">Tiêu đề</label>
-    <input type="text" id="title" name="title" class="form-control" maxlength="45" required [(ngModel)]="book.title">
+    <input type="text" id="title"
+      [ngClass]="title.invalid && title.touched ? 'border border-danger' : ''"
+    name="title" class="form-control" maxlength="45" required #title="ngModel"
+      [(ngModel)]="book.title">
+    <div class="text-danger mt-1" *ngIf="title.invalid && title.touched">
+      <small *ngIf="title.errors?.['required']">Tiêu đề không được để trống.</small>
+      <small *ngIf="title.errors?.['maxlength']">Tối đa 45 ký tự.</small>
+    </div>
   </div>
 
   <!-- Tác giả -->
   <div class="col-12">
     <label for="authorName" class="form-label fw-semibold">Tác giả</label>
     <div class="input-group">
-      <select name="authorName" id="authorName" class="form-select" required [(ngModel)]="book.authorId">
+      <select name="authorName" id="authorName" class="form-select"
+        [ngClass]="author.invalid && author.touched ? 'border border-danger' : ''"
+      required #author="ngModel" [(ngModel)]="book.authorName">
         <option value="" disabled selected>-- Chọn tác giả --</option>
         <option *ngFor="let author of authors" [value]="author.firstname + ' ' + author.lastname">
           {{ author.firstname + ' ' + author.lastname }}
         </option>
       </select>
+      
     </div>
 
     <div class="mt-2 d-flex justify-content-between">
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">Trang trước</button>
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="currentPage = currentPage - 1"
+        [disabled]="currentPage === 1">Trang trước</button>
       <span class="fw-medium align-self-center">Trang {{ currentPage }} / {{ totalPages }}</span>
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages">Trang sau</button>
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="currentPage = currentPage + 1"
+        [disabled]="currentPage === totalPages">Trang sau</button>
     </div>
-  </div>
+    <div class="text-danger mt-1" *ngIf="author.invalid && author.touched">
+      <small>Vui lòng chọn tác giả.</small>
+    </div>
+    </div>
 
   <!-- Nhà xuất bản -->
   <div class="col-12">
     <label for="publisherName" class="form-label fw-semibold">Nhà xuất bản</label>
-    <select name="publisherName" id="publisherName" class="form-select" required [(ngModel)]="book.publisherId">
+    <select name="publisherName" 
+    [ngClass]="publisher.invalid && publisher.touched ? 'border border-danger': ''"
+    id="publisherName" class="form-select" #publisher="ngModel" required [(ngModel)]="book.publishName">
       <option value="" disabled selected>-- Chọn nhà xuất bản --</option>
       <option *ngFor="let publisher of pagedPublishers" [ngValue]="publisher.publisherName">
         {{ publisher.publisherName }}
@@ -37,16 +54,24 @@
     </select>
 
     <div class="mt-2 d-flex justify-content-between">
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="publisherPage = publisherPage - 1" [disabled]="publisherPage === 1">Trang trước</button>
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="publisherPage = publisherPage - 1"
+        [disabled]="publisherPage === 1">Trang trước</button>
       <span class="fw-medium align-self-center">Trang {{ publisherPage }} / {{ totalPublisherPages }}</span>
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="publisherPage = publisherPage + 1" [disabled]="publisherPage === totalPublisherPages">Trang sau</button>
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="publisherPage = publisherPage + 1"
+        [disabled]="publisherPage === totalPublisherPages">Trang sau</button>
     </div>
-  </div>
+    
+    <div class="text-danger mt-1" *ngIf="publisher.invalid && publisher.touched">
+      <small>Vui lòng chọn nhà xuất bản.</small>
+    </div>
+    </div>
 
   <!-- Thể loại -->
   <div class="col-12">
     <label for="categoryName" class="form-label fw-semibold">Thể loại</label>
-    <select name="categoryName" id="categoryName" class="form-select" required [(ngModel)]="book.category">
+    <select name="categoryName" 
+    [ngClass]="category.invalid && category.touched ? 'border border-danger' : ''"
+    id="categoryName" class="form-select" #category="ngModel" required [(ngModel)]="book.categoryName">
       <option value="" disabled selected>-- Chọn thể loại --</option>
       <option *ngFor="let category of pagedCategories" [ngValue]="category.categoryName">
         {{ category.categoryName }}
@@ -58,18 +83,29 @@
       <span class="fw-medium align-self-center">Trang {{ categoryPage }} / {{ totalCategoryPages }}</span>
       <button type="button" class="btn btn-outline-secondary btn-sm" (click)="categoryPage = categoryPage + 1" [disabled]="categoryPage === totalCategoryPages">Trang sau</button>
     </div>
+
+    <div class="text-danger mt-1" *ngIf="category.invalid && category.touched">
+      <small>Vui lòng chọn danh mục.</small>
+    </div>
   </div>
 
   <!-- Giá -->
   <div class="col-md-6">
     <label for="price" class="form-label fw-semibold">Giá</label>
-    <input type="number" id="price" name="price" class="form-control" required [(ngModel)]="book.price">
+    <input type="number"  [ngClass]="price.invalid && price.touched ? 'border border-danger' : ''" id="price" name="price" class="form-control" required min="1" #price="ngModel" [(ngModel)]="book.price">
+    <div class="text-danger mt-1" *ngIf="price.invalid && price.touched">
+      <small *ngIf="price.errors?.['required']">Giá không được để trống.</small>
+      <small *ngIf="price.errors?.['min']">Giá phải lớn hơn 0.</small>
+    </div>
   </div>
 
   <!-- Số lượng -->
   <div class="col-md-6">
     <label for="stock" class="form-label fw-semibold">Số lượng trong kho</label>
-    <input type="number" id="stock" name="stock" class="form-control" required [(ngModel)]="book.stock">
+    <input type="number" id="stock" [ngClass]="stock.invalid && stock.touched ? 'boder border-danger': ''"  name="stock" class="form-control" required min="1" #stock="ngModel" [(ngModel)]="book.stock">
+    <div class="text-danger mt-1" *ngIf="stock.invalid && stock.touched">
+      <small>Vui lòng nhập số lượng hợp lệ.</small>
+    </div>
   </div>
 
   <!-- Trạng thái -->
@@ -92,7 +128,7 @@
 
   <!-- Buttons -->
   <div class="col-12 d-flex justify-content-end gap-2 mt-3">
-    <button type="submit" class="btn btn-primary px-4 py-2">Lưu</button>
-    <button type="button" class="btn btn-outline-danger px-4 py-2" (click)="goBack()">Hủy</button>
+    <button type="submit" class="btn btn-primary px-4 py-2"><i class="fa-solid fa-plus me-2"></i>Tạo</button>
+    <button type="button" class="btn btn-outline-danger px-4 py-2" (click)="goBack()"><i class="fa-solid fa-x me-2"></i>Hủy</button>
   </div>
 </form>

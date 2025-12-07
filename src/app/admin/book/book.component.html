@@ -8,7 +8,7 @@
     </div>
 
     <div>
-      <button type="button" class="btn btn-sm btn-dark me-2">
+      <button type="button" class="btn btn-sm btn-light me-2">
         <i class="fa-solid fa-arrows-rotate"></i> Làm mới
       </button>
       <button type="button" class="btn btn-primary btn-sm" routerLink="create">
@@ -64,9 +64,10 @@
       </div>
     </div>
     <p class="d-inline-flex gap-1 ms-3">
-      <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-        aria-expanded="false" aria-controls="collapseExample">
+      <button class="btn btn-primary btn-sm" (click)="isOpen = !isOpen" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+        [attr.aria-expanded]="isOpen" aria-controls="collapseExample" >
         <i class="fa-solid fa-filter"></i> Bộ lọc nâng cao
+        <i class="fa-solid" [ngClass]="isOpen ? 'fa-chevron-up': 'fa-chevron-down'"></i>
       </button>
     </p>
     <div class="collapse mx-3 mb-2" id="collapseExample">
@@ -106,22 +107,27 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="books.length === 0">
+            <td colspan="6" class="text-center">
+              <p class="fw-semibold text-danger"><i class="fas fa-search"></i> No books found</p>
+            </td>
+          </tr>
           <tr *ngFor="let book of books" class="border-bottom">
             <!-- Image -->
             <td>
               <ng-template [ngIf]="book.imageBase64" [ngIfElse]="second">
                 <img 
-                  [src]="book.imageBase64" 
+                  [src]="book.imageBase64 || './placeholder-image.svg'" 
                   alt="Ảnh sách"
                   class="rounded" 
                   style="width: 50px; height: 65px; object-fit: cover;">
               </ng-template>
               <ng-template #second>
                 <img 
-                  [src]="book.link" 
+                  [src]="book.link || './placeholder-image.svg'" 
                   alt="Ảnh sách"
                   class="rounded" 
-                  style="width: 50px; height: 65px; object-fit: cover;">
+                  style="width: 50px; height: 50px; object-fit: cover;">
               </ng-template>
             </td>
 
@@ -151,23 +157,32 @@
             </td>
 
             <!-- Actions -->
-            <td>
-              <div class="btn-group btn-group-sm" role="group">
-                <a 
-                  class="btn btn-outline-warning" 
-                  [routerLink]="['update', book.bookid]"
-                  title="Sửa">
-                  <i class="fas fa-edit"></i>
-                </a>
-                <button 
-                  type="button" 
-                  class="btn btn-outline-danger" 
-                  (click)="deleteBook(book.bookid)"
-                  title="Xóa">
-                  <i class="fas fa-trash-alt"></i>
+          <td>
+            <div class="btn-group btn-group-sm" role="group">
+              <div class="dropdown">
+                <button class="btn btn-light" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>
+                <ul class="dropdown-menu shadow-sm" aria-labelledby="dropdownMenuButton">
+                  <li>
+                    <a class="dropdown-item btn btn-outline-warning" [routerLink]="['update', book.bookid]" title="Sửa">
+                      <i class="fas fa-edit me-2"></i>Cập nhật
+                    </a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                    <button type="button" class="dropdown-item btn btn-outline-danger" (click)="deleteBook(book.bookid)"
+                      title="Xóa">
+                      <i class="fas fa-trash-alt me-2"></i>Xóa
+                    </button>
+                  </li>
+                </ul>
               </div>
-            </td>
+            </div>
+          </td>
           </tr>
         </tbody>
       </table>

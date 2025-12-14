@@ -3,7 +3,11 @@
 
   <!-- Tiêu đề -->
   <div class="col-12">
-    <label for="title" class="form-label fw-semibold">Tiêu đề</label>
+    <label for="title" class="form-label fw-semibold"
+    [ngClass]="title.invalid && title.touched ? 'text-danger' : ''"
+    >Tiêu đề
+      <span class="text-danger">*</span>
+    </label>
     <input type="text" id="title"
       [ngClass]="title.invalid && title.touched ? 'border border-danger' : ''"
     name="title" class="form-control" maxlength="45" required #title="ngModel"
@@ -16,7 +20,11 @@
 
   <!-- Tác giả -->
   <div class="col-12">
-    <label for="authorName" class="form-label fw-semibold">Tác giả</label>
+    <label for="authorName" class="form-label fw-semibold" 
+      [ngClass]="author.invalid && author.touched ? 'text-danger' : ''"
+      >Tác giả
+      <span class="text-danger">*</span>
+    </label>
     <div class="input-group">
       <select name="authorName" id="authorName" class="form-select"
         [ngClass]="author.invalid && author.touched ? 'border border-danger' : ''"
@@ -43,10 +51,14 @@
 
   <!-- Nhà xuất bản -->
   <div class="col-12">
-    <label for="publisherName" class="form-label fw-semibold">Nhà xuất bản</label>
+    <label for="publisherName" class="form-label fw-semibold"
+      [ngClass]="publisher.invalid && publisher.touched ? 'text-danger' : ''"
+    >Nhà xuất bản
+      <span class="text-danger">*</span>
+    </label>
     <select name="publisherName" 
     [ngClass]="publisher.invalid && publisher.touched ? 'border border-danger': ''"
-    id="publisherName" class="form-select" #publisher="ngModel" required [(ngModel)]="book.publishName">
+    id="publisherName" class="form-select" #publisher="ngModel" required [(ngModel)]="book.publisherName">
       <option value="" disabled selected>-- Chọn nhà xuất bản --</option>
       <option *ngFor="let publisher of pagedPublishers" [ngValue]="publisher.publisherName">
         {{ publisher.publisherName }}
@@ -68,7 +80,11 @@
 
   <!-- Thể loại -->
   <div class="col-12">
-    <label for="categoryName" class="form-label fw-semibold">Thể loại</label>
+    <label for="categoryName" class="form-label fw-semibold"
+      [ngClass]="category.invalid && category.touched ? 'text-danger' : ''"
+    >Thể loại
+      <span class="text-danger">*</span>
+    </label>
     <select name="categoryName" 
     [ngClass]="category.invalid && category.touched ? 'border border-danger' : ''"
     id="categoryName" class="form-select" #category="ngModel" required [(ngModel)]="book.categoryName">
@@ -85,13 +101,15 @@
     </div>
 
     <div class="text-danger mt-1" *ngIf="category.invalid && category.touched">
-      <small>Vui lòng chọn danh mục.</small>
+      <small>Vui lòng chọn thể loại.</small>
     </div>
   </div>
 
   <!-- Giá -->
   <div class="col-md-6">
-    <label for="price" class="form-label fw-semibold">Giá</label>
+    <label for="price" class="form-label fw-semibold"
+      [ngClass]="price.invalid && price.touched ? 'text-danger' : ''"
+    >Giá <span class="text-danger">*</span></label>
     <input type="number"  [ngClass]="price.invalid && price.touched ? 'border border-danger' : ''" id="price" name="price" class="form-control" required min="1" #price="ngModel" [(ngModel)]="book.price">
     <div class="text-danger mt-1" *ngIf="price.invalid && price.touched">
       <small *ngIf="price.errors?.['required']">Giá không được để trống.</small>
@@ -101,7 +119,11 @@
 
   <!-- Số lượng -->
   <div class="col-md-6">
-    <label for="stock" class="form-label fw-semibold">Số lượng trong kho</label>
+    <label for="stock" class="form-label fw-semibold"
+    [ngClass]="stock.invalid && stock.touched ? 'text-danger' : ''"
+    >Số lượng trong kho
+      <span class="text-danger">*</span>
+    </label>
     <input type="number" id="stock" [ngClass]="stock.invalid && stock.touched ? 'boder border-danger': ''"  name="stock" class="form-control" required min="1" #stock="ngModel" [(ngModel)]="book.stock">
     <div class="text-danger mt-1" *ngIf="stock.invalid && stock.touched">
       <small>Vui lòng nhập số lượng hợp lệ.</small>

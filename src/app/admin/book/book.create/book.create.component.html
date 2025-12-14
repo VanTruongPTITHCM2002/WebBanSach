@@ -1,5 +1,11 @@
 <form class="row g-3 p-3 bg-light rounded shadow-sm fs-6-text" #bookCreateForm="ngForm" (ngSubmit)="onSubmit(bookCreateForm)">
-  <h2 class="text-center mb-3 fw-bold">Thêm sách</h2>
+  <div>
+    <button (click)="goBack()" class="btn bg-gray border">
+    <i class="fa fa-chevron-left"></i>  Quay lại
+    </button>
+    <h2 class="text-center mb-3 fw-bold">Thêm sách</h2>
+  </div>
+  
 
   <!-- Tiêu đề -->
   <div class="col-12">
@@ -150,7 +156,7 @@
 
   <!-- Buttons -->
   <div class="col-12 d-flex justify-content-end gap-2 mt-3">
-    <button type="submit" class="btn btn-primary px-4 py-2"><i class="fa-solid fa-plus me-2"></i>Tạo</button>
+    <button type="submit" class="btn btn-outline-primary px-4 py-2"><i class="fa-solid fa-plus me-2"></i>Tạo</button>
     <button type="button" class="btn btn-outline-danger px-4 py-2" (click)="goBack()"><i class="fa-solid fa-x me-2"></i>Hủy</button>
   </div>
 </form>

@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean | UrlTree {
     let username = null;
-    if (typeof window !== undefined){
+    if (typeof window !== 'undefined'){
        username = localStorage.getItem('username'); 
     }
     return username === 'admin' ? true: this.router.parseUrl('/login'); 

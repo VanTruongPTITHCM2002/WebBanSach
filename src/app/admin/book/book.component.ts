@@ -59,6 +59,10 @@ export class AdminBookComponent implements OnInit{
     });
   }
 
+  handleRefresh() {
+    this.loadBooks(this.currentPage);
+  }
+
   handleSearch(){
     if(this.txtSearch === '') this.loadBooks(this.page);
     this.books = this.books.filter(book => book.title.match(this.txtSearch));

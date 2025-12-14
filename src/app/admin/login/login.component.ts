@@ -63,7 +63,7 @@ export class AdminLoginComponents implements OnInit {
     rememberMe = rememberMe ? true : false;
     this.http
       .post(
-        `${enviroment.API_ROUTE}/auth/login`,
+        `${enviroment.API_ROUTE}/api/v1/auth/login`,
         { username, password, rememberMe },
         { withCredentials: true }
       )

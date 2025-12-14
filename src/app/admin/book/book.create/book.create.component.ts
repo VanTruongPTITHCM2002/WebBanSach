@@ -72,7 +72,7 @@ export class BookCreateComponent implements OnInit{
   },
   authorName: '',
   categoryName:'',
-  publishName:'',
+  publisherName:'',
   publisherId: {
     publisherId: 0,
     publisherName:'',
@@ -134,6 +134,7 @@ goBack(){
 onSubmit (form: NgForm){
   if (form.invalid) {
     form.control.markAllAsTouched();
+    this.focusFirstInvalid(form);
     return;
   }
       const formData = form.value;
@@ -159,6 +160,23 @@ onSubmit (form: NgForm){
             showResponseFailure(err.message);
         },
       })
+  }
+
+  focusFirstInvalid(form: NgForm) {
+    const controls = form.controls;
+
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        const invalidControl = document.querySelector(`[name="${name}"]`) as HTMLElement;
+
+        if (invalidControl) {
+          invalidControl.focus();
+          invalidControl.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+        break;
+      }
+
+    }
   }
 
 }

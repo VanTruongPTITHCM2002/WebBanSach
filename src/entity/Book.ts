@@ -12,7 +12,7 @@ export interface Book {
     imageBase64?:string;
     link?: string;
     authorName?:string;
-    publishName?:string;
+    publisherName?:string;
     categoryName?:string;
 }
 

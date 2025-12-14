@@ -8,10 +8,10 @@
     </div>
 
     <div>
-      <button type="button" class="btn btn-sm btn-light me-2">
-        <i class="fa-solid fa-arrows-rotate"></i> Làm mới
+      <button type="button" class="btn btn-secondary me-2" (click)="handleRefresh()">
+        <i class="fa-solid fa-arrows-rotate me-2"></i> Làm mới
       </button>
-      <button type="button" class="btn btn-primary btn-sm" routerLink="create">
+      <button type="button" class="btn btn-primary" routerLink="create">
         <i class="fas fa-plus me-2"></i>Thêm sách mới
       </button>
     </div>
@@ -88,6 +88,17 @@
           </div>
           
         </div>
+      <div class="mt-2 text-end">
+        <button class="btn btn-outline-secondary btn-sm me-2">
+          <i class="fa fa-filter-circle-xmark"></i> Clear Filters
+        </button>
+      
+        <button class="btn btn-outline-primary btn-sm">
+          <i class="fa-solid fa-check-circle"></i>
+          Apply Filters
+        </button>
+      </div>
+
       </div>
     </div>
   </div>
@@ -100,6 +111,9 @@
           <tr>
             <th class="fw-semibold text-muted small text-uppercase">Hình ảnh</th>
             <th class="fw-semibold text-muted small text-uppercase">Tên sách</th>
+            <th class="fw-semibold text-muted small text-uppercase">Tác giả</th>
+            <th class="fw-semibold text-muted small text-uppercase">Nhà xuất bản</th>
+            <th class="fw-semibold text-muted small text-uppercase">Thể loại</th>
             <th class="fw-semibold text-muted small text-uppercase">Số lượng</th>
             <th class="fw-semibold text-muted small text-uppercase">Giá</th>
             <th class="fw-semibold text-muted small text-uppercase">Trạng thái</th>
@@ -108,8 +122,8 @@
         </thead>
         <tbody>
           <tr *ngIf="books.length === 0">
-            <td colspan="6" class="text-center">
-              <p class="fw-semibold text-danger"><i class="fas fa-search"></i> No books found</p>
+            <td colspan="9" class="text-center">
+              <p class="fw-semibold text-secondary"><i class="fas fa-search"></i> No books found</p>
             </td>
           </tr>
           <tr *ngFor="let book of books" class="border-bottom">
@@ -134,6 +148,18 @@
             <!-- Title -->
             <td>
               <p class="fw-semibold mb-0">{{ book.title }}</p>
+            </td>
+
+            <td>
+              <p class="fw-semibold mb-0">{{book.authorName}}</p>
+            </td>
+            
+            <td>
+              <p class="fw-semibold mb-0">{{book.publisherName}}</p>
+            </td>
+
+            <td>
+              <p class="fw-semibold mb-0">{{book.categoryName}}</p>
             </td>
 
             <!-- Stock -->

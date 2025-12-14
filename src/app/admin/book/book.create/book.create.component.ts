@@ -146,6 +146,7 @@ onSubmit (form: NgForm){
     formDATA.append('publisherName', formData.publisherName);
     formDATA.append('price', String(formData.price));
     formDATA.append('stock', String(formData.stock));
+    formDATA.append('link', formData.link);
 
     if (this.selectedFile) {
        formDATA.append('image',this.selectedFile);
@@ -154,7 +155,7 @@ onSubmit (form: NgForm){
       this.bookService.createBook(formDATA).subscribe({
         next: (value) => {
             showResponseSuccess(value.message);
-            form.reset();
+            this.goBack();
         },
         error(err) {
             showResponseFailure(err.message);

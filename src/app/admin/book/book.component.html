@@ -21,79 +21,112 @@
   <!-- Search & Filter Section -->
   <div class="card border-0 shadow-sm mb-4">
     <div class="card-body p-4">
-      <div class="row g-3 mb-3">
-        <!-- Search Bar -->
-        <div class="col-md-6">
-          <label class="form-label fw-semibold small text-uppercase">Tìm kiếm sách</label>
-          <div class="input-group">
-            <span class="input-group-text bg-white border-end-0">
-              <i class="fas fa-search text-muted"></i>
-            </span>
-            <input 
-              type="search" 
-              class="form-control border-start-0" 
-              placeholder="Nhập tên sách..." 
-              [(ngModel)]="txtSearch"
-              (keyup.enter)="handleSearch()">
-            <button type="button" class="btn btn-primary" (click)="handleSearch()">
-              Tìm
-            </button>
+     <div class="row g-3 mb-3 align-items-end">
+
+  <!-- Search Bar -->
+  <div class="col-md-9">
+    <label class="form-label fw-semibold small text-uppercase">
+      Tìm kiếm sách
+    </label>
+    <div class="input-group">
+      <span class="input-group-text bg-white border-end-0">
+        <i class="fas fa-search text-muted"></i>
+      </span>
+      <input type="search" class="form-control border-start-0" placeholder="Nhập tên sách..." [(ngModel)]="txtSearch"
+        (keyup.enter)="handleSearch()">
+    
+      <button type="button" class="btn btn-primary" (click)="handleSearch()">
+        <i class="fa fa-search"></i> Tìm
+      </button>
+    </div>
+    </div>
+    
+    <!-- Advanced Filter Button -->
+    <div class="col-md-3 d-flex justify-content-end">
+      <button class="btn btn-outline-primary w-60" (click)="isOpen = !isOpen" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseExample" [attr.aria-expanded]="isOpen" aria-controls="collapseExample">
+    
+        <i class="fa-solid fa-filter me-1"></i>
+        Bộ lọc nâng cao
+        <i class="fa-solid ms-1" [ngClass]="isOpen ? 'fa-chevron-up' : 'fa-chevron-down'">
+        </i>
+      </button>
+    </div>
+
+</div>
+
+    </div>
+   
+    <div class="collapse mx-3 mb-2" id="collapseExample">
+      <div class="card card-body shadow p-3 mb-3 bg-body-tertiary rounded">
+
+        <div class="row row-cols-3 g-2 mb-2">
+          <div class="col">
+            <label class="mb-2 fw-bold">Tác giả</label>
+            <select class="form-select" aria-label="Default select example">
+              <option selected [ngValue]="null">Chọn tác giả</option>
+              <!-- <option [ngValue]="true">Còn hàng</option>
+                        <option [ngValue]="false">Hết hàng</option> -->
+            </select>
+          </div>
+          <div class="col">
+            <label class="mb-2 fw-bold">Nhà xuất bản</label>
+            <select class="form-select" aria-label="Default select example">
+              <option selected [ngValue]="null">Chọn nhà xuất bản</option>
+              <!-- <option [ngValue]="true">Còn hàng</option>
+                        <option [ngValue]="false">Hết hàng</option> -->
+            </select>
+          </div>
+          <div class="col">
+            <label class="mb-2 fw-bold">Thể loại</label>
+            <select class="form-select" aria-label="Default select example">
+              <option selected [ngValue]="null">Chọn thể loại</option>
+              <!-- <option [ngValue]="true">Còn hàng</option>
+                        <option [ngValue]="false">Hết hàng</option> -->
+            </select>
           </div>
         </div>
 
-        <!-- Price Range Filter -->
-        <div class="col-md-3">
-          <label class="form-label fw-semibold small text-uppercase">Giá từ</label>
-          <input 
-            type="number" 
-            [(ngModel)]="minPrice" 
-            class="form-control" 
-            (ngModelChange)="handleChange()" 
-            placeholder="Tối thiểu">
-        </div>
-
-        <div class="col-md-3">
-          <label class="form-label fw-semibold small text-uppercase">Đến</label>
-          <input 
-            type="number" 
-            [(ngModel)]="maxPrice" 
-            class="form-control" 
-            (ngModelChange)="handleChange()" 
-            placeholder="Tối đa">
-        </div>
-      </div>
-    </div>
-    <p class="d-inline-flex gap-1 ms-3">
-      <button class="btn btn-primary btn-sm" (click)="isOpen = !isOpen" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-        [attr.aria-expanded]="isOpen" aria-controls="collapseExample" >
-        <i class="fa-solid fa-filter"></i> Bộ lọc nâng cao
-        <i class="fa-solid" [ngClass]="isOpen ? 'fa-chevron-up': 'fa-chevron-down'"></i>
-      </button>
-    </p>
-    <div class="collapse mx-3 mb-2" id="collapseExample">
-      <div class="card card-body shadow p-3 mb-3 bg-body-tertiary rounded">
-        <div class="row row-cols-2">
+        <div class="row row-cols-2 mb-2">
           <div class="col">
             <label class="mb-2 fw-bold">Trạng thái</label>
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Chọn trạng thái sách</option>
-              <option value="true">Còn hàng</option>
-              <option value="false">Hết hàng</option>
+            <select class="form-select" [(ngModel)]="status" aria-label="Default select example">
+              <option selected [ngValue]="null">Chọn trạng thái sách</option>
+              <option [ngValue]="true">Còn hàng</option>
+              <option [ngValue]="false">Hết hàng</option>
             </select>
           </div>
          
           <div class="col">
             <label for="" class="fw-bold mb-2">Số lượng</label>
-            <input type="number" placeholder="Nhập số lượng sách..." class="form-control" />
+            <input type="number" [(ngModel)] = "stock"  placeholder="Nhập số lượng sách..." class="form-control" />
           </div>
           
         </div>
+
+        <div class="row row-cols-2">
+            <div class="col">
+              <label class="form-label fw-bold mb-2">Từ</label>
+              <input type="number" [(ngModel)]="minPrice" class="form-control" (ngModelChange)="handleChange()"
+                placeholder="Tối thiểu" />
+            </div>
+            <div class="col">
+              <label class="form-label fw-bold mb-2">Đến</label>
+              <input type="number" [(ngModel)]="maxPrice" class="form-control" (ngModelChange)="handleChange()"
+                placeholder="Tối đa">
+            </div>
+        </div>
+
       <div class="mt-2 text-end">
-        <button class="btn btn-outline-secondary btn-sm me-2">
+        <button class="btn btn-outline-secondary btn-sm me-2"
+          (click)="clearFilters()"
+        >
           <i class="fa fa-filter-circle-xmark"></i> Clear Filters
         </button>
       
-        <button class="btn btn-outline-primary btn-sm">
+        <button class="btn btn-outline-primary btn-sm"
+          (click)="applyFilters()"
+        >
           <i class="fa-solid fa-check-circle"></i>
           Apply Filters
         </button>
@@ -216,32 +249,62 @@
   </div>
 
   <!-- Pagination Section -->
-  <nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
-    <ul class="pagination">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <a 
-          href="#" 
-          class="page-link" 
-          (click)="setPage(currentPage - 1); $event.preventDefault()">
-          <i class="fas fa-chevron-left me-2"></i>Trước
-        </a>
-      </li>
+<nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
+  <ul class="pagination mb-0">
 
-      <li class="page-item active">
-        <span class="page-link">
-          Trang {{ currentPage }}
-        </span>
-      </li>
+    <!-- First -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(1); $event.preventDefault()">
+        <i class="fas fa-angle-double-left me-1"></i>
+        Đầu
+      </a>
+    </li>
 
-      <li class="page-item" [class.disabled]="isLastPage">
-        <a 
-          href="#" 
-          class="page-link" 
-          (click)="setPage(currentPage + 1); $event.preventDefault()">
-          Sau<i class="fas fa-chevron-right ms-2"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
+    <!-- Previous -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(currentPage - 1); $event.preventDefault()">
+        <i class="fas fa-chevron-left me-1"></i>
+        Trước
+      </a>
+    </li>
+
+    <!-- Current page -->
+    <li class="page-item active">
+      <span class="page-link">
+        Trang {{ currentPage }} / {{ totalPages }}
+      </span>
+    </li>
+
+    <!-- Next -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(currentPage + 1); $event.preventDefault()">
+        Sau
+        <i class="fas fa-chevron-right ms-1"></i>
+      </a>
+    </li>
+
+    <!-- Last -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(totalPages); $event.preventDefault()">
+        Cuối
+        <i class="fas fa-angle-double-right ms-1"></i>
+      </a>
+    </li>
+
+  </ul>
+</nav>
+
 </div>
 

@@ -6,98 +6,131 @@ import { Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
-import { AuthService } from "../../auth/auth.service";
 import { showResponseFailure, showResponseSuccess } from "../../response/sweetAlert";
 import Swal from "sweetalert2";
 
 @Component({
-    selector: 'admin-book',
-    standalone: true,
-    imports:[CommonModule, RouterLink, FormsModule],
-    styleUrl: './book.component.css',
-    templateUrl:'./book.component.html'
+  selector: 'admin-book',
+  standalone: true,
+  imports: [CommonModule, RouterLink, FormsModule],
+  styleUrl: './book.component.css',
+  templateUrl: './book.component.html',
 })
-export class AdminBookComponent implements OnInit{
-    books:Book[] = [];
-    page: number = 1;
-    size: number = 5;
-    txtSearch = '';
-    getBooksPage: Subscription;
-    delete: Subscription;
-    filterStatus: boolean | null = null;
-    minPrice: number | null = null;
-    maxPrice: number | null = null;
-    isLastPage = false;  
-    currentPage = 1;
-    pageSize = 5;
-    isOpen = false;
-    constructor(private bookService: BookService, private authService: AuthService){
-        this.getBooksPage = new Subscription();
-        this.delete = new Subscription();
-    }
-    
-    ngOnInit(): void {
-       this.loadBooks(this.currentPage);
-    }
- 
-    setPage(page: number) {
-        if (page < 1) return; 
-        if (page === this.currentPage) return; 
-        if (this.isLastPage && page > this.currentPage) return;
+export class AdminBookComponent implements OnInit {
+  books: Book[] = [];
+  page: number = 1;
+  size: number = 5;
+  txtSearch = '';
+  getBooksPage: Subscription;
+  delete: Subscription;
+  filterStatus: boolean | null = null;
+  minPrice: number | null = null;
+  maxPrice: number | null = null;
+  stock: number | null = null;
+  status: string | null = null;
+  isLastPage = false;
+  totalPages: number = 1;
+  currentPage = 1;
+  pageSize = 5;
+  isOpen = false;
+  query: any = {};
+  constructor(private bookService: BookService) {
+    this.getBooksPage = new Subscription();
+    this.delete = new Subscription();
+  }
 
-        this.loadBooks(page);
-    }
-    
+  ngOnInit(): void {
+    this.loadBooks(this.currentPage);
+  }
 
-  loadBooks(page: number) {
+  setPage(page: number) {
+    if (page < 1) return;
+    if (page > this.totalPages) return;
+    if (page === this.currentPage) return;
+
+    this.loadBooks(page);
+  }
+
+  loadBooks(page?: number) {
+    const filters = this.buildFilters();
     this.getBooksPage.unsubscribe();
-    this.getBooksPage = this.bookService.getBooks(page, this.pageSize).subscribe(data => {
-      this.books = data.data || [];
-      this.currentPage = page;
-    
-      this.isLastPage = this.books.length < this.pageSize;
-    });
+    this.getBooksPage = this.bookService
+      .getFilterBooks(page, this.pageSize, filters)
+      .subscribe((data) => {
+        this.books = data.data.content || [];
+        this.currentPage = page!;
+        this.totalPages = data.data.totalPages;
+      });
   }
 
   handleRefresh() {
     this.loadBooks(this.currentPage);
   }
 
-  handleSearch(){
-    if(this.txtSearch === '') this.loadBooks(this.page);
-    this.books = this.books.filter(book => book.title.match(this.txtSearch));
+  handleSearch() {
+    this.page = 1;
+    this.query.title = this.txtSearch.trim();
+    this.loadBooks();
   }
 
-  handleChange(){
-    if (this.getBooksPage) this.getBooksPage.unsubscribe();
-    this.getBooksPage = this.bookService.getFilterBooks(this.page, this.pageSize, this.minPrice, this.maxPrice).subscribe(data => {
-      this.books = data.data || [];
-      this.currentPage = this.page;
-    
-     this.isLastPage = this.books.length < this.pageSize;
+  handleChange() {}
 
+  deleteBook(bookId: number) {
+    Swal.fire({
+      title: 'Bạn có chắc chắn muốn xóa sản phẩm này?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Có',
+      denyButtonText: `Không`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.delete = this.bookService.deleteBook(bookId).subscribe({
+          next: (v: any) => {
+            showResponseSuccess(v.message);
+            this.books = this.books.filter((book) => book.bookid != bookId);
+          },
+          error: (e: any) => showResponseFailure(e.message),
+        });
+      }
     });
   }
 
-  deleteBook(bookId: number){
-      Swal.fire({
-          title: "Bạn có chắc chắn muốn xóa sản phẩm này?",
-          showDenyButton: true,
-          showCancelButton: false,
-          confirmButtonText: "Có",
-          denyButtonText: `Không`
-      }).then((result) => {
-          if (result.isConfirmed) {
-              this.delete = this.bookService.deleteBook(bookId).subscribe({
-                  next: (v: any) => {
-                      showResponseSuccess(v.message)
-                      this.books = this.books.filter((book) => book.bookid != bookId)
-                  },
-                  error: (e: any) => showResponseFailure(e.message)
-              }
-              )
-          }
-      });
-    
+  private buildFilters() {
+    if (this.txtSearch?.trim()) {
+      this.query.title = this.txtSearch.trim();
+    }
+
+    if (this.minPrice !== undefined && this.minPrice !== null) {
+      this.query.minPrice = this.minPrice;
+    }
+
+    if (this.maxPrice !== undefined && this.maxPrice !== null) {
+      this.query.maxPrice = this.maxPrice;
+    }
+
+    if (this.status !== null) {
+      this.query.status = this.status;
+    }
+
+    if (this.stock !== null && this.stock !== undefined) {
+      this.query.stock = this.stock;
+    }
+
+    return this.query;
+  }
+
+  clearFilters() {
+    this.minPrice = null;
+    this.maxPrice = null;
+    this.status = null;
+    this.query = {};
+    this.stock = null;
+    this.page = 1;
+    this.loadBooks(this.page);
+  }
+
+  applyFilters() {
+    this.page = 1;
+    this.loadBooks();
   }
 }

@@ -1,114 +1,214 @@
-<h4 class="text-center mt-4">Danh sách tác giả</h4>
-<button type="button" class="btn btn-outline-primary float-end" data-bs-toggle="modal" data-bs-target="#myModal">Thêm tác giả</button>
-<div class="table-reponsive">
-  <div class="input-group w-auto" style="max-width: 300px;">
-    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-      aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
-    <button type="button" class="btn btn-outline-primary" (click)="handleSearch()">Tìm</button>
+<div class="container-fluid py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h2 fw-bold mb-1">✍️ Danh sách tác giả</h1>
+      <p class="text-muted small">Quản lý danh sách tác giả</p>
+    </div>
+
+    <div>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+        <i class="fas fa-plus me-2"></i>Thêm tác giả
+      </button>
+    </div>
   </div>
-  <table class="table align-middle table-striped mb-0 bg-white">
-    <thead class="bg-light" class="datatable">
-      <tr>
-        <th>Mã số</th>
-        <th>Họ</th>
-        <th>Tên</th>
-        <th>Quốc tịch</th>
-        <th>Số sách đã viết</th>
-        <th>Hành động</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let author of authors">
-        <td>
-          <p>{{author.authorId}}</p>
-        </td>
-        <td>
-          <p class="fw-normal mb-1">{{author.firstname}}</p>
-        </td>
-        <td>
-          <p class="fw-normal mb-1">{{author.lastname}}</p>
-        </td>
-        <td>{{author.country}}</td>
-        <td>
-          {{author.quantity}}
-        </td>
-        <td class="">
-          <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#updateModal"  (click)="handleUpdate(author)"><i class="fas fa-edit"></i> Sửa</button>
-          <button type="button" class="btn btn-danger" (click)="handleDelete(author.authorId)"> <i class="fas fa-trash-alt"></i> Xóa</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<nav class="float-end mt-2" aria-label="...">
-  <ul class="pagination mt-3">
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <label class="form-label fw-semibold small text-uppercase">
+        Tìm kiếm tác giả
+      </label>
+
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="fas fa-search text-muted"></i>
+        </span>
+        <input type="search" class="form-control border-start-0" placeholder="Nhập tên tác giả..."
+          [(ngModel)]="txtSearch" (keyup.enter)="handleSearch()" />
+
+        <button class="btn btn-primary" (click)="handleSearch()">
+         <i class="fa fa-search"></i> Tìm
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 text-center">
+        <thead class="table-light text-nowrap">
+          <tr>
+            <th>Mã</th>
+            <th>Họ</th>
+            <th>Tên</th>
+            <th>Quốc tịch</th>
+            <th>Số sách</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let author of authors">
+            <td>{{ author.authorId }}</td>
+            <td class="fw-semibold">{{ author.firstname }}</td>
+            <td>{{ author.lastname }}</td>
+            <td>{{ author.country }}</td>
+            <td>
+              <span class="badge bg-light text-dark">
+                {{ author.quantity }} sách
+              </span>
+            </td>
+
+            <!-- Actions: 3 chấm -->
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-light btn-sm" data-bs-toggle="dropdown">
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+
+                <ul class="dropdown-menu shadow-sm">
+                  <li>
+                    <button class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#updateModal"
+                      (click)="handleUpdate(author)">
+                      <i class="fas fa-edit me-2"></i>Sửa
+                    </button>
+                  </li>
+
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+
+                  <li>
+                    <button class="dropdown-item text-danger" (click)="handleDelete(author.authorId)">
+                      <i class="fas fa-trash-alt me-2"></i>Xóa
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
+  <ul class="pagination mb-0">
+
+    <!-- First -->
     <li class="page-item" [class.disabled]="currentPage === 1">
-      <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">Previous</a>
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(1); $event.preventDefault()">
+        <i class="fas fa-angle-double-left me-1"></i>
+        Đầu
+      </a>
     </li>
 
-    <li class="page-item" [class.disabled]="isLastPage">
-      <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">Next</a>
+    <!-- Previous -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(currentPage - 1); $event.preventDefault()">
+        <i class="fas fa-chevron-left me-1"></i>
+        Trước
+      </a>
     </li>
+
+    <!-- Current page -->
+    <li class="page-item active">
+      <span class="page-link">
+        Trang {{ currentPage }} / {{ totalPages }}
+      </span>
+    </li>
+
+    <!-- Next -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(currentPage + 1); $event.preventDefault()">
+        Sau
+        <i class="fas fa-chevron-right ms-1"></i>
+      </a>
+    </li>
+
+    <!-- Last -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(totalPages); $event.preventDefault()">
+        Cuối
+        <i class="fas fa-angle-double-right ms-1"></i>
+      </a>
+    </li>
+
   </ul>
-
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm tác giả</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form #createForm ="ngForm" (ngSubmit)="onSubmit(createForm)">
-          <label for="firstName">Họ:</label>
-          <input class="form-control" placeholder="Nhập họ của tác giả...." type="text" name="firstname" id="firstName" ngModel/>
-          <br>
-          <label for="lastName">Tên:</label>
-          <input type="text" name="lastname" placeholder="Nhập tên của tác giả" id="lastname" class="form-control" ngModel>
-          <br>
-          <label for="country">Quốc gia:</label>
-          <input type="text" id="country" placeholder="Nhập quốc gia của họ...." name="country"
-            class="form-control" ngModel>
-          <br>
-          <label for="quantity">Số lượng sách đã viết:</label>
-          <input type="number" name="quantity" id="quantity" placeholder="Nhập số lượng sách họ đã viết...." class="form-control" ngModel>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="submit" class="btn btn-primary">Thêm</button>
-      </div>
-    </form> 
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="updateModal" tabindex="-1"  *ngIf="updateAuthor" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm tác giả</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-          <label for="firstName">Họ:</label>
-          <input class="form-control" placeholder="Nhập họ của tác giả...." type="text" name="firstname" id="firstName" [(ngModel)]="updateAuthor.firstname"/>
-          <br>
-          <label for="lastName">Tên:</label>
-          <input type="text" name="lastname" placeholder="Nhập tên của tác giả" id="lastname" class="form-control"  [(ngModel)]="updateAuthor.lastname">
-          <br>
-          <label for="country">Quốc gia:</label>
-          <input type="text" id="country" placeholder="Nhập quốc gia của họ...." name="country"
-            class="form-control"  [(ngModel)]="updateAuthor.country">
-          <br>
-          <label for="quantity">Số lượng sách đã viết:</label>
-          <input type="number" name="quantity" id="quantity" placeholder="Nhập số lượng sách họ đã viết...." class="form-control" [(ngModel)]="updateAuthor.quantity">
-       
-      </div> 
-      <div class="modal-footer">
-        <button type="button" #closeBtn class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" (click)="update()">Lưu</button>
-      </div>
-    </div>
-  </div>
-</div>
 </nav>
+  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm tác giả</h1> <button type="button" class="btn-close"
+            data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #createForm="ngForm" (ngSubmit)="onSubmit(createForm)">
+            <label for="firstName">Họ:</label>
+            <input class="form-control" placeholder="Nhập họ của tác giả...." type="text" name="firstname"
+              id="firstName" ngModel />
+            <br>
+            <label for="lastName">Tên:</label>
+            <input type="text" name="lastname" placeholder="Nhập tên của tác giả" id="lastname" class="form-control"
+              ngModel>
+            <br>
+            <label for="country">Quốc gia:</label>
+            <input type="text" id="country" placeholder="Nhập quốc gia của họ...." name="country" class="form-control"
+              ngModel>
+            <br>
+            <label for="quantity">Số lượng sách đã viết:</label>
+            <input type="number" name="quantity" id="quantity" placeholder="Nhập số lượng sách họ đã viết...."
+              class="form-control" ngModel>
+            <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Đóng</button>
+              <button type="submit" class="btn btn-primary">Thêm
+
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="updateModal" tabindex="-1" *ngIf="updateAuthor" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm tác giả</h1> <button type="button" class="btn-close"
+            data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label for="firstName">Họ:</label>
+          <input class="form-control" placeholder="Nhập họ của tác giả...." type="text" name="firstname" id="firstName"
+            [(ngModel)]="updateAuthor.firstname" />
+          <br>
+          <label for="lastName">Tên:</label>
+          <input type="text" name="lastname" placeholder="Nhập tên của tác giả" id="lastname" class="form-control"
+            [(ngModel)]="updateAuthor.lastname"> 
+            <br> 
+            <label for="country">Quốc gia:</label> <input type="text"
+            id="country" placeholder="Nhập quốc gia của họ...." name="country" class="form-control"
+            [(ngModel)]="updateAuthor.country">
+          <br>
+          <label for="quantity">Số lượng sách đã viết:</label>
+          <input type="number" name="quantity" id="quantity" placeholder="Nhập số lượng sách họ đã viết...."
+            class="form-control" [(ngModel)]="updateAuthor.quantity">
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeBtn class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" class="btn btn-primary" (click)="update()">Lưu</button>
+        </div>
+      </div>
+    </div>
+  </div>

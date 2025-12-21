@@ -18,13 +18,17 @@
         <div class="login-card">
           <div class="login-header mb-5">
             <h2 class="fw-bold text-center">Đăng nhập</h2>
-            <p class="text-center text-muted small mt-2">Trang quản lý tài liệu</p>
+            <!-- <p class="text-center text-muted small mt-2">Trang quản lý bán sách</p> -->
           </div>
 
           <form #formLogin="ngForm" (ngSubmit)="onSubmit(formLogin)" novalidate>
             <!-- Username input -->
             <div class="form-group mb-4">
-              <label class="form-label fw-500" for="username">Tên đăng nhập</label>
+              <label class="form-label fw-500"
+              [ngClass]="username.invalid && username.touched ? 'text-danger' : ''"
+              for="username">Tên đăng nhập
+                <span class="text-danger">*</span>
+              </label>
               <div class="input-wrapper">
                 <i class="fas fa-user input-icon"></i>
                 <input 
@@ -35,6 +39,7 @@
                   #username="ngModel" 
                   class="form-control form-control-lg"
                   placeholder="Nhập tên tài khoản..."
+                  [ngClass]="username.invalid && username.touched ? 'border border-danger bg-danger bg-opacity-10' :''"
                   required />
               </div>
               <div *ngIf="username.invalid && username.touched" class="invalid-feedback d-block mt-2">
@@ -44,7 +49,12 @@
 
             <!-- Password input -->
             <div class="form-group mb-5">
-              <label class="form-label fw-500" for="password">Mật khẩu</label>
+              <label class="form-label fw-500"
+                [ngClass]="password.invalid && password.touched ? 'text-danger' : ''"
+               for="password">
+               Mật khẩu
+              <span class="text-danger">*</span>
+              </label>
               <div class="input-wrapper">
                 <i class="fas fa-lock input-icon"></i>
                 <input 
@@ -54,6 +64,7 @@
                   ngModel 
                   #password="ngModel" 
                   class="form-control form-control-lg"
+                  [ngClass]="password.invalid && password.touched ? 'border border-danger bg-danger bg-opacity-10' : ''"
                   placeholder="Nhập mật khẩu..."
                   required />
               </div>

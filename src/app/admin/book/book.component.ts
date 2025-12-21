@@ -50,6 +50,7 @@ export class AdminBookComponent implements OnInit {
   totalPages: number = 1;
   currentPage = 1;
   pageSize = 5;
+  loading = false;
   isOpen = false;
   query: any = {};
   constructor(
@@ -90,6 +91,7 @@ export class AdminBookComponent implements OnInit {
 
   loadBooks(page?: number) {
     const filters = this.buildFilters();
+    this.loading = true;
     this.getBooksPage.unsubscribe();
     this.getBooksPage = this.bookService
       .getFilterBooks(page, this.pageSize, filters)
@@ -97,6 +99,7 @@ export class AdminBookComponent implements OnInit {
         this.books = data.data.content || [];
         this.currentPage = page!;
         this.totalPages = data.data.totalPages;
+        this.loading = false;
       });
   }
 

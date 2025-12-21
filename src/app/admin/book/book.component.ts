@@ -77,7 +77,7 @@ export class AdminBookComponent implements OnInit {
         .subscribe((data) => (this.publishers = data.data ?? []))),
       (this.getCategories = this.categoryService
         .getCategories()
-        .subscribe((data) => (this.categories = data.data ?? []))),
+        .subscribe((data) => (this.categories = data.data.content ?? []))),
     ]);
   }
 

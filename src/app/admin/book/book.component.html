@@ -143,7 +143,7 @@
   <div class="card border-0 shadow-sm">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
-        <thead class="table-light border-bottom">
+        <thead class="table-light border-bottom text-nowrap text-center">
           <tr>
             <th class="fw-semibold text-muted small text-uppercase">Hình ảnh</th>
             <th class="fw-semibold text-muted small text-uppercase">Tên sách</th>
@@ -156,13 +156,32 @@
             <th class="fw-semibold text-muted small text-uppercase">Hành động</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
+          <ng-container *ngIf="loading">
+            <tr *ngFor="let i of [1,2,3,4,5]">
+              <td>
+                <span class="placeholder col-12" style="height: 65px;"></span>
+              </td>
+              <td><span class="placeholder placeholder-wave col-8"></span></td>
+              <td><span class="placeholder placeholder-wave col-6"></span></td>
+              <td><span class="placeholder placeholder-wave col-6"></span></td>
+              <td><span class="placeholder placeholder-wave col-6"></span></td>
+              <td><span class="placeholder placeholder-wave col-4"></span></td>
+              <td><span class="placeholder placeholder-wave col-5"></span></td>
+              <td>
+                <span class="placeholder placeholder-wave col-6"></span>
+              </td>
+              <td>
+                <span class="placeholder placeholder-wave col-8"></span>
+              </td>
+            </tr>
+          </ng-container>
           <tr *ngIf="books.length === 0">
             <td colspan="9" class="text-center">
               <p class="fw-semibold text-secondary"><i class="fas fa-search"></i> No books found</p>
             </td>
           </tr>
-          <tr *ngFor="let book of books" class="border-bottom">
+          <tr *ngFor="let book of books" class="border-bottom" [hidden]="loading">
             <!-- Image -->
             <td>
               <ng-template [ngIf]="book.imageBase64" [ngIfElse]="second">

@@ -71,7 +71,7 @@ export class AdminBookComponent implements OnInit {
     await Promise.all([
       (this.getAuthors = this.authorService
         .getAuthors()
-        .subscribe((data) => (this.authors = data.data ?? []))),
+        .subscribe((data) => (this.authors = data.data.content ?? []))),
       (this.getPublishers = this.publisherService
         .getPublishers()
         .subscribe((data) => (this.publishers = data.data ?? []))),

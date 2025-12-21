@@ -176,9 +176,9 @@
               </td>
             </tr>
           </ng-container>
-          <tr *ngIf="books.length === 0">
+          <tr *ngIf="books.length === 0 && !loading">
             <td colspan="9" class="text-center">
-              <p class="fw-semibold text-secondary"><i class="fas fa-search"></i> No books found</p>
+              <p class="fw-semibold text-secondary"><i class="fas fa-search"></i> Không tìm thấy sách.</p>
             </td>
           </tr>
           <tr *ngFor="let book of books" class="border-bottom" [hidden]="loading">

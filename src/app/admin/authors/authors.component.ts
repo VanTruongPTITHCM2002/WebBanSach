@@ -26,6 +26,9 @@ export class AuthorsComponent implements OnInit{
   page: number = 1;
   size: number = 5;
   currentPage: number = 1;
+  totalPages: number = 1;
+  pageSize = 5;
+  loading = false;
   txtSearch = '';
   isLastPage: boolean = false;
    @ViewChild('closeBtn',{static: false}) closeBtn!: ElementRef<HTMLButtonElement>;
@@ -42,17 +45,19 @@ export class AuthorsComponent implements OnInit{
 
   loadAuthors(page: number){
       this.getAuthors.unsubscribe();
+      this.loading = true;
       this.getAuthors = this.authorService.getAuthors(page, this.size).subscribe((data) =>{
-        this.authors = data.data || [];
-        this.currentPage = page;
-        this.isLastPage = this.authors.length < this.size;
+        this.authors = data.data.content || [];
+        this.currentPage = page!;
+        this.totalPages = data.data.totalPages;
+        this.loading = false;
       })
   }
 
   setPage(page: number){
     if (page < 1) return;
+    if (page > this.totalPages) return;
     if (page === this.currentPage) return;
-    if (this.isLastPage && page > this.currentPage) return;
     this.loadAuthors(page);
   }
 

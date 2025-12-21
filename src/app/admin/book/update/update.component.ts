@@ -165,8 +165,9 @@ onSubmit (form: NgForm){
     // }
       const id = this.route.snapshot.paramMap.get('id')!;
       this.bookService.updateBook(+id, bookUpdate).subscribe({
-        next(value: any) {
-            showResponseSuccess(value.message)
+        next: (value: any) => {
+            showResponseSuccess(value.message);
+            this.goBack();
         },
         error(err: any) {
             showResponseFailure(err.message);

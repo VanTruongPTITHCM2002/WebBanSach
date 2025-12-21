@@ -1,89 +1,220 @@
-<h4 class="text-center mt-4">Danh sách danh mục sách</h4>
-<button type="button" class="btn btn-outline-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm danh mục</button>
-<div class="table-reponsive">
-  <div class="input-group w-auto" style="max-width: 300px;">
-    <!-- <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-      aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
-    <button type="button" class="btn btn-outline-primary" (click)="handleSearch()">Tìm</button> -->
+<div class="container-fluid py-4">
+
+  <!-- ===== HEADER ===== -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h2 fw-bold mb-1">📂 Danh mục sách</h1>
+      <p class="text-muted small">Quản lý các thể loại sách trong hệ thống</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      <i class="fas fa-plus me-2"></i>Thêm danh mục
+    </button>
   </div>
-  <div class="row mb-3 mt-1">
-  <!-- <div class="col-md-3">
-    <label>Trạng thái</label>
-    <select title='status' [(ngModel)]="filterStatus" (ngModelChange)="handleChange()" class="form-select">
-      <option [ngValue]="null">Tất cả</option>
-      <option [ngValue]="true">Còn hàng</option>
-      <option [ngValue]="false">Hết hàng</option>
-    </select>
-  </div> -->
 
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <label class="form-label fw-semibold small text-uppercase">
+        Tìm kiếm danh mục
+      </label>
+  
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="fas fa-search text-muted"></i>
+        </span>
+  
+        <input type="search" class="form-control border-start-0" placeholder="Nhập tên danh mục..."
+        [(ngModel)] = 'txtSearch'
+          />
+  
+        <button class="btn btn-primary" type="button"
+        (click)="handleSearch()"
+        >
+          <i class="fas fa-search"></i> Tìm
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== TABLE CARD ===== -->
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-center">
+          <tr>
+            <th class="fw-semibold text-muted small text-uppercase">Mã danh mục</th>
+            <th class="fw-semibold text-muted small text-uppercase">Tên danh mục</th>
+            <th class="fw-semibold text-muted small text-uppercase">Số lượng sách</th>
+            <th class="fw-semibold text-muted small text-uppercase">Hành động</th>
+          </tr>
+        </thead>
+
+        <tbody class="text-center">
+          <tr *ngFor="let category of categories">
+            <td>
+              <span class="fw-semibold">{{ category.categoryId }}</span>
+            </td>
+
+            <td>
+              <span class="fw-semibold">{{ category.categoryName }}</span>
+            </td>
+
+            <td>
+              <span class="badge bg-light text-dark">
+                {{ category.bookCount }} sách
+              </span>
+            </td>
+
+            <td>
+            <div class="btn-group btn-group-sm">
+              <div class="dropdown">
+                <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+            
+                <ul class="dropdown-menu shadow-sm">
+                  <li>
+                    <button class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#updateModal"
+                      (click)="selectedCategory(category.categoryName, category.categoryId)">
+                      <i class="fas fa-edit me-2"></i>Sửa
+                    </button>
+                  </li>
+            
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+            
+                  <li>
+                    <button class="dropdown-item text-danger" (click)="removeCategory(category.categoryId)">
+                      <i class="fas fa-trash-alt me-2"></i>Xóa
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            </td>
+          </tr>
+
+          <tr *ngIf="categories.length === 0">
+            <td colspan="4" class="text-center text-muted py-4">
+              <i class="fas fa-folder-open me-2"></i>Chưa có danh mục nào
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== PAGINATION ===== -->
+  <nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
+    <ul class="pagination mb-0">
+  
+      <!-- First -->
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a href="#" class="page-link" (click)="setPage(1); $event.preventDefault()">
+          <i class="fas fa-angle-double-left me-1"></i>
+          Đầu
+        </a>
+      </li>
+  
+      <!-- Previous -->
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">
+          <i class="fas fa-chevron-left me-1"></i>
+          Trước
+        </a>
+      </li>
+  
+      <!-- Current page -->
+      <li class="page-item active">
+        <span class="page-link">
+          Trang {{ currentPage }} / {{ totalPages }}
+        </span>
+      </li>
+  
+      <!-- Next -->
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">
+          Sau
+          <i class="fas fa-chevron-right ms-1"></i>
+        </a>
+      </li>
+  
+      <!-- Last -->
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a href="#" class="page-link" (click)="setPage(totalPages); $event.preventDefault()">
+          Cuối
+          <i class="fas fa-angle-double-right ms-1"></i>
+        </a>
+      </li>
+  
+    </ul>
+  </nav>
 </div>
-  <table class="table align-middle table-striped mb-0 bg-white">
-  <thead class="bg-light" class="datatable">
-    <tr>
-      <th>Mã danh mục</th>
-      <th>Tên danh mục</th>
-      <th>Số lượng sách thuộc danh mục</th>
-      <th>Hành động</th>
-    </tr>
-  </thead>
-  <tbody >
-    <tr *ngFor="let category of categories">
-      <td> <p class="fw-normal mb-1">{{category.categoryId}}</p> </td>
-      <td> <p>{{category.categoryName}}</p> </td>
-      <td class="text-center"> <p>{{category.bookCount}}</p> </td>
-      <td class="">
-        <a class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#updateModal" (click)="selectedCategory(category.categoryName, category.categoryId)"><i class="fas fa-edit"></i> Sửa</a>
-        <button type="button" class="btn btn-danger" (click)="removeCategory(category.categoryId)"><i class="fas fa-trash-alt"></i> Xóa</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<nav class="float-end mt-2" aria-label="...">
-  <ul class="pagination mt-3">
-  <li class="page-item" [class.disabled]="currentPage === 1">
-    <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">Previous</a>
-  </li>
 
-  <li class="page-item" [class.disabled]="isLastPage">
-    <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">Next</a>
-  </li>
-</ul>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
+<div class="modal fade" id="exampleModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục</h5>
+        <h5 class="modal-title fw-bold">Thêm danh mục</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
+
       <div class="modal-body">
-          <label for="categoryName">Tên danh mục</label>
-           <input type="text" class="form-control" [(ngModel)] = "categoryName" placeholder="Tên danh mục..." aria-label="categoryName" aria-describedby="basic-addon1">
+        <label class="form-label fw-semibold">Tên danh mục</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="categoryName"
+          placeholder="Nhập tên danh mục..."
+        />
       </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" (click)="insertCategory()">Thêm</button>
+        <button #closeBtn  class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Đóng
+        </button>
+        <button class="btn btn-primary" (click)="insertCategory()">
+          Thêm
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
+<div class="modal fade" id="updateModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sửa danh mục</h5>
+        <h5 class="modal-title fw-bold">Sửa danh mục</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
+
       <div class="modal-body">
-          <label for="updateCategoryName">Tên danh mục</label>
-           <input type="text" class="form-control" [(ngModel)] = "updateCategoryName" placeholder="Tên danh mục..." aria-label="updateCategoryName" aria-describedby="basic-addon1">
+        <label class="form-label fw-semibold">Tên danh mục</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="updateCategoryName"
+          placeholder="Nhập tên danh mục..."
+        />
       </div>
+
       <div class="modal-footer">
-        <button #closeBtn type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" (click)="patchCategory()">Lưu</button>
+        <button #closeBtnUpdate class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Đóng
+        </button>
+        <button class="btn btn-primary" (click)="patchCategory()">
+          Lưu
+        </button>
       </div>
     </div>
   </div>
 </div>
-</nav>

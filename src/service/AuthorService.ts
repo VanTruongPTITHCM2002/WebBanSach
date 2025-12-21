@@ -10,7 +10,7 @@ import { Observable } from "rxjs/internal/Observable";
 export class AuthorService{
     constructor(private http: HttpClient){}
 
-    getAuthors(page: number = 1, size: number = 5): Observable<ResponseData<Author[]>>{
+    getAuthors(page: number = 1, size: number = 5): Observable<ResponseData<any>>{
       return this.http.get<any>(`http://localhost:5000/authors?page=${page}&size=${size}`);
     }
 

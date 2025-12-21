@@ -1,13 +1,22 @@
-import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
-import { Book } from "../../../entity/Book";
-import { BookService } from "../../../service/BookService";
-import { Subscription } from "rxjs";
-import { CommonModule } from "@angular/common";
-import { RouterLink } from "@angular/router";
-import { FormsModule } from "@angular/forms";
-import { showResponseFailure, showResponseSuccess } from "../../response/sweetAlert";
-import Swal from "sweetalert2";
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Book } from '../../../entity/Book';
+import { BookService } from '../../../service/BookService';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import {
+  showResponseFailure,
+  showResponseSuccess,
+} from '../../response/sweetAlert';
+import Swal from 'sweetalert2';
+import { Category } from '../../../entity/Category';
+import { Author } from '../../../entity/Author';
+import { Publisher } from '../../../entity/Publisher';
+import { AuthorService } from '../../../service/AuthorService';
+import { CategoryService } from '../../../service/CategoryService';
+import { PublisherService } from '../../../service/PublisherService';
 
 @Component({
   selector: 'admin-book',
@@ -18,6 +27,12 @@ import Swal from "sweetalert2";
 })
 export class AdminBookComponent implements OnInit {
   books: Book[] = [];
+  categories: Category[] = [];
+  authors: Author[] = [];
+  publishers: Publisher[] = [];
+  getCategories: Subscription;
+  getAuthors: Subscription;
+  getPublishers: Subscription;
   page: number = 1;
   size: number = 5;
   txtSearch = '';
@@ -28,19 +43,41 @@ export class AdminBookComponent implements OnInit {
   maxPrice: number | null = null;
   stock: number | null = null;
   status: string | null = null;
+  categoryId: number | null = null;
+  authorId: number | null = null;
+  publisherId: number | null = null;
   isLastPage = false;
   totalPages: number = 1;
   currentPage = 1;
   pageSize = 5;
   isOpen = false;
   query: any = {};
-  constructor(private bookService: BookService) {
+  constructor(
+    private bookService: BookService,
+    private authorService: AuthorService,
+    private categoryService: CategoryService,
+    private publisherService: PublisherService
+  ) {
     this.getBooksPage = new Subscription();
+    this.getCategories = new Subscription();
+    this.getAuthors = new Subscription();
+    this.getPublishers = new Subscription();
     this.delete = new Subscription();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.loadBooks(this.currentPage);
+    await Promise.all([
+      (this.getAuthors = this.authorService
+        .getAuthors()
+        .subscribe((data) => (this.authors = data.data ?? []))),
+      (this.getPublishers = this.publisherService
+        .getPublishers()
+        .subscribe((data) => (this.publishers = data.data ?? []))),
+      (this.getCategories = this.categoryService
+        .getCategories()
+        .subscribe((data) => (this.categories = data.data ?? []))),
+    ]);
   }
 
   setPage(page: number) {
@@ -116,6 +153,18 @@ export class AdminBookComponent implements OnInit {
       this.query.stock = this.stock;
     }
 
+    if (this.categoryId !== null && this.categoryId !== undefined) {
+      this.query.categoryId = this.categoryId;
+    }
+
+    if (this.authorId !== null && this.authorId !== undefined) {
+      this.query.authorId = this.authorId;
+    }
+
+    if (this.publisherId !== null && this.publisherId !== undefined) {
+      this.query.publisherId = this.publisherId;
+    }
+
     return this.query;
   }
 
@@ -126,6 +175,9 @@ export class AdminBookComponent implements OnInit {
     this.query = {};
     this.stock = null;
     this.page = 1;
+    this.authorId = null;
+    this.categoryId = null;
+    this.publisherId = null;
     this.loadBooks(this.page);
   }
 

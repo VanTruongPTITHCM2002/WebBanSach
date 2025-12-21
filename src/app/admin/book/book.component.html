@@ -63,26 +63,29 @@
         <div class="row row-cols-3 g-2 mb-2">
           <div class="col">
             <label class="mb-2 fw-bold">Tác giả</label>
-            <select class="form-select" aria-label="Default select example">
+            <select class="form-select" [(ngModel)] = "authorId" aria-label="Default select example">
               <option selected [ngValue]="null">Chọn tác giả</option>
-              <!-- <option [ngValue]="true">Còn hàng</option>
-                        <option [ngValue]="false">Hết hàng</option> -->
+              <option *ngFor="let author of authors" [ngValue]="author.authorId">
+                {{author.firstname + ' ' + author.lastname}}
+              </option>
             </select>
           </div>
           <div class="col">
             <label class="mb-2 fw-bold">Nhà xuất bản</label>
-            <select class="form-select" aria-label="Default select example">
+            <select class="form-select" [(ngModel)]="publisherId" aria-label="Default select example">
               <option selected [ngValue]="null">Chọn nhà xuất bản</option>
-              <!-- <option [ngValue]="true">Còn hàng</option>
-                        <option [ngValue]="false">Hết hàng</option> -->
+              <option *ngFor="let publisher of publishers" [ngValue]="publisher.publisherId">
+                  {{publisher.publisherName}}
+              </option>
             </select>
           </div>
           <div class="col">
             <label class="mb-2 fw-bold">Thể loại</label>
-            <select class="form-select" aria-label="Default select example">
+            <select class="form-select" [(ngModel)]="categoryId" aria-label="Default select example">
               <option selected [ngValue]="null">Chọn thể loại</option>
-              <!-- <option [ngValue]="true">Còn hàng</option>
-                        <option [ngValue]="false">Hết hàng</option> -->
+              <option *ngFor="let category of categories" [ngValue]="category.categoryId">
+                {{category.categoryName}}
+              </option>
             </select>
           </div>
         </div>

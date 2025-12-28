@@ -18,6 +18,13 @@ import Swal from 'sweetalert2';
 export class AuthorsComponent implements OnInit{
 
   authors: Author[] = [];
+  author: Author = {
+    authorId: 0,
+    firstname: '',
+    lastname: '',
+    country: '',
+    quantity: 0,
+  };
   updateAuthor: Author = undefined!;
   getAuthors: Subscription;
   insertAuthor: Subscription;
@@ -29,9 +36,11 @@ export class AuthorsComponent implements OnInit{
   totalPages: number = 1;
   pageSize = 5;
   loading = false;
-  txtSearch = '';
+  txtSearch: string = '';
   isLastPage: boolean = false;
-   @ViewChild('closeBtn',{static: false}) closeBtn!: ElementRef<HTMLButtonElement>;
+  query: any = {};
+  @ViewChild('closeBtn',{static: false}) closeBtn!: ElementRef<HTMLButtonElement>;
+  @ViewChild('createForm') createForm!: NgForm;
 
   constructor(private authorService: AuthorService){
     this.getAuthors = new Subscription();
@@ -46,7 +55,7 @@ export class AuthorsComponent implements OnInit{
   loadAuthors(page: number){
       this.getAuthors.unsubscribe();
       this.loading = true;
-      this.getAuthors = this.authorService.getAuthors(page, this.size).subscribe((data) =>{
+      this.getAuthors = this.authorService.getAuthors(page, this.size, this.query).subscribe((data) =>{
         this.authors = data.data.content || [];
         this.currentPage = page!;
         this.totalPages = data.data.totalPages;
@@ -62,7 +71,12 @@ export class AuthorsComponent implements OnInit{
   }
 
   onSubmit(form: NgForm){
-      if(!form.invalid){
+      if(form.invalid){
+        form.control.markAllAsTouched();
+        this.focusFirstInvalid(form);
+        console.log("IN trong này ra nha");
+        return;
+      }
           const formData = form.value;
 
           const data = {
@@ -73,15 +87,16 @@ export class AuthorsComponent implements OnInit{
           }
 
           this.insertAuthor = this.authorService.addAuthor(data).subscribe({
-            next(value) {
+            next: (value) => {
               if(value.statusCode !== HttpStatusCode.Created) return showResponseFailure(value.message);
-                showResponseSuccess(value.message);
+              form.resetForm();
+              showResponseSuccess(value.message);  
             },
             error(err) {
                 showResponseFailure(err.message);
             },
           });
-      }
+      
   }
 
   handleDelete (authorId: number){
@@ -126,11 +141,34 @@ export class AuthorsComponent implements OnInit{
   }
 
   handleSearch (){
-    if(!this.txtSearch) return this.loadAuthors(this.page);
-    this.authors = this.authors.filter(author => (author.country.match(this.txtSearch) || author.firstname.match(this.txtSearch)
-    || author.lastname.match(this.txtSearch) || author.quantity.toString() === this.txtSearch
-  ))
-   this.currentPage = this.page;
-   this.isLastPage = this.authors.length < this.size;
+    this.page = 1;
+    this.query.search = this.txtSearch.trim();
+    this.loadAuthors(this.page);
   }
+
+  focusFirstInvalid(form: NgForm) {
+    const controls = form.controls;
+
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        const invalidControl = document.querySelector(`[name="${name}"]`) as HTMLElement;
+
+        if (invalidControl) {
+          invalidControl.focus();
+          invalidControl.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+        break;
+      }
+
+    }
+  }
+  
+
+ngAfterViewInit() {
+  const modalEl = document.getElementById('myModal');
+  modalEl?.addEventListener('hidden.bs.modal', () => {
+    this.createForm.resetForm();
+  });
+}
+
 }

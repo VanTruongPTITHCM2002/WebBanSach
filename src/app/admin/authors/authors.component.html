@@ -154,21 +154,62 @@
         </div>
         <div class="modal-body">
           <form #createForm="ngForm" (ngSubmit)="onSubmit(createForm)">
-            <label for="firstName">Họ:</label>
-            <input class="form-control" placeholder="Nhập họ của tác giả...." type="text" name="firstname"
-              id="firstName" ngModel />
+            <label
+            [ngClass]="firstname.invalid && firstname.touched ? 'text-danger' : ''"
+            for="firstName">Họ
+              <span class="text-danger">*</span>
+            </label>
+            <input class="form-control"
+            [ngClass]="firstname.invalid && firstname.touched ? 'border border-danger' : ''"
+            placeholder="Nhập họ của tác giả...." type="text" name="firstname"
+              id="firstName" #firstname="ngModel" required="" [(ngModel)]="author.firstname"/>
+              <div class="text-danger mt-1" *ngIf="firstname.invalid && firstname.touched">
+                <small>Vui lòng nhập họ.</small>
+              </div>
             <br>
-            <label for="lastName">Tên:</label>
-            <input type="text" name="lastname" placeholder="Nhập tên của tác giả" id="lastname" class="form-control"
-              ngModel>
+            <label for="lastName"
+              [ngClass]="lastname.invalid && lastname.touched ? 'text-danger' : ''"
+            >Tên
+              <span class="text-danger">*</span>
+            </label>
+            <input type="text" 
+            name="lastname"
+             placeholder="Nhập tên của tác giả" id="lastname"
+             [ngClass]="lastname.invalid && lastname.touched ? 'border-danger': ''"
+             class="form-control"
+             #lastname='ngModel' required="" [(ngModel)] = "author.lastname">
+              <div class="text-danger mt-1" *ngIf="lastname.invalid && lastname.touched">
+                <small>Vui lòng nhập tên.</small>
+              </div>
             <br>
-            <label for="country">Quốc gia:</label>
-            <input type="text" id="country" placeholder="Nhập quốc gia của họ...." name="country" class="form-control"
-              ngModel>
+            <label for="country" [ngClass]="country.invalid && country.touched ? 'text-danger': ''">Quốc gia
+              <span class="text-danger">*</span>
+            </label>
+            <input type="text" id="country" placeholder="Nhập quốc gia của họ...." 
+            name="country" 
+            class="form-control" [ngClass]="country.invalid && country.touched ? 'border-danger': ''"
+             #country='ngModel' [(ngModel)] = "author.country" required="">
+              <div class="text-danger mt-1" *ngIf="country.invalid && country.touched">
+                <small>Vui lòng nhập tên quốc gia.</small>
+              </div>
             <br>
-            <label for="quantity">Số lượng sách đã viết:</label>
-            <input type="number" name="quantity" id="quantity" placeholder="Nhập số lượng sách họ đã viết...."
-              class="form-control" ngModel>
+            <label for="quantity"
+              [ngClass]="quantity.invalid && quantity.touched ? 'text-danger': ''"
+            >Số lượng sách đã viết
+              <span class="text-danger">*</span>
+            </label>
+            <input type="number" 
+            [ngClass]="quantity.invalid && quantity.touched ? 'border-danger': ''" 
+            name="quantity" id="quantity" placeholder="Nhập số lượng sách họ đã viết...."
+              class="form-control" #quantity='ngModel'
+              [(ngModel)] = 'author.quantity'
+              required
+              min="0">
+              <div class="text-danger mt-1" *ngIf="quantity.invalid && quantity.touched">
+                 <small *ngIf="quantity.errors?.['required']">Số lượng không được bỏ trống.</small>
+                <small *ngIf="quantity.errors?.['min']">Số lượng phải lớn hơn hoặc bằng 0.</small>
+              </div>
+              
             <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                 data-bs-dismiss="modal">Đóng</button>
               <button type="submit" class="btn btn-primary">Thêm

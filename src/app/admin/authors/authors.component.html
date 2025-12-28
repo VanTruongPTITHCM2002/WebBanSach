@@ -221,7 +221,7 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" id="updateModal" tabindex="-1" *ngIf="updateAuthor" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="updateModal" #updateModal tabindex="-1"  aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -231,19 +231,19 @@
         </div>
         <div class="modal-body">
           <label for="firstName">Họ:</label>
-          <input class="form-control" placeholder="Nhập họ của tác giả...." type="text" name="firstname" id="firstName"
+          <input class="form-control" placeholder="Nhập họ của tác giả...." type="text" name="firstname" id="firstNameUpdate"
             [(ngModel)]="updateAuthor.firstname" />
           <br>
           <label for="lastName">Tên:</label>
-          <input type="text" name="lastname" placeholder="Nhập tên của tác giả" id="lastname" class="form-control"
+          <input type="text" name="lastname" placeholder="Nhập tên của tác giả" id="lastnameUpdate" class="form-control"
             [(ngModel)]="updateAuthor.lastname"> 
             <br> 
             <label for="country">Quốc gia:</label> <input type="text"
-            id="country" placeholder="Nhập quốc gia của họ...." name="country" class="form-control"
+            id="country" placeholder="Nhập quốc gia của tác giả...." name="countryUpdate" class="form-control"
             [(ngModel)]="updateAuthor.country">
           <br>
           <label for="quantity">Số lượng sách đã viết:</label>
-          <input type="number" name="quantity" id="quantity" placeholder="Nhập số lượng sách họ đã viết...."
+          <input type="number" name="quantity" id="quantityUpdate" placeholder="Nhập số lượng sách tác giả đã viết...."
             class="form-control" [(ngModel)]="updateAuthor.quantity">
         </div>
         <div class="modal-footer">

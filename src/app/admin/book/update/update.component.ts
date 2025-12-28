@@ -77,7 +77,7 @@ export class UpdateComponent {
       this.getAuthors = this.authorService.getAuthors().subscribe((data) =>
         this.authors = data.data ?? []
       ),
-      this.getPublishers = this.publisherService.getPublishers().subscribe((data) =>
+      this.getPublishers = this.publisherService.getPublishers(1,5).subscribe((data) =>
         this.publishers = data.data ?? []
       ),
       this.getCategories = this.categoryService.getCategories().subscribe((data) =>

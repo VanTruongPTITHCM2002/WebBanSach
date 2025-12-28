@@ -26,9 +26,9 @@ export class SubDetailComponent implements OnInit{
         this.getPublishers = new Subscription();
     }
     ngOnInit(): void {
-        this.getPublishers = this.publisherService.getPublishers().subscribe((data) =>
-            this.publishers = data.data ?? []
-        );
+        // this.getPublishers = this.publisherService.getPublishers().subscribe((data) =>
+        //     this.publishers = data.data ?? []
+        // );
     }
 
 }

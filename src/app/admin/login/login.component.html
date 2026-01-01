@@ -39,7 +39,7 @@
                   #username="ngModel" 
                   class="form-control form-control-lg"
                   placeholder="Nhập tên tài khoản..."
-                  [ngClass]="username.invalid && username.touched ? 'border border-danger bg-danger bg-opacity-10' :''"
+                  [ngClass]="username.invalid && username.touched ? 'border border-danger bg-opacity-10' :''"
                   required />
               </div>
               <div *ngIf="username.invalid && username.touched" class="invalid-feedback d-block mt-2">
@@ -64,7 +64,7 @@
                   ngModel 
                   #password="ngModel" 
                   class="form-control form-control-lg"
-                  [ngClass]="password.invalid && password.touched ? 'border border-danger bg-danger bg-opacity-10' : ''"
+                  [ngClass]="password.invalid && password.touched ? 'border border-danger bg-opacity-10' : ''"
                   placeholder="Nhập mật khẩu..."
                   required />
               </div>

@@ -107,27 +107,62 @@
   </div>
 
   <!-- Pagination -->
-  <nav class="d-flex justify-content-end mt-4">
-    <ul class="pagination mb-0">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <a
-          href="#"
-          class="page-link"
-          (click)="setPage(currentPage - 1); $event.preventDefault()">
-          Trước
-        </a>
-      </li>
+ <nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
+  <ul class="pagination mb-0">
 
-      <li class="page-item" [class.disabled]="isLastPage">
-        <a
-          href="#"
-          class="page-link"
-          (click)="setPage(currentPage + 1); $event.preventDefault()">
-          Sau
-        </a>
-      </li>
-    </ul>
-  </nav>
+    <!-- First -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(1); $event.preventDefault()">
+        <i class="fas fa-angle-double-left me-1"></i>
+        Đầu
+      </a>
+    </li>
+
+    <!-- Previous -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(currentPage - 1); $event.preventDefault()">
+        <i class="fas fa-chevron-left me-1"></i>
+        Trước
+      </a>
+    </li>
+
+    <!-- Current page -->
+    <li class="page-item active">
+      <span class="page-link">
+        Trang {{ currentPage }} / {{ totalPages }}
+      </span>
+    </li>
+
+    <!-- Next -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(currentPage + 1); $event.preventDefault()">
+        Sau
+        <i class="fas fa-chevron-right ms-1"></i>
+      </a>
+    </li>
+
+    <!-- Last -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(totalPages); $event.preventDefault()">
+        Cuối
+        <i class="fas fa-angle-double-right ms-1"></i>
+      </a>
+    </li>
+
+  </ul>
+</nav>
 </div>
 <div class="modal fade" id="myModal" tabindex="-1">
   <div class="modal-dialog">

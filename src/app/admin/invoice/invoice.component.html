@@ -1,97 +1,232 @@
-<h4 class="text-center mt-4">Danh sách hóa đơn của khách hàng</h4>
-<div class="table-responsive">
-  <div class="input-group w-auto" style="max-width: 300px;">
-    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-      aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
-    <button type="button" class="btn btn-outline-primary"
-      (click)="handleSearch()"
-    >Tìm</button>
+<div class="container-fluid py-4">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h2 fw-bold mb-1">🧾 Danh sách hóa đơn</h1>
+      <p class="text-muted small">Quản lý hóa đơn của khách hàng</p>
+    </div>
   </div>
-  <table class="mt-1 table table-bordered align-middle table-striped mb-0 bg-white table-hover shadow">
-    <thead class="table-light sticky-top text-nowrap datatable">
-    <tr>
-        <th class="fw-bold">Mã hóa đơn</th>
-        <th class="fw-bold">Ngày phát hành</th>
-        <th class="fw-bold">Thuế VAT (%)</th>
-        <th class="fw-bold">Phí vận chuyển</th>
-        <th class="fw-bold">Giảm giá</th>
-        <th class="fw-bold">Tổng thanh toán</th>
-        <th class="fw-bold">Phương thức thanh toán</th>
-        <th class="fw-bold">Trạng thái thanh toán</th>
-        <th class="fw-bold">Hành động</th>
-    </tr>
-    </thead>
-    <tbody class="text-center">
-      <tr *ngFor="let invoice of invoices">
-        <td class="fw-normal">{{invoice.invoiceCode}}</td>
-            <td class="fw-normal">{{invoice.issueDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-            <td class="fw-normal">{{invoice.vatPercent}}%</td>
-            <td class="text-success">{{invoice.shippingFee | currency: 'VND'}}</td>
-            <td class="text-success">{{invoice.discountAmount | currency: 'VND'}}</td>
-            <td class="text-primary font-weight-bold">{{invoice.totalAmount | currency: 'VND'}}</td>
-            <td class="fw-normal">{{invoice.paymentMethod}}</td>
 
-        <td>
-          <ng-container *ngIf="editInvoiceId !== invoice.invoiceId; else editMode">
-            <div class="status-box p-1" [style.backgroundColor]="getStatusInvoice(invoice.paymentStatus).color">
-              <h5>{{ getStatusInvoice(invoice.paymentStatus).label }}</h5>
-            </div>
-          </ng-container>
-          <ng-template #editMode>
-            <select [(ngModel)]="editedStatus" class="form-select">
-              <option *ngFor="let s of getStatusInvoices()" [value]="s.value"
-               [disabled]="!canSelectedStatus(invoice.paymentStatus, s.value)"
-              >{{ s.label }}</option>
-            </select>
-          </ng-template>
-        </td>
-      
-        <td>
-            <div class="d-flex">
+  <!-- Search -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <label class="form-label fw-semibold small text-uppercase">
+        Tìm kiếm hóa đơn
+      </label>
 
-                <button *ngIf="editInvoiceId === invoice.invoiceId && editedStatus !== originStatus" class="btn btn-success me-2" (click) = "update(invoice.invoiceId)">
+      <div class="input-group" style="max-width: 420px;">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="fas fa-search text-muted"></i>
+        </span>
+        <input
+          type="search"
+          class="form-control border-start-0"
+          placeholder="Mã hóa đơn / phương thức..."
+          [(ngModel)]="txtSearch">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="handleSearch()">
+          Tìm
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-center text-nowrap">
+          <tr>
+            <th>Mã hóa đơn</th>
+            <th>Ngày phát hành</th>
+            <th>VAT (%)</th>
+            <th>Phí vận chuyển</th>
+            <th>Giảm giá</th>
+            <th>Tổng thanh toán</th>
+            <th>Thanh toán</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+
+        <tbody class="text-center">
+
+          <tr *ngFor="let invoice of invoices">
+
+            <!-- Code -->
+            <td>
+              <span class="badge bg-light text-dark">
+                {{ invoice.invoiceCode }}
+              </span>
+            </td>
+
+            <!-- Issue date -->
+            <td class="text-muted">
+              {{ invoice.issueDate | date:'dd/MM/yyyy HH:mm:ss' }}
+            </td>
+
+            <!-- VAT -->
+            <td>
+              {{ invoice.vatPercent }}%
+            </td>
+
+            <!-- Shipping -->
+            <td class="text-success fw-semibold">
+              {{ invoice.shippingFee | currency:'VND' }}
+            </td>
+
+            <!-- Discount -->
+            <td class="text-success fw-semibold">
+              {{ invoice.discountAmount | currency:'VND' }}
+            </td>
+
+            <!-- Total -->
+            <td class="fw-bold text-danger">
+              {{ invoice.totalAmount | currency:'VND' }}
+            </td>
+
+            <!-- Payment method -->
+            <td>
+              {{ invoice.paymentMethod }}
+            </td>
+
+            <!-- Status -->
+            <td>
+              <ng-container *ngIf="editInvoiceId !== invoice.invoiceId; else editMode">
+                <span
+                  class="badge px-3 py-2"
+                  [style.backgroundColor]="getStatusInvoice(invoice.paymentStatus).color">
+                  {{ getStatusInvoice(invoice.paymentStatus).label }}
+                </span>
+              </ng-container>
+
+              <ng-template #editMode>
+                <select
+                  [(ngModel)]="editedStatus"
+                  class="form-select form-select-sm">
+                  <option
+                    *ngFor="let s of getStatusInvoices()"
+                    [value]="s.value"
+                    [disabled]="!canSelectedStatus(invoice.paymentStatus, s.value)">
+                    {{ s.label }}
+                  </option>
+                </select>
+              </ng-template>
+            </td>
+
+            <!-- Actions -->
+            <td>
+              <div class="btn-group btn-group-sm">
+
+                <!-- Save -->
+                <button
+                  *ngIf="editInvoiceId === invoice.invoiceId && editedStatus !== originStatus"
+                  class="btn btn-outline-success"
+                  (click)="update(invoice.invoiceId)">
                   <i class="fas fa-check"></i>
                 </button>
-                
-                <button *ngIf="editInvoiceId === invoice.invoiceId" class="btn btn-secondary me-2" (click)="cancelEdit()">
+
+                <!-- Cancel -->
+                <button
+                  *ngIf="editInvoiceId === invoice.invoiceId"
+                  class="btn btn-outline-secondary"
+                  (click)="cancelEdit()">
                   <i class="fas fa-times"></i>
                 </button>
 
-                <button *ngIf="editInvoiceId !== invoice.invoiceId" 
-                
-                class="btn btn-warning me-2" (click)="startEdit(invoice)">
+                <!-- Edit -->
+                <button
+                  *ngIf="editInvoiceId !== invoice.invoiceId"
+                  class="btn btn-outline-warning"
+                  (click)="startEdit(invoice)">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button *ngIf="editInvoiceId !== invoice.invoiceId" type="button" class="btn btn-info" [routerLink]="[invoice.invoiceId]"> <i
-                        class="fas fa-eye"></i></button>
-            </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<nav class="float-end mt-2" aria-label="Pagination">
-  <ul class="pagination pagination-modern shadow-sm rounded-pill">
+
+                <!-- View -->
+                <button
+                  *ngIf="editInvoiceId !== invoice.invoiceId"
+                  class="btn btn-outline-info"
+                  [routerLink]="[invoice.invoiceId]">
+                  <i class="fas fa-eye"></i>
+                </button>
+
+              </div>
+            </td>
+
+          </tr>
+
+          <!-- Empty -->
+          <tr *ngIf="invoices.length === 0">
+            <td colspan="9" class="text-center text-muted fw-semibold">
+              <i class="fas fa-search me-2"></i>
+              Không có hóa đơn
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+   <!-- Pagination -->
+ <nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
+  <ul class="pagination mb-0">
+
+    <!-- First -->
     <li class="page-item" [class.disabled]="currentPage === 1">
-      <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">
-        <i class="fa-solid fa-chevron-left"></i>
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(1); $event.preventDefault()">
+        <i class="fas fa-angle-double-left me-1"></i>
+        Đầu
       </a>
     </li>
 
-    <li class="page-item disabled">
-      <span class="page-link px-3 bg-light text-dark border-0">
-        Trang {{ currentPage }}
+    <!-- Previous -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(currentPage - 1); $event.preventDefault()">
+        <i class="fas fa-chevron-left me-1"></i>
+        Trước
+      </a>
+    </li>
+
+    <!-- Current page -->
+    <li class="page-item active">
+      <span class="page-link">
+        Trang {{ currentPage }} / {{ totalPages }}
       </span>
     </li>
 
-    <li class="page-item" [class.disabled]="isLastPage">
-      <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">
-        <i class="fa-solid fa-chevron-right"></i>
+    <!-- Next -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(currentPage + 1); $event.preventDefault()">
+        Sau
+        <i class="fas fa-chevron-right ms-1"></i>
       </a>
     </li>
+
+    <!-- Last -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <a
+        href="#"
+        class="page-link"
+        (click)="setPage(totalPages); $event.preventDefault()">
+        Cuối
+        <i class="fas fa-angle-double-right ms-1"></i>
+      </a>
+    </li>
+
   </ul>
 </nav>
 
-
-
-
+</div>

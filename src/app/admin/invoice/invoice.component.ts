@@ -28,6 +28,8 @@ export class AdminInvoiceComponent implements OnInit {
   originStatus: string | null = null;
   editedStatus: string | null = null;
   updateInvoice: Subscription;
+  totalPages: number = 1;
+  loading = false;
 
   constructor() {
     this.getInvoices = new Subscription();
@@ -39,18 +41,22 @@ export class AdminInvoiceComponent implements OnInit {
   }
 
   loadInvoices(page: number) {
+    this.loading = true;
     this.getInvoices.unsubscribe();
-    this.getInvoices = this.invoiceService.getInvoices(page, this.size).subscribe((data) => {
-      this.invoices = data.data || [];
-      this.currentPage = page;
-      this.isLastPage = this.invoices.length < this.size;
-    })
+    this.getInvoices = this.invoiceService
+      .getInvoices(page, this.size)
+      .subscribe((data) => {
+        this.invoices = data.data.content || [];
+        this.currentPage = page!;
+        this.totalPages = data.data.totalPages;
+        this.loading = false;
+      });
   }
 
   setPage(page: number) {
     if (page < 1) return;
+    if (page > this.totalPages) return;
     if (page === this.currentPage) return;
-    if (this.isLastPage && page > this.currentPage) return;
 
     this.loadInvoices(page);
   }

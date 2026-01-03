@@ -1,93 +1,221 @@
-<h4 class="text-center mt-4">Danh sách đơn hàng của khách hàng</h4>
-<!-- <button type="button" class="btn btn-outline-primary float-end" data-bs-toggle="modal" data-bs-target="#myModal">Thêm nhà xuất bản</button> -->
-<div class="table-reponsive">
-  <div class="input-group w-auto" style="max-width: 300px;">
-    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-      aria-describedby="search-addon" [(ngModel)]="txtSearch"/>
-    <button type="button" class="btn btn-outline-primary" (click)="handleSearch()">Tìm</button>
+<div class="container-fluid py-4">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h2 fw-bold mb-1">🧾 Danh sách đơn hàng</h1>
+      <p class="text-muted small">Quản lý đơn hàng của khách hàng</p>
+    </div>
   </div>
-  <table class="table align-middle table-striped mb-0 bg-white">
-    <thead class="bg-light" class="datatable">
-      <tr>
-        <th>Mã ĐH</th>
-        <th>Tài khoản</th>
-        <th>Khách hàng</th>
-        <th>Ngày đặt</th>
-        <th>Tổng tiền</th>
-        <th>Trạng thái</th>
-        <th>Thanh toán</th>
-        <th>Hành động</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let order of orders">
-        <td class="fw-normal mb-1">
-          <span><p>{{order.orderId}}</p></span>
-        </td>
-        <td class="fw-normal mb-1">
-          <p>{{order.username}}</p>
-        </td>
-        <td class="fw-normal mb-1">
-          <p>{{order.fullName}}</p>
-        </td>
-        <td class="fw-normal mb-1">
-            <p>{{order.orderDate | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
-        </td>
 
-        <td class="fw-normal mb-1">
-            <p>{{order.totalAmount | currency: 'VND'}}</p>
-        </td>
-        <td>
-          <ng-container *ngIf="editOrderId !== order.orderId; else editMode">
-            <div class="status-box" [style.backgroundColor]="getStatus(order.status).color">
-              <h5>{{ getStatus(order.status).label }}</h5>
-            </div>
-          </ng-container>
-          <ng-template #editMode>
-            <select [(ngModel)]="editedStatus" class="form-select">
-              <option *ngFor="let s of getStatusOrder()" [value]="s.value"
-               [disabled]="!canSelectedStatus(order.status, s.value)"
-              >{{ s.label }}</option>
-            </select>
-          </ng-template>
-        </td>
-        <td class="fw-normal mb-1">
-            <p>{{order.methodPay === 'COD' ? 'Tiền mặt': 'Ngân hàng'}}</p>
-        </td>
-        <td>
-            <div class="d-flex">
+  <!-- Search -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <label class="form-label fw-semibold small text-uppercase">
+        Tìm kiếm đơn hàng
+      </label>
 
-                <button *ngIf="editOrderId === order.orderId && editedStatus !== originalStatus" class="btn btn-success me-2" (click)="update(order.orderId)">
+      <div class="input-group" style="max-width: 500px;">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="fas fa-search text-muted"></i>
+        </span>
+        <input
+          type="search"
+          class="form-control border-start-0"
+          placeholder="Mã đơn / tài khoản / khách hàng..."
+          [(ngModel)]="txtSearch">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="handleSearch()">
+          Tìm
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-center text-nowrap">
+          <tr>
+            <th>Mã ĐH</th>
+            <th>Tài khoản</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th>Thanh toán</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+
+        <tbody class="text-center">
+
+          <tr *ngFor="let order of orders">
+            <!-- Order ID -->
+            <td>
+              <span class="badge bg-light text-dark">
+                {{ order.orderId }}
+              </span>
+            </td>
+
+            <!-- Username -->
+            <td>{{ order.username }}</td>
+
+            <!-- Full name -->
+            <td class="fw-semibold">
+              {{ order.fullName }}
+            </td>
+
+            <!-- Order date -->
+            <td class="text-muted">
+              {{ order.orderDate | date:'dd/MM/yyyy HH:mm:ss' }}
+            </td>
+
+            <!-- Total amount -->
+            <td class="fw-semibold text-danger">
+              {{ order.totalAmount | currency:'VND' }}
+            </td>
+
+            <!-- Status -->
+            <td>
+              <ng-container *ngIf="editOrderId !== order.orderId; else editMode">
+                <span
+                  class="badge px-3 py-2"
+                  [style.backgroundColor]="getStatus(order.status).color">
+                  {{ getStatus(order.status).label }}
+                </span>
+              </ng-container>
+
+              <ng-template #editMode>
+                <select
+                  [(ngModel)]="editedStatus"
+                  class="form-select form-select-sm">
+                  <option
+                    *ngFor="let s of getStatusOrder()"
+                    [value]="s.value"
+                    [disabled]="!canSelectedStatus(order.status, s.value)">
+                    {{ s.label }}
+                  </option>
+                </select>
+              </ng-template>
+            </td>
+
+            <!-- Payment -->
+            <td>
+              {{ order.methodPay === 'COD' ? 'Tiền mặt' : 'Ngân hàng' }}
+            </td>
+
+            <!-- Actions -->
+            <td>
+              <div class="btn-group btn-group-sm">
+
+                <!-- Edit -->
+                <button
+                  *ngIf="editOrderId !== order.orderId"
+                  class="btn btn-outline-warning"
+                  [disabled]="order.status === -1"
+                  (click)="startEdit(order)">
+                  <i class="fas fa-edit"></i>
+                </button>
+
+                <!-- Save -->
+                <button
+                  *ngIf="editOrderId === order.orderId && editedStatus !== originalStatus"
+                  class="btn btn-outline-success"
+                  (click)="update(order.orderId)">
                   <i class="fas fa-check"></i>
                 </button>
-                
-                <!-- Nút Hủy -->
-                <button *ngIf="editOrderId === order.orderId" class="btn btn-secondary me-2" (click)="cancelEdit()">
+
+                <!-- Cancel -->
+                <button
+                  *ngIf="editOrderId === order.orderId"
+                  class="btn btn-outline-secondary"
+                  (click)="cancelEdit()">
                   <i class="fas fa-times"></i>
                 </button>
 
-                <button *ngIf="editOrderId !== order.orderId" [disabled]="order.status === -1"
-                
-                class="btn btn-warning me-2" (click)="startEdit(order)">
-                  <i class="fas fa-edit"></i>
+                <!-- View -->
+                <button
+                  class="btn btn-outline-info"
+                  [routerLink]="[order.orderId]">
+                  <i class="fas fa-eye"></i>
                 </button>
-                <button *ngIf="editOrderId !== order.orderId" type="button" class="btn btn-info" [routerLink]="[order.orderId]"> <i
-                        class="fas fa-eye"></i></button>
-            </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+              </div>
+            </td>
+          </tr>
+
+          <!-- Empty -->
+          <tr *ngIf="orders.length === 0">
+            <td colspan="8" class="text-center text-muted fw-semibold">
+              <i class="fas fa-search me-2"></i>
+              Không có đơn hàng
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
+    <ul class="pagination mb-0">
+
+
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a
+          href="#"
+          class="page-link"
+          (click)="setPage(1); $event.preventDefault()">
+          <i class="fas fa-angle-double-left me-1"></i>
+          Đầu
+        </a>
+      </li>
+
+
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a
+          href="#"
+          class="page-link"
+          (click)="setPage(currentPage - 1); $event.preventDefault()">
+          <i class="fas fa-chevron-left me-1"></i>
+          Trước
+        </a>
+      </li>
+
+
+      <li class="page-item active">
+        <span class="page-link">
+          Trang {{ currentPage }} / {{ totalPages }}
+        </span>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a
+          href="#"
+          class="page-link"
+          (click)="setPage(currentPage + 1); $event.preventDefault()">
+          Sau
+          <i class="fas fa-chevron-right ms-1"></i>
+        </a>
+      </li>
+
+   
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a
+          href="#"
+          class="page-link"
+          (click)="setPage(totalPages); $event.preventDefault()">
+          Cuối
+          <i class="fas fa-angle-double-right ms-1"></i>
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+
 </div>
-<nav class="float-end mt-2" aria-label="...">
-  <ul class="pagination mt-3">
-    <li class="page-item" [class.disabled]="currentPage === 1">
-      <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">Previous</a>
-    </li>
-
-    <li class="page-item" [class.disabled]="isLastPage">
-      <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">Next</a>
-    </li>
-  </ul>
-</nav>
-

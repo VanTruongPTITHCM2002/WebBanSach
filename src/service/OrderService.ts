@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 export class OrderService {
     constructor(private http:HttpClient){}
 
-    getOrders(page: number, size: number): Observable<ResponseData<Order[]>>{
+    getOrders(page: number, size: number): Observable<any>{
         return this.http.get<any>(`http://localhost:5000/orders?page=${page}&size=${size}`,{withCredentials: true});
     }
 

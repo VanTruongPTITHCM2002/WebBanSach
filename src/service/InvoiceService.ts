@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 export class InvoiceService {
     constructor(private http:HttpClient){}
 
-    getInvoices(page: number, size: number): Observable<ResponseData<Invoice[]>>{
+    getInvoices(page: number, size: number): Observable<any>{
             return this.http.get<any>(`http://localhost:5000/invoice?page=${page}&size=${size}`,{withCredentials: true});
         }
     

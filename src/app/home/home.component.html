@@ -1,17 +1,69 @@
 <div class="root-container">
-  <div class="main-container mt-3 d-flex overflow-hidden">
+<div class="main-container mt-3 d-flex">
 
-    <div class="container-list w-25 ms-3 border-2">
-      <h2 class="title-list">Danh mục sản phẩm</h2>
-      <ul class="list-group btn-group dropend list-book" *ngFor="let c of category">
-        <li class="list-group-item fs-5" [routerLink]="['/category',c.categoryId]">{{c.categoryName}}</li>
-      </ul>
-    </div>
+  <!-- LEFT: Category -->
+  <div class="container-list col-3 ms-3 border-2">
+    <h2 class="title-list">Danh mục sản phẩm</h2>
 
-    <div class="container-image flex-grow-1 ms-3">
-      <img width="950" height="400" src="/your-own-library-landing-page-template_151150-680.jpg" alt="" srcset="">
+    <ul class="list-group list-book">
+      <li
+        class="list-group-item fs-5"
+        *ngFor="let c of categories"
+        [routerLink]="['/category', c.categoryId]">
+        {{ c.name }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- RIGHT: Image carousel -->
+  <div class="container-image col ms-3">
+    <div
+      id="carouselExampleIndicators"
+      class="carousel slide w-100"
+      data-bs-ride="carousel">
+
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button
+          *ngFor="let img of images; let i = index"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          [attr.data-bs-slide-to]="i"
+          [class.active]="i === 0"
+          [attr.aria-current]="i === 0 ? 'true' : null">
+        </button>
+      </div>
+
+      <!-- Slides -->
+      <div class="carousel-inner">
+        <div
+          *ngFor="let img of images; let i = index"
+          class="carousel-item"
+          [class.active]="i === 0">
+
+          <img
+            [src]="img"
+            class="d-block w-100 img-fluid carousel-img"
+            alt="Slide {{ i + 1 }}">
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+
+      <button class="carousel-control-next" type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
     </div>
   </div>
+
+</div>
+
 
   <h2 class="title-new-book">Các sản phẩm sách bán chạy</h2>
   <div class="container m-sm-0 me-lg-0">

@@ -12,11 +12,34 @@ export class CategoryService{
     constructor(private http: HttpClient){}
 
     getCategories(page: number = 1, size: number = 5, search?: string): Observable<ResponseData<any>>{
-      return this.http.get<any>(`http://localhost:5000/categories?page=${page}&size=${size}&search=${search}`);
+      return this.http.get<any>(`http://localhost:5000/api/v1/categories?page=${page}&size=${size}&search=${search}`);
+    }
+
+   async getCategoriesNotPaginate() {
+      try {
+        const response = await fetch(
+          'http://localhost:5000/api/v1/categories/list'
+        );
+
+        const result = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(result.message || 'Failed to fetch categories');
+        }
+
+        return result.data;
+      } catch (error: unknown) {
+
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
+
+      }
+   
     }
 
     getBooksByCategory(id: number): Observable<ResponseData<Book[]>>{
-      return this.http.get<any>(`http://localhost:5000/categories/${id}`);
+      return this.http.get<any>(`http://localhost:5000/api/v1/categories/${id}`);
     }
 
     addCategory(categoryName: string): Observable<ResponseData<Category>>{

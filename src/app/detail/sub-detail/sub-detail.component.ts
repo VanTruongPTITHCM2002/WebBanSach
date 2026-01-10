@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CategoryService } from "../../../service/CategoryService";
 import { Category } from "../../../entity/Category";
@@ -7,28 +7,26 @@ import { Subscription } from "rxjs";
 import { PublisherService } from "../../../service/PublisherService";
 import { Publisher } from "../../../entity/Publisher";
 
-
 @Component({
-    selector:'sub-detail',
-    standalone:true,
-    imports: [FormsModule, CommonModule],
-    styleUrl:'./sub-detail.component.css',
-    templateUrl:'./sub-detail.component.html'
+  selector: 'sub-detail',
+  standalone: true,
+  imports: [FormsModule, CommonModule],
+  styleUrl: './sub-detail.component.css',
+  templateUrl: './sub-detail.component.html',
 })
-export class SubDetailComponent implements OnInit{
-
-    publishers: Publisher[] = [];
-    getPublishers: Subscription;
-
-    constructor(
-        private publisherService: PublisherService
-    ){
-        this.getPublishers = new Subscription();
+export class SubDetailComponent implements OnInit {
+  @Input() publishers: [
+    {
+      publisherId: string;
+      name: string;
     }
-    ngOnInit(): void {
-        // this.getPublishers = this.publisherService.getPublishers().subscribe((data) =>
-        //     this.publishers = data.data ?? []
-        // );
-    }
+  ] = [
+    {
+      publisherId: '',
+      name: '',
+    },
+  ];
 
+  async ngOnInit(): Promise<void> {
+  }
 }

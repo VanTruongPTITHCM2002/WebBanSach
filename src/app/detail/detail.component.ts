@@ -6,38 +6,67 @@ import { CategoryService } from '../../service/CategoryService';
 import { NgFor } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 import { SubDetailComponent } from "./sub-detail/sub-detail.component";
+import { PublisherService } from '../../service/PublisherService';
 
 @Component({
   selector: 'app-detail',
   standalone: true,
   imports: [RouterLink, NgFor, SubDetailComponent],
   templateUrl: './detail.component.html',
-  styleUrl: './detail.component.css'
+  styleUrl: './detail.component.css',
 })
 export class DetailComponent implements OnInit {
-  id =''
-  books:Book[] =[];
+  id = '';
+  books: Book[] = [];
   categorys: Category[] = [];
+  categories: [
+    {
+      categoryId: string;
+      name: string;
+    }
+  ] = [
+    {
+      categoryId: '',
+      name: '',
+    },
+  ];
+  publishers: [
+    {
+      publisherId: string;
+      name: string;
+    }
+  ] = [
+    {
+      publisherId: '',
+      name: '',
+    },
+  ];
   category: string = '';
-  constructor(private route: ActivatedRoute,private categoryService: CategoryService,
-    private authService: AuthService
+  constructor(
+    private route: ActivatedRoute,
+    private categoryService: CategoryService,
+    private authService: AuthService,
+    private publisherService: PublisherService
   ) {
     this.id = String(route.snapshot.paramMap.get('id'));
   }
 
-  ngOnInit() {
-   this.categoryService.getBooksByCategory(Number(this.id)).subscribe({
-     next: (v) => {
-      this.books = v.data!
-    },
-  })
-  this.categoryService.getCategories().subscribe({
-    next: (v) => {
-     this.categorys = v.data!
-   }})
+  async ngOnInit() {
+    this.categoryService.getBooksByCategory(Number(this.id)).subscribe({
+      next: (v) => {
+        this.books = v.data!;
+      },
+    });
+    this.categoryService.getCategories().subscribe({
+      next: (v) => {
+        this.categorys = v.data!;
+      },
+    });
 
-}
-  getNameCategory(){
-    return this.categorys.find((v) => v.categoryId == Number(this.id))?.categoryName;
+    this.publishers = await this.publisherService.getPublishersNotPaginate();
+  }
+  getNameCategory() {
+    return this.categorys.find((v) => v.categoryId == Number(this.id))
+      ?.categoryName;
   }
 }

@@ -18,6 +18,26 @@ export class PublisherService{
       });
     }
 
+    async getPublishersNotPaginate() {
+      try{
+        const response = await fetch('http://localhost:5000/api/v1/publishers/list');
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || 'fetch publishers failed');
+        }
+
+        return result.data || [];
+
+      }catch(error: unknown){
+
+        if (error instanceof Error) {
+            console.log(error.message);
+        }
+      }
+    }
+
     addPublisher(publisher:Publisher):Observable<ResponseData<Publisher>>{
       return this.http.post<any>(`http://localhost:5000/publishers`, publisher, {withCredentials: true});
     }

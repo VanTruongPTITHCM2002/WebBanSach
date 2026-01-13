@@ -15,18 +15,10 @@ import { Publisher } from "../../../entity/Publisher";
   templateUrl: './sub-detail.component.html',
 })
 export class SubDetailComponent implements OnInit {
-  @Input() publishers: [
-    {
-      publisherId: string;
-      name: string;
-    }
-  ] = [
-    {
-      publisherId: '',
-      name: '',
-    },
-  ];
+  @Input() publishers: {
+    publisherId: string;
+    name: string;
+  }[] = [];
 
-  async ngOnInit(): Promise<void> {
-  }
+  async ngOnInit(): Promise<void> {}
 }

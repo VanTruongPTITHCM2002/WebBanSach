@@ -63,3 +63,11 @@ li:hover{
   object-fit: cover;     /* Tự co/cắt để vừa khung */
   border-radius: 4px;    /* Cho góc bo đẹp hơn */
 }
+
+.min-h-350 {
+    min-height: 350px;
+}
+
+.min-h-260 {
+    min-height: 260px;;
+}

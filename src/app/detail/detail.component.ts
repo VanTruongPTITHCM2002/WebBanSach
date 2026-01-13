@@ -3,7 +3,7 @@ import { Component, OnInit, input } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Book } from '../../entity/Book';
 import { CategoryService } from '../../service/CategoryService';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 import { SubDetailComponent } from "./sub-detail/sub-detail.component";
 import { PublisherService } from '../../service/PublisherService';
@@ -11,7 +11,7 @@ import { PublisherService } from '../../service/PublisherService';
 @Component({
   selector: 'app-detail',
   standalone: true,
-  imports: [RouterLink, NgFor, SubDetailComponent],
+  imports: [RouterLink, NgFor, SubDetailComponent, NgIf],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.css',
 })
@@ -63,7 +63,11 @@ export class DetailComponent implements OnInit {
       },
     });
 
-    this.publishers = await this.publisherService.getPublishersNotPaginate();
+    this.publisherService.getPublishersNotPaginateV2().subscribe({
+        next: (value) => {
+          this.publishers = value.data || [];
+        }
+    });
   }
   getNameCategory() {
     return this.categorys.find((v) => v.categoryId == Number(this.id))

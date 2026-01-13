@@ -9,6 +9,8 @@ import { Book } from '../entity/Book';
     providedIn: 'root'
 })
 export class CategoryService{
+    
+    static API_URL = 'http://localhost:5000/api/v1/categories';
     constructor(private http: HttpClient){}
 
     getCategories(page: number = 1, size: number = 5, search?: string): Observable<ResponseData<any>>{
@@ -38,8 +40,8 @@ export class CategoryService{
    
     }
 
-    getBooksByCategory(id: number): Observable<ResponseData<Book[]>>{
-      return this.http.get<any>(`http://localhost:5000/api/v1/categories/${id}`);
+    getBooksByCategory(id: number, page: number, size: number, sort?: string): Observable<any>{
+      return this.http.get<any>(`http://localhost:5000/api/v1/categories/${id}?page=${page}&size=${size}&sort=${sort}`);
     }
 
     addCategory(categoryName: string): Observable<ResponseData<Category>>{

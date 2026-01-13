@@ -9,10 +9,13 @@ import { Publisher } from '../entity/Publisher';
     providedIn: 'root'
 })
 export class PublisherService{
+
+    static API_URL = 'http://localhost:5000/api/v1';
+
     constructor(private http: HttpClient){}
 
     getPublishers(page: number = 1, size: number = 5, filters?: any): Observable<any>{
-      return this.http.get<any>(`http://localhost:5000/publishers?page=${page}&size=${size}`,{
+      return this.http.get<any>(`${PublisherService.API_URL}/publishers?page=${page}&size=${size}`,{
         withCredentials: true,
         params: filters
       });
@@ -36,6 +39,10 @@ export class PublisherService{
             console.log(error.message);
         }
       }
+    }
+
+    getPublishersNotPaginateV2 () :  Observable<any> {
+      return this.http.get<any>(`${PublisherService.API_URL}/publishers/list`);
     }
 
     addPublisher(publisher:Publisher):Observable<ResponseData<Publisher>>{

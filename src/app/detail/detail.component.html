@@ -28,17 +28,29 @@
 
             <div class="container h-100 d-flex justify-content-between flex-column">
               <div class="d-flex flex-wrap gap-3 p-4 justify-content-start align-items-center">
-                <div class="card card-responsive" *ngFor="let book of books" [routerLink]="['/book', book.bookid]" [state]="{title: book.title}">
-                  <img [src]="book?.link" class="img-fluid img-fixed"
-                 alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ book.title }} </h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+
+                <div *ngIf="books.length > 0 ; else notFound" class="d-flex gap-5 flex-wrap">
+                  <div class="card card-responsive" *ngFor="let book of books" [routerLink]="['/book', book.bookid]"
+                    [state]="{title: book.title}">
+                
+                    <img [src]="book?.link" class="img-fluid img-fixed" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ book.title }} </h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-                <nav class="mb-5" aria-label="Page navigation example">
+              <ng-template #notFound>
+                  <div class="alert alert-light text-center shadow-sm">
+                    <i class="fs-1"></i>
+                    <div class="fw-semibold mt-2">No books available</div>
+                  </div>
+              </ng-template>
+
+                <nav class="mb-5" *ngIf="books.length > 0" aria-label="Page navigation example">
                   <ul class="pagination justify-content-end">
                     <li class="page-item disabled">
                       <a class="page-link" href="#" tabindex="-1">Previous</a>

@@ -13,31 +13,35 @@
             <div class="group-filter-book">
                 <h6>Sắp xếp</h6>
 
-                <select name="filterPrice" title="Lọc sách theo giá và mới nhất">
+                <select name="filterPrice" (change)="handleSort()" [(ngModel)]="sort" title="Lọc sách theo giá và mới nhất">
                         <option value="">Mới nhất</option>
-                        <option value="">Giá từ thấp đến cao</option>
-                        <option value="">Giá từ cao đến thấp</option>
+                        <option value="min">Giá từ thấp đến cao</option>
+                        <option value="max">Giá từ cao đến thấp</option>
                 </select>
 
-                <select name="filterQuantity" title="Lọc sách theo số lượng">
-                        <option value="">12 sản phẩm</option>
-                        <option value="">24 sản phẩm</option>
-                        <option value="">48 sản phẩm</option>
+                <select name="filterQuantity" (change)="handleFilter()" [(ngModel)]="size" title="Lọc sách theo số lượng" >
+                        <option [value]="5">5 sản phẩm</option>
+                        <option [value]="10" selected>10 sản phẩm</option>
+                        <option [value]="20">20 sản phẩm</option>
+                        <option [value]="50">50 sản phẩm</option>
+                        <option [value]="100">100 sản phẩm</option>
                 </select>
             </div>
 
             <div class="container h-100 d-flex justify-content-between flex-column">
-              <div class="d-flex flex-wrap gap-3 p-4 justify-content-start align-items-center">
+              <div class="d-flex flex-wrap gap-3 p-4 justify-content-start align-items-center overflow-auto">
 
                 <div *ngIf="books.length > 0 ; else notFound" class="d-flex gap-5 flex-wrap">
-                  <div class="card card-responsive" *ngFor="let book of books" [routerLink]="['/book', book.bookid]"
+                  <div class="card card-responsive min-h-350" *ngFor="let book of books" [routerLink]="['/book', book.bookid]"
                     [state]="{title: book.title}">
                 
-                    <img [src]="book?.link" class="img-fluid img-fixed" alt="...">
+                    <img [src]="book?.link" class="img-fluid img-fixed p-3 min-h-260 shadow-sm" alt="...">
                     <div class="card-body">
-                      <h5 class="card-title">{{ book.title }} </h5>
-                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.
-                      </p>
+                      <h5 class="card-text">{{ book.title }} </h5>
+                      <span class="d-flex justify-content-between items-center">
+                        <p>{{book.authorName}}</p>
+                        <p class="card-text fs-5">{{book.price | currency: 'VND'}}</p>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -50,17 +54,52 @@
                   </div>
               </ng-template>
 
-                <nav class="mb-5" *ngIf="books.length > 0" aria-label="Page navigation example">
-                  <ul class="pagination justify-content-end">
-                    <li class="page-item disabled">
-                      <a class="page-link" href="#" tabindex="-1">Previous</a>
+                <nav class="mb-5 d-flex justify-content-center" *ngIf="books.length > 0" aria-label="Page navigation example">
+                  <ul class="pagination mb-0">
+                
+                    <!-- First -->
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                      <a href="#" class="page-link" (click)="setPage(1); $event.preventDefault()">
+                        <i class="fas fa-angle-double-left me-1"></i>
+                        Đầu
+                      </a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">Next</a>
+                
+                    <!-- Previous -->
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                      <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">
+                        <i class="fas fa-chevron-left me-1"></i>
+                        Trước
+                      </a>
                     </li>
+                
+                    <!-- Current page -->
+                    <li class="page-item active">
+                      <span class="page-link">
+                        Trang {{ currentPage }} / {{ totalPages }}
+                      </span>
+                    </li>
+                
+                    <!-- Next -->
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                      <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">
+                        Sau
+                        <i class="fas fa-chevron-right ms-1"></i>
+                      </a>
+                    </li>
+                
+                    <!-- Last -->
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                      <a href="#" class="page-link" (click)="setPage(totalPages); $event.preventDefault()">
+                        Cuối
+                        <i class="fas fa-angle-double-right ms-1"></i>
+                      </a>
+                    </li>
+                
                   </ul>
                 </nav>
+
+                
             </div>
     </div>
     

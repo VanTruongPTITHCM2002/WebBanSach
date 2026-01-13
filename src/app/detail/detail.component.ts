@@ -3,15 +3,16 @@ import { Component, OnInit, input } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Book } from '../../entity/Book';
 import { CategoryService } from '../../service/CategoryService';
-import { NgFor, NgIf } from '@angular/common';
+import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 import { SubDetailComponent } from "./sub-detail/sub-detail.component";
 import { PublisherService } from '../../service/PublisherService';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-detail',
   standalone: true,
-  imports: [RouterLink, NgFor, SubDetailComponent, NgIf],
+  imports: [RouterLink, NgFor, SubDetailComponent, NgIf, CurrencyPipe, FormsModule],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.css',
 })
@@ -19,58 +20,80 @@ export class DetailComponent implements OnInit {
   id = '';
   books: Book[] = [];
   categorys: Category[] = [];
-  categories: [
-    {
-      categoryId: string;
-      name: string;
-    }
-  ] = [
-    {
-      categoryId: '',
-      name: '',
-    },
-  ];
-  publishers: [
-    {
-      publisherId: string;
-      name: string;
-    }
-  ] = [
-    {
-      publisherId: '',
-      name: '',
-    },
-  ];
+  categories: {
+    categoryId: string;
+    name: string;
+  }[] = [];
+  publishers: {
+    publisherId: string;
+    name: string;
+  }[] = [];
+
   category: string = '';
+  size: number = 10;
+  totalPages: number = 1;
+  currentPage = 1;
+  loading: boolean = false;
+  sort: 'min' | 'max' | 'new' = 'min';
+
   constructor(
     private route: ActivatedRoute,
     private categoryService: CategoryService,
     private authService: AuthService,
     private publisherService: PublisherService
   ) {
-    this.id = String(route.snapshot.paramMap.get('id'));
+    // this.id = String(route.snapshot.paramMap.get('id'));
   }
 
-  async ngOnInit() {
-    this.categoryService.getBooksByCategory(Number(this.id)).subscribe({
-      next: (v) => {
-        this.books = v.data!;
-      },
+  ngOnInit() {
+    this.route.paramMap.subscribe((params) => {
+      this.id = params.get('id') ?? '';
+
+      if (this.id) {
+        this.loadData();
+      }
     });
-    this.categoryService.getCategories().subscribe({
-      next: (v) => {
-        this.categorys = v.data!;
-      },
-    });
+  }
+
+  loadData() {
+    this.categoryService
+      .getBooksByCategory(+this.id, this.currentPage, this.size, this.sort)
+      .subscribe({
+        next: (v) => {
+          this.books = v.data?.content || [];
+          this.totalPages = v.data.totalPages;
+          this.currentPage = v.data.page;
+          this.loading = false;
+        },
+      });
 
     this.publisherService.getPublishersNotPaginateV2().subscribe({
-        next: (value) => {
-          this.publishers = value.data || [];
-        }
+      next: (value) => {
+        this.publishers = value.data || [];
+      },
     });
   }
+
+  setPage(page: number) {
+    if (page < 1) return;
+    if (page > this.totalPages) return;
+    if (page === this.currentPage) return;
+
+    this.currentPage = page;
+
+    this.loadData();
+  }
+
+  handleFilter() {
+    this.loadData();
+  }
+
+  handleSort() {
+    this.loadData();
+  }
+
   getNameCategory() {
-    return this.categorys.find((v) => v.categoryId == Number(this.id))
-      ?.categoryName;
+    // return this.categorys.find((v) => v.categoryId == Number(this.id))
+    //   ?.categoryName;
   }
 }

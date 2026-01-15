@@ -27,7 +27,10 @@ import { PublisherService } from '../../../service/PublisherService';
 })
 export class AdminBookComponent implements OnInit {
   books: Book[] = [];
-  categories: Category[] = [];
+  categories: {
+    categoryId: string,
+    name: string,
+  }[] = [];
   authors: Author[] = [];
   publishers: Publisher[] = [];
   getCategories: Subscription;
@@ -74,10 +77,10 @@ export class AdminBookComponent implements OnInit {
         .subscribe((data) => (this.authors = data.data.content ?? []))),
       (this.getPublishers = this.publisherService
         .getPublishers()
-        .subscribe((data) => (this.publishers = data.data ?? []))),
+        .subscribe((data) => (this.publishers = data.data.content ?? []))),
       (this.getCategories = this.categoryService
-        .getCategories()
-        .subscribe((data) => (this.categories = data.data.content ?? []))),
+        .getCategoriesNotPaginate()
+        .subscribe((data) => (this.categories = data.data ?? []))),
     ]);
   }
 

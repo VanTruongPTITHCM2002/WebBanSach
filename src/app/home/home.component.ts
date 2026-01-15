@@ -19,17 +19,11 @@ import { BookService } from '../../service/BookService';
 export class HomeComponent implements OnInit, OnDestroy {
   category: Category[] = [];
   book: Book[] = [];
-  categories: [
+  categories: 
     {
       categoryId: string;
       name: string;
-    }
-  ] = [
-    {
-      categoryId: '',
-      name: '',
-    },
-  ];
+    }[] = [];
   getCategroy: Subscription;
   getBook: Subscription;
   images: string[] = ['https://media.istockphoto.com/id/949118068/vi/anh/s%C3%A1ch-v%E1%BB%9F.jpg?s=2048x2048&w=is&k=20&c=rgFGgZSTrcVF1MziZxwfxuTdApVnDlp-uZSJY8iTbOA=',
@@ -47,17 +41,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getBook = new Subscription();
   }
   async ngOnInit(): Promise<void> {
-    this.getCategroy = this.categoryService
-      .getCategories()
-      .subscribe((data) => {
-        this.category = data.data.content ?? [];
-      });
+    // this.getCategroy = this.categoryService
+    //   .getCategories()
+    //   .subscribe((data) => {
+    //     this.category = data.data.content ?? [];
+    //   });
 
     this.getBook = this.bookService.getBooksByBuys().subscribe((data) => {
       this.book = data.data ?? [];
     });
 
-    this.categories = await this.categoryService.getCategoriesNotPaginate();
+    this.categoryService.getCategoriesNotPaginate().subscribe((data) => {
+      this.categories = data.data ?? [];
+    });
   }
   ngOnDestroy(): void {}
 }

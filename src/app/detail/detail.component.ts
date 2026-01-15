@@ -28,13 +28,23 @@ export class DetailComponent implements OnInit {
     publisherId: string;
     name: string;
   }[] = [];
+  selectedPublisher: number = 0;
 
   category: string = '';
   size: number = 10;
   totalPages: number = 1;
   currentPage = 1;
   loading: boolean = false;
-  sort: 'min' | 'max' | 'new' = 'min';
+  sort: 'min' | 'max' | 'new' = 'new';
+  selectedPrice: {
+    min: number | null;
+    max: number | null;
+    label: string;
+  } | null = {
+    min: null,
+    max: null,
+    label: '',
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -57,7 +67,10 @@ export class DetailComponent implements OnInit {
 
   loadData() {
     this.categoryService
-      .getBooksByCategory(+this.id, this.currentPage, this.size, this.sort)
+      .getBooksByCategory(+this.id, this.currentPage, this.size, this.sort,
+         this.selectedPublisher,
+        this.selectedPrice?.min, this.selectedPrice?.max
+      )
       .subscribe({
         next: (v) => {
           this.books = v.data?.content || [];

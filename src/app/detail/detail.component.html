@@ -3,7 +3,9 @@
   
       <div class="container-list w-25 ms-3 border-2">
         <h3 class="title-list">Danh mục sản phẩm</h3>
-        <sub-detail [publishers]="publishers"></sub-detail>
+        <sub-detail [publishers]="publishers" [(selectedPublisher)]="selectedPublisher" 
+        [(selectedPrice)]="selectedPrice"
+        (sortChange)="handleSort()"></sub-detail>
       </div>
   
       <div class="container-image flex-grow-1 ms-3">
@@ -14,7 +16,7 @@
                 <h6>Sắp xếp</h6>
 
                 <select name="filterPrice" (change)="handleSort()" [(ngModel)]="sort" title="Lọc sách theo giá và mới nhất">
-                        <option value="">Mới nhất</option>
+                        <option value="new">Mới nhất</option>
                         <option value="min">Giá từ thấp đến cao</option>
                         <option value="max">Giá từ cao đến thấp</option>
                 </select>
@@ -35,7 +37,7 @@
                   <div class="card card-responsive min-h-350" *ngFor="let book of books" [routerLink]="['/book', book.bookid]"
                     [state]="{title: book.title}">
                 
-                    <img [src]="book?.link" class="img-fluid img-fixed p-3 min-h-260 shadow-sm" alt="...">
+                    <img [src]="book.link || 'placeholder-image.svg'" class="img-fluid img-fixed p-3 min-h-260 shadow-sm" alt="...">
                     <div class="card-body">
                       <h5 class="card-text">{{ book.title }} </h5>
                       <span class="d-flex justify-content-between items-center">

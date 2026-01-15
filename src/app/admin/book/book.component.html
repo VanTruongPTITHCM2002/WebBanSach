@@ -84,7 +84,7 @@
             <select class="form-select" [(ngModel)]="categoryId" aria-label="Default select example">
               <option selected [ngValue]="null">Chọn thể loại</option>
               <option *ngFor="let category of categories" [ngValue]="category.categoryId">
-                {{category.categoryName}}
+                {{category.name}}
               </option>
             </select>
           </div>

@@ -14,34 +14,17 @@ export class CategoryService{
     constructor(private http: HttpClient){}
 
     getCategories(page: number = 1, size: number = 5, search?: string): Observable<ResponseData<any>>{
-      return this.http.get<any>(`http://localhost:5000/api/v1/categories?page=${page}&size=${size}&search=${search}`);
+      return this.http.get<any>(`${CategoryService.API_URL}?page=${page}&size=${size}&search=${search}`);
     }
 
-   async getCategoriesNotPaginate() {
-      try {
-        const response = await fetch(
-          'http://localhost:5000/api/v1/categories/list'
-        );
-
-        const result = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(result.message || 'Failed to fetch categories');
-        }
-
-        return result.data;
-      } catch (error: unknown) {
-
-        if (error instanceof Error) {
-          console.log(error.message);
-        }
-
-      }
-   
+    getCategoriesNotPaginate():  Observable<ResponseData<any>> {
+      return this.http.get<any>(`${CategoryService.API_URL}/list`);
     }
 
-    getBooksByCategory(id: number, page: number, size: number, sort?: string): Observable<any>{
-      return this.http.get<any>(`http://localhost:5000/api/v1/categories/${id}?page=${page}&size=${size}&sort=${sort}`);
+    getBooksByCategory(id: number, page: number, size: number, sort?: string, selectPublisher?: number, minPrice?: number | null, maxPrice?: number | null): Observable<any>{
+      return this.http.get<any>(`http://localhost:5000/api/v1/categories/${id}?page=${page}&size=${size}&sort=${sort}&publisherId=${selectPublisher}` +
+        `&minPrice=${minPrice}&maxPrice=${maxPrice}`
+      );
     }
 
     addCategory(categoryName: string): Observable<ResponseData<Category>>{

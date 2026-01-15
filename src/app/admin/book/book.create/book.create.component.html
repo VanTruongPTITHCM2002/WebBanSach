@@ -95,16 +95,11 @@
     [ngClass]="category.invalid && category.touched ? 'border border-danger' : ''"
     id="categoryName" class="form-select" #category="ngModel" required [(ngModel)]="book.categoryName">
       <option value="" disabled selected>-- Chọn thể loại --</option>
-      <option *ngFor="let category of pagedCategories" [ngValue]="category.categoryName">
-        {{ category.categoryName }}
+      <option *ngFor="let category of pagedCategories" [ngValue]="category.name">
+        {{ category.name }}
       </option>
     </select>
 
-    <div class="mt-2 d-flex justify-content-between">
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="categoryPage = categoryPage - 1" [disabled]="categoryPage === 1">Trang trước</button>
-      <span class="fw-medium align-self-center">Trang {{ categoryPage }} / {{ totalCategoryPages }}</span>
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="categoryPage = categoryPage + 1" [disabled]="categoryPage === totalCategoryPages">Trang sau</button>
-    </div>
 
     <div class="text-danger mt-1" *ngIf="category.invalid && category.touched">
       <small>Vui lòng chọn thể loại.</small>

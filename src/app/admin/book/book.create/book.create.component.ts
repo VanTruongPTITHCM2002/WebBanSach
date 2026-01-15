@@ -23,7 +23,10 @@ import { Router } from '@angular/router';
   styleUrl: './book.create.component.css'
 })
 export class BookCreateComponent implements OnInit{
-  categories: Category[] = [];
+  categories: {
+    categoryId: number,
+    name: string
+  }[] = [];
   authors: Author[] = [];
   publishers: Publisher[] = [];
   getCategories: Subscription;
@@ -44,12 +47,12 @@ export class BookCreateComponent implements OnInit{
   async ngOnInit(): Promise<void> {
     await Promise.all([
       this.getAuthors = this.authorService.getAuthors().subscribe((data) =>
-        this.authors = data.data ?? []
+        this.authors = data.data.content ?? []
       ),
       this.getPublishers = this.publisherService.getPublishers().subscribe((data) =>
-        this.publishers = data.data ?? []
+        this.publishers = data.data.content ?? []
       ),
-      this.getCategories = this.categoryService.getCategories().subscribe((data) =>
+      this.getCategories = this.categoryService.getCategoriesNotPaginate().subscribe((data) =>
         this.categories = data.data ?? []
       )
     ]);

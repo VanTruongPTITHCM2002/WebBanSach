@@ -11,7 +11,7 @@
           </div>
 
           <div class="col flex-grow-1">
-                <h1>{{book?.title}}</h1>
+                <h1 class="text-capitalize">{{book?.title}}</h1>
                 <div class="d-flex gap-5">
                     <div>
                         <p>Nhà xuất bản: {{book?.publisherName}}</p>
@@ -31,10 +31,10 @@
                 <span class="fa fa-star"></span>
 
                 <h2 class="mt-2 mb-5">
-                    100.000đ
+                    {{book?.price | currency: 'VND'}}
                 </h2>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-5 items-center">
                     <span>Số lượng:</span>
                     <input id="quantity"   min="1" name="quantity" [(ngModel)] = "quantity" type="number" placeholder="1"
                     class="input-quantity"
@@ -43,10 +43,10 @@
 
 
                 <div class="d-flex gap-4 mt-5">
-                    <button class="btn btn-outline-secondary" (click)="addCartBook(book!)">
+                    <button class="btn btn-outline-warning btn-custom" (click)="addCartBook(book!)">
                      <i class="fa fa-cart-plus"></i>   Thêm vào giỏ hàng
                     </button>
-                    <button class="btn btn-warning" (click)="buyBook(book!)">Mua ngay</button>
+                    <button class="btn btn-warning btn-custom" (click)="buyBook(book!)">Mua ngay</button>
                 </div>
           </div>
 
@@ -68,37 +68,119 @@
                     (0 đánh giá)
                 </div>
             
-                <div>
-                    <ul>
-                        <li>
-                            5 sao
-                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0"
-                                aria-valuemax="100">
-                                <div class="progress-bar" style="width: 100%"></div>
-                            </div>
-                        </li>
-                        <li>4 
-                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-  <div class="progress-bar" style="width: 100%"></div>
-</div>
-                        </li>
-                        <li>3 sao
-                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-  <div class="progress-bar" style="width: 100%"></div>
-</div>
-                        </li>
-                        <li>2 sao
-                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-  <div class="progress-bar" style="width: 100%"></div>
-</div>
-                        </li>
-                        <li>1 sao
-                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-  <div class="progress-bar" style="width: 100%"></div>
-</div>
-                        </li>
-                    </ul>
+                <div class="w-25">
+                <ul class="list-unstyled">
+                    <li class="d-flex align-items-center mb-2">
+                        <span class="me-2" style="width:60px;">5 sao</span>
+                        <div class="progress flex-grow-1" style="height:8px;">
+                            <div class="progress-bar bg-success" style="width: 0%"></div>
+                        </div>
+                        0%
+                    </li>
+                
+                    <li class="d-flex align-items-center mb-2">
+                        <span class="me-2" style="width:60px;">4 sao</span>
+                        <div class="progress flex-grow-1" style="height:8px;">
+                            <div class="progress-bar bg-primary" style="width: 0%"></div>
+                            
+                        </div>
+                        0%
+                    </li>
+                
+                    <li class="d-flex align-items-center mb-2">
+                        <span class="me-2" style="width:60px;">3 sao</span>
+                        <div class="progress flex-grow-1" style="height:8px;">
+                            <div class="progress-bar bg-info" style="width: 0%"></div>
+                        </div>
+                        0%
+                    </li>
+                
+                    <li class="d-flex align-items-center mb-2">
+                        <span class="me-2" style="width:60px;">2 sao</span>
+                        <div class="progress flex-grow-1" style="height:8px;">
+                            <div class="progress-bar bg-warning" style="width: 0%"></div>
+                        </div>
+                        0%
+                    </li>
+                
+                    <li class="d-flex align-items-center">
+                        <span class="me-2" style="width:60px;">1 sao</span>
+                        <div class="progress flex-grow-1" style="height:8px;">
+                            <div class="progress-bar bg-danger" style="width: 0%"></div>
+                        </div>
+                        0%
+                    </li>
+                </ul>
+                
                 </div>
+
+            <div class="form-floating flex-1 w-75">
+                <div>
+                    <textarea class="form-control h-25" placeholder="Nhập bình luận..." id="floatingTextarea2"></textarea>
+                </div>
+
+                <div class="comments mt-4 overflow-auto">
+                
+                    <!-- Bình luận 1 -->
+                    <div class="d-flex mb-4">
+                        <img src="https://i.pravatar.cc/50?img=1" class="rounded-circle me-3" width="50" height="50">
+                        <div>
+                            <div class="fw-bold">Nguyễn Văn A</div>
+                
+                            <!-- sao -->
+                            <div class="text-warning mb-1">
+                                ★★★★★
+                            </div>
+                
+                            <p class="mb-1">
+                                Sản phẩm rất tốt, đóng gói cẩn thận, giao hàng nhanh.
+                            </p>
+                
+                            <small class="text-muted">2 ngày trước</small>
+                        </div>
+                    </div>
+                
+                    <!-- Bình luận 2 -->
+                    <div class="d-flex mb-4 overflow-auto">
+                        <img src="https://i.pravatar.cc/50?img=2" class="rounded-circle me-3" width="50" height="50">
+                        <div>
+                            <div class="fw-bold">Trần Thị B</div>
+                
+                            <div class="text-warning mb-1">
+                                ★★★★☆
+                            </div>
+                
+                            <p class="mb-1">
+                                Hàng ổn trong tầm giá, sẽ ủng hộ lần sau.
+                            </p>
+                
+                            <small class="text-muted">1 tuần trước</small>
+                        </div>
+                    </div>
+                
+                    <!-- Bình luận 3 -->
+                    <div class="d-flex mb-4">
+                        <img src="https://i.pravatar.cc/50?img=3" class="rounded-circle me-3" width="50" height="50">
+                        <div>
+                            <div class="fw-bold">Lê Văn C</div>
+                
+                            <div class="text-warning mb-1">
+                                ★★★☆☆
+                            </div>
+                
+                            <p class="mb-1">
+                                Sản phẩm tạm ổn nhưng giao hơi chậm.
+                            </p>
+                
+                            <small class="text-muted">3 tuần trước</small>
+                        </div>
+                    </div>
+                
+                </div>
+
+               
+            </div>
+
             </div>
         </div>
     </div>

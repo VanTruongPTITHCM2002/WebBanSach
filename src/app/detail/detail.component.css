@@ -46,10 +46,12 @@ li:hover{
 .card-responsive{
     cursor: pointer;
     width: 200px;
+    box-shadow: 2px 2px 2px 2px #ef8400;
 }
 
 .card-responsive:hover{
     box-shadow: 5px 5px 5px 5px #8888;
+    padding-left: 2px;
 }
 
 .card-body h5,

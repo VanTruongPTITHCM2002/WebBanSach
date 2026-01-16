@@ -31,9 +31,8 @@
             </div>
 
             <div class="container h-100 d-flex justify-content-between flex-column">
-              <div class="d-flex flex-wrap gap-3 p-4 justify-content-start align-items-center overflow-auto">
-
-                <div *ngIf="books.length > 0 ; else notFound" class="d-flex gap-5 flex-wrap">
+              <div *ngIf="books.length > 0 ; else notFound" class="d-flex flex-wrap gap-3 p-4 justify-content-start align-items-center overflow-auto">
+                <div  class="d-flex gap-5 flex-wrap">
                   <div class="card card-responsive min-h-350" *ngFor="let book of books" [routerLink]="['/book', book.bookid]"
                     [state]="{title: book.title}">
                 
@@ -50,7 +49,7 @@
               </div>
 
               <ng-template #notFound>
-                  <div class="alert alert-light text-center shadow-sm">
+                  <div class="alert alert-light w-100 text-center mx-auto mt-4 shadow-sm">
                     <i class="fs-1"></i>
                     <div class="fw-semibold mt-2">No books available</div>
                   </div>

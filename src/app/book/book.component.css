@@ -1,6 +1,6 @@
 .container-image{
-    width: 720px;
-    height: auto;
+    width: 100vw;
+    height: 100vh;
     background-color: #fff;
     padding:5px;
     margin-right: 10px;
@@ -12,7 +12,8 @@
 
   .input-quantity{
     text-align: center;
-    height: 50px;
+    height: 2rem;
   }
+
 
   

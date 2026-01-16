@@ -1,7 +1,8 @@
 .form-container {
     display: flex;
     justify-content: center;
-    height: 480px;
+    height: 100vh;
+    margin-top: 150px;
   }
   
 .signup-form{

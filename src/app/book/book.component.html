@@ -1,29 +1,25 @@
 <div class="root-container">
     <div class="main-container mt-3 d-flex overflow-hidden">
       <div class="container-image flex-grow-1 ms-3"> 
-            <div class="row row-cols-1 row-cols-md-4 g-4 p-4">
-              <div class="col">
-                <div class="card card-responsive">
-                    <img [src]="book?.link" class="img-fluid" 
-                    width="300" height="200"
+            <div class="row row-cols-1 row-cols-md-4 g-4 p-4 ms-5">
+              <div class="col flex-grow-1">
+                <div class="border-none">
+                    <img [src]="book?.link || 'placeholder-image.svg'" class="img-thumbnail" 
+                    width="800" height="500"
                     alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title"></h5>
-                      <p class="card-text"></p>
-                    </div>
                   </div>
           </div>
 
           <div class="col flex-grow-1">
-                <h5>{{title}}</h5>
-                <div class="d-flex gap-2">
+                <h1>{{book?.title}}</h1>
+                <div class="d-flex gap-5">
                     <div>
-                        <p>Nhà xuất bản: {{book?.publisherId?.publisherName}}</p>
-                        <p>Nhà phát hành: Đệ nhất quốc sư Trần Dần</p>
+                        <p>Nhà xuất bản: {{book?.publisherName}}</p>
+                        <p>Thể loại: {{book?.categoryName}}</p>
                     </div>
                 
                     <div>
-                        <p>Tác giả: {{book?.authorId?.firstname}}  {{book?.authorId?.lastname}}</p>
+                        <p>Tác giả: {{book?.authorName}}</p>
                         <p>Trạng thái: {{book?.status ? "Còn hàng" : "Hết hàng"}}</p>
                     </div>
                 </div>
@@ -34,9 +30,9 @@
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
 
-                <div>
+                <h2 class="mt-2 mb-5">
                     100.000đ
-                </div>
+                </h2>
 
                 <div class="d-flex gap-2">
                     <span>Số lượng:</span>
@@ -47,13 +43,65 @@
 
 
                 <div class="d-flex gap-4 mt-5">
-                    <button class="btn btn-secondary" (click)="addCartBook(book!)">Thêm vào giỏ hàng</button>
+                    <button class="btn btn-outline-secondary" (click)="addCartBook(book!)">
+                     <i class="fa fa-cart-plus"></i>   Thêm vào giỏ hàng
+                    </button>
                     <button class="btn btn-warning" (click)="buyBook(book!)">Mua ngay</button>
                 </div>
           </div>
 
-
+          
       </div>
+
+    <div class="card card-responsive bg-light h-40 p-4">
+        <div>
+            <h5>Đánh giá sản phẩm</h5>
+            <div class="p-4 d-flex gap-3">
+                <div>
+                    <h1>0<sub>/5</sub></h1>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <br />
+                    (0 đánh giá)
+                </div>
+            
+                <div>
+                    <ul>
+                        <li>
+                            5 sao
+                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100">
+                                <div class="progress-bar" style="width: 100%"></div>
+                            </div>
+                        </li>
+                        <li>4 
+                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+  <div class="progress-bar" style="width: 100%"></div>
+</div>
+                        </li>
+                        <li>3 sao
+                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+  <div class="progress-bar" style="width: 100%"></div>
+</div>
+                        </li>
+                        <li>2 sao
+                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+  <div class="progress-bar" style="width: 100%"></div>
+</div>
+                        </li>
+                        <li>1 sao
+                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+  <div class="progress-bar" style="width: 100%"></div>
+</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     
     

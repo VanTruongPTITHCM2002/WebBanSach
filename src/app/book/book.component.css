@@ -15,5 +15,20 @@
     height: 2rem;
   }
 
+.comments {
+  max-height: 100px;
+  padding-right: 8px;
+}
 
+.comments::-webkit-scrollbar {
+    width: 6px;
+}
+.comments::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+.btn-custom {
+  min-width: 190px;
+}
   

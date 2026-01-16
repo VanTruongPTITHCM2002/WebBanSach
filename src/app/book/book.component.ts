@@ -1,3 +1,4 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
@@ -13,7 +14,7 @@ import { showResponseSuccess } from '../response/sweetAlert';
 @Component({
   selector: 'app-book',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CurrencyPipe],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css'
 })

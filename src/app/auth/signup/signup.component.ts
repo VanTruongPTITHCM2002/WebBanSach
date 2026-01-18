@@ -25,12 +25,7 @@ export class SignupComponent implements OnInit {
     username: '',
     password: '',
     repassword: '',
-    firstname: '',
-    lastname: '',
-    email: '',
-    address: '',
-    phone: '',
-  }; // Khởi tạo formData với giá trị mặc định
+  }; 
   onRegisterMode(form:NgForm) {
     if(form.invalid){
       this.isContinue = true;
@@ -40,25 +35,25 @@ export class SignupComponent implements OnInit {
    
   }
   onToggleMode() {
-    this.toggleMode.emit(); // Gửi sự kiện để chuyển đổi chế độ
+    this.toggleMode.emit(); 
   }
   onSubmitRegister(form: NgForm) {
    
-    if(form.valid){
+    if (form.valid) {
       const forms = form.value as registerRequest;
       this.formData = { ...this.formData, ...forms };
-      if(!this.isRegisterMode){
-      
-        this.http.post('http://localhost:5000/auth/signup',this.formData)
+
+      this.http
+        .post('http://localhost:5000/api/v1/auth/signup', this.formData)
         .subscribe({
-          next: (v)=> console.log(v),
+          next: (v) => console.log(v),
           error: (e) => console.log(e.error),
-          complete: ()=>{alert('Đăng ký thành công'); this.router.navigate(['/'])},
-        })
-      }
-      }
-     
-    else{
+          complete: () => {
+            alert('Đăng ký thành công');
+            this.router.navigate(['/']);
+          },
+        });
+    } else {
       console.log('Form is invalid');
     }
 

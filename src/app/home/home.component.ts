@@ -8,6 +8,7 @@ import { CategoryService } from '../../service/CategoryService';
 import { Subscription } from 'rxjs';
 import { Book } from '../../entity/Book';
 import { BookService } from '../../service/BookService';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +33,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     '/your-own-library-landing-page-template_151150-680.jpg'
   ];
 
-
+  
+  
   constructor(
     private categoryService: CategoryService,
     private bookService: BookService
@@ -54,6 +56,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.categoryService.getCategoriesNotPaginate().subscribe((data) => {
       this.categories = data.data ?? [];
     });
+
   }
+
+
+  
+
   ngOnDestroy(): void {}
 }

@@ -1,6 +1,6 @@
 .container-image{
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
     background-color: #fff;
     padding:5px;
     margin-right: 10px;
@@ -31,4 +31,35 @@
 .btn-custom {
   min-width: 190px;
 }
+
+.card-comment-star {
+  max-height: 100vh;
+}
+
+.comment-box {
+  width: 100%;
+}
+
+.comment-textarea {
+  resize: none;
+  padding-right: 3.5rem;
+  border-radius: 12px;
+}
+
+.btn-send {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+}
+
   

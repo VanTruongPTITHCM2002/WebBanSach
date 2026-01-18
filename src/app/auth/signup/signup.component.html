@@ -1,7 +1,10 @@
 
 <form (ngSubmit)="onSubmitRegister(myForm)" class="form row g-3" #myForm="ngForm" [ngStyle]="{'margin-top': isRegisterMode ? '100px' : '100px'}">
   <h3 class="title">Đăng ký</h3>
-  <div class="form-group" *ngIf="!isRegisterMode">
+  <div class="form-group">
+    <label class="fs-6">Tên tài khoản
+      <span class="text-danger">*</span>
+    </label>
     <input
       type="text"
       class="form-control"
@@ -17,7 +20,10 @@
     </div>
   </div>
 
-  <div class="form-group" *ngIf="!isRegisterMode">
+  <div class="form-group">
+    <label class="fs-6">Mật khẩu
+      <span class="text-danger">*</span>
+      </label>
     <input
       type="password"
       class="form-control"
@@ -26,7 +32,7 @@
       name="password"
       ngModel
       required
-      minlength="1"
+      minlength="6"
       #password="ngModel"
     />
     <div class="invalid-feedback" *ngIf="isContinue && password.hasError('required')">
@@ -34,7 +40,10 @@
     </div>
   </div>
 
-  <div class="form-group" *ngIf="!isRegisterMode">
+  <div class="form-group">
+    <label class="fs-6">Nhập lại mật khẩu
+      <span class="text-danger">*</span>
+      </label>
     <input
       type="password"
       class="form-control"
@@ -43,7 +52,7 @@
       name="repassword"
       ngModel
       required
-      minlength="1"
+      minlength="6"
       #password="ngModel"
     />
     <div class="invalid-feedback" *ngIf="isContinue && password.hasError('required')">
@@ -51,77 +60,8 @@
     </div>
   </div>
 
-
-  <div class="register" *ngIf="isRegisterMode">
- <div class="form-group col-md-12 gap-2">
-      <input
-        type="text"
-        class="form-control"
-        id="firstname"
-        placeholder="Nhập tên..."
-        name="firstname"
-        ngModel
-        required
-        #firstname="ngModel"
-      />
-    </div>
-
-    <div class="form-group col-md-12">
-      <input
-        type="text"
-        class="form-control"
-        id="lastname"
-        placeholder="Nhập họ..."
-        name="lastname"
-        ngModel
-        required
-        #lastname="ngModel"
-      />
-    </div>
-
-    <div class="form-group col-md-12">
-      <input
-        type="email"
-        class="form-control"
-        id="registerEmail"
-        placeholder="Nhập email..."
-        name="email"
-        ngModel
-        required
-        #email="ngModel"
-      />
-    </div>
-
-    <div class="form-group col-md-12">
-      <input
-        type="text"
-        class="form-control"
-        id="address"
-        placeholder="Nhập địa chỉ..."
-        name="address"
-        ngModel
-        required
-        #address="ngModel"
-      />
-    </div>
-
-    <div class="form-group col-md-12">
-      <input
-        type="tel"
-        class="form-control"
-        id="phone"
-        placeholder="Nhập số điện thoại..."
-        name="phone"
-        ngModel
-        required
-        #phone="ngModel"
-      />
-    </div>
-  </div>
-
   <div class="btn-login">
-    <button type="submit" *ngIf="!isRegisterMode" (click)="onRegisterMode(myForm)" class="btn btn-primary">Tiếp tục</button>
-    <button type="submit" *ngIf="isRegisterMode" (click)="onRegisterMode(myForm)" class="btn btn-primary">Đăng ký</button>
+    <button type="submit" (click)="onRegisterMode(myForm)" class="btn btn-primary">Đăng ký</button>
   </div>
 
   <div class="form-group form-check form-option">

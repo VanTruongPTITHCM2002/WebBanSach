@@ -1,5 +1,5 @@
 <div class="root-container">
-    <div class="main-container mt-3 d-flex overflow-hidden">
+    <div class="main-container mt-3 d-flex">
       <div class="container-image flex-grow-1 ms-3"> 
             <div class="row row-cols-1 row-cols-md-4 g-4 p-4 ms-5">
               <div class="col flex-grow-1">
@@ -53,7 +53,7 @@
           
       </div>
 
-    <div class="card card-responsive bg-light h-40 p-4">
+    <div class="card card-responsive bg-light card-comment-star p-4">
         <div>
             <h5>Đánh giá sản phẩm</h5>
             <div class="p-4 d-flex gap-3">
@@ -114,12 +114,20 @@
                 
                 </div>
 
-            <div class="form-floating flex-1 w-75">
-                <div>
-                    <textarea class="form-control h-25" placeholder="Nhập bình luận..." id="floatingTextarea2"></textarea>
+            <div class="form-floating flex-1 w-75 min-h-1/2">
+
+                <div class="comment-box position-relative">
+                    <textarea class="form-control comment-textarea" 
+                    [(ngModel)]="comment"
+                    placeholder="Nhập bình luận..." rows="3"></textarea>
+                
+                    <button [disabled]="!comment?.trim()" class="btn btn-primary btn-send">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
                 </div>
 
-                <div class="comments mt-4 overflow-auto">
+
+                <div class="comments mt-4 overflow-y-scroll">
                 
                     <!-- Bình luận 1 -->
                     <div class="d-flex mb-4">

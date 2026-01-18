@@ -6,36 +6,111 @@
             <img width="100" height="70" src="/icons8-bookstore-66.png" alt="Trang chủ">
           </a>
         </li>
-        <li class="nav-item flex-grow-1 mt-3 mx-2">
-          <div class="input-group mb-3">
-            <input [(ngModel)] = "txtSearch" type="text" class="form-control" placeholder="Tìm kiếm..." aria-label="Recipient's username"
-            aria-describedby="button-addon2">
-            <button (click)="searchValue(txtSearch)" class="btn btn-outline-secondary" type="button" id="button-addon2">
-                <i class="bi bi-search"> Tìm kiếm </i>
-            </button>
-          </div>
+        <li class="nav-item flex-grow-1 mx-2">
+        <div class="position-relative search-box">
+          <input type="text" class="form-control search-input p-2.5" placeholder="Tìm kiếm sách..." [(ngModel)]="txtSearch"
+            (input)="onSearch()" autocomplete="off" />
+        
+          <ul class="list-group search-suggest" *ngIf="titles.length">
+            <li class="list-group-item list-group-item-action"
+                (click) ="txtSearch = title"
+            *ngFor="let title of titles">
+              {{ title }}
+            </li>
+          </ul>
+        </div>
+
         </li>
 
         <li class="nav-item">
-          <div class="dropdown">
-            
-              <button class="btn btn-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-               <i class="fa-solid fa-bell"></i>
-               Thông báo
-              </button>
-        
-           
+          <div class="dropdown notification-dropdown">
+  <button
+    class="btn btn-warning position-relative  notification-btn"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    <span class="d-flex flex-column align-items-center">
+      <i class="fa-solid fa-bell">
+    
+      </i>
+    
+      <span class="fs-6">Thông báo</span>
+    </span>
+   
+
+    <!-- Badge: chỉ hiện khi có thông báo -->
+    <span
+      class="badge bg-danger notification-badge"
+      *ngIf="notifications.length > 0"
+    >
+      {{ notifications.length }}
+    </span>
+  </button>
+
+  <ul class="dropdown-menu dropdown-menu-end notification-menu">
+
+    <!-- Header -->
+    <li class="dropdown-header fw-bold">
+      Thông báo
+    </li>
+
+    <!-- ================== CÓ THÔNG BÁO ================== -->
+    <ng-container *ngIf="notifications.length > 0; else emptyNotify">
+      <li
+        *ngFor="let notify of notifications"
+      >
+        <a class="dropdown-item notification-item" href="#">
+          <i
+            class="fa-solid"
           
-            <ul class="dropdown-menu">
-              <li class="p-1">Không có thông báo</li>
-            </ul>
+          ></i>
+
+          <div class="flex-grow-1">
+            <div class="fw-semibold">
+              <!-- {{ notify.title }} -->
+            </div>
+            <small class="text-muted">
+              <!-- {{ notify.content }} -->
+            </small>
           </div>
+
+          <small class="text-muted">
+            <!-- {{ notify.time }} -->
+          </small>
+        </a>
+      </li>
+
+      <li><hr class="dropdown-divider"></li>
+
+      <li class="text-center">
+        <a href="#" class="dropdown-item text-primary">
+          Xem tất cả
+        </a>
+      </li>
+    </ng-container>
+
+    <!-- ================== KHÔNG CÓ THÔNG BÁO ================== -->
+    <ng-template #emptyNotify>
+      <li class="text-center text-muted p-4">
+        <i class="fa-regular fa-bell-slash fs-4 mb-2"></i>
+        <div>Không có thông báo</div>
+      </li>
+    </ng-template>
+
+  </ul>
+</div>
+
         </li>
 
         <li class="nav-item">
           <button type="button" class="btn btn-warning" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-          <i class="fa-solid fa-cart-shopping"></i>
-            Giỏ hàng
+            <span class="d-flex flex-column align-items-center gap-1">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>
+              Giỏ hàng
+            </span>
+            </span>
+          
           </button>
 
            <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
@@ -71,7 +146,15 @@
               </ul>
               <p class="float-end">Tổng tiền: {{total | currency: 'VND'}} </p>
             </div> 
-            <p *ngIf="!isUser()">Vui lòng đăng nhập</p>
+            <!-- <p *ngIf="!isUser()">Vui lòng đăng nhập</p> -->
+            <div *ngIf="!isUser()" class="login-box text-center">
+              <i class="fa-solid fa-circle-user mb-2"></i>
+              <p class="mb-2">Bạn cần đăng nhập để sử dụng chức năng này</p>
+              <button class="btn btn-outline-primary btn-sm">
+                Đăng nhập
+              </button>
+            </div>
+
           </div>
         </div>
         </li>
@@ -90,8 +173,14 @@
           <a *ngIf="!isUser()" class="nav-link btn btn-warning p-2" routerLink="/auth/login"
           (click) = "isClickFormLogin()"
           >
-           <i class="fa-solid fa-user"></i>
-            Đăng nhập
+
+            <span class="d-flex flex-column align-items-center gap-1">
+              <i class="fa-solid fa-user"></i>
+              <span>
+                Đăng nhập
+              </span>
+            </span>
+         
           </a>
         </li>
       </ul>

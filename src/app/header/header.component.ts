@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AuthService } from "../auth/auth.service";
 import { Router, RouterLink } from "@angular/router";
@@ -10,6 +10,7 @@ import { Subscription } from "rxjs/internal/Subscription";
 import { CartService } from "../../service/CartService";
 import { showResponseSuccess } from "../response/sweetAlert";
 import { HttpClient } from "@angular/common/http";
+import { BookService } from "../../service/BookService";
 
 @Component({
     selector:'header-component',
@@ -26,6 +27,9 @@ export class HeaderComponent implements OnInit{
     total: number  = 0;
     isAuthenticated = false;
     isUser: any;
+    bookService = inject(BookService);
+    titles: string[] = [];
+    notifications: string[] = [];
     constructor(public authService: AuthService, private router: Router,
         private auth: Auth,
         public cookieService: CookieService,
@@ -94,5 +98,13 @@ export class HeaderComponent implements OnInit{
       return acc + (Number(item.price) * Number(item.quantity));
     }, 0)!;
      });
+  }
+
+   onSearch () {
+    this.bookService.getBooksSearchSuggestions(this.txtSearch ?? '').subscribe(
+      (data) => {
+        this.titles = data.data ?? [];
+      }
+    )
   }
 }

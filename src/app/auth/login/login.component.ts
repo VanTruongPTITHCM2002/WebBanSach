@@ -39,9 +39,12 @@ export class LoginComponent implements OnInit,OnDestroy {
     this.isSubmit = true;
     if(form.valid){
       const {username,password} = form.value;
-      this.http.post(`${enviroment.API_ROUTE}/auth/login`, { username, password }, {withCredentials: true}).subscribe({
+      this.http.post(`${enviroment.API_ROUTE}/api/v1/auth/login`, { username, password }, {withCredentials: true}).subscribe({
         next: (v: any) => {
-          if (v.statusCode === HttpStatusCode.Unauthorized) return showResponseFailure(v.message);
+
+          if (!v.success) {
+            return showResponseFailure(v.message);
+          }
           
          showResponseSuccess(v.message)
          this.authService.login();

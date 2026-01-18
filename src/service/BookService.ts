@@ -63,6 +63,10 @@ export class BookService{
           return this.http.get<any>(`http://localhost:5000/api/v1/books/${id}`)
         }
 
+        getBooksSearchSuggestions(name: string): Observable<ResponseData<string[]>> {
+          return this.http.get<any>(`http://localhost:5000/api/v1/books/search-suggestions?name=${name}`);
+        }
+
         createBook(bookCreate: FormData):Observable<ResponseData<BookResponse>>{
           return this.http.post<any>(`http://localhost:5000/api/v1/books`,bookCreate,{
             withCredentials: true,

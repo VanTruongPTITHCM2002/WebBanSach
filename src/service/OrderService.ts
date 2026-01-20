@@ -8,6 +8,7 @@ import { Injectable } from "@angular/core";
     providedIn: 'root',
 })
 export class OrderService {
+    static readonly API_ORDER_URL = 'localhost:5000';
     constructor(private http:HttpClient){}
 
     getOrders(page: number, size: number): Observable<any>{
@@ -20,5 +21,9 @@ export class OrderService {
 
     updateOrder(orderId: number, status: number):Observable<ResponseData<Order>>{
         return this.http.patch<any>(`http://localhost:5000/orders/${orderId}`, {status: status}, {withCredentials: true});
+    }
+
+    getSumOrders (): Observable<any>{
+        return this.http.get<any>(`${OrderService.API_ORDER_URL}/orders/sum`);
     }
 }

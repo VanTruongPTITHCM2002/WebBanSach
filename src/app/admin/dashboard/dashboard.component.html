@@ -43,8 +43,8 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h6 class="card-title text-muted">Lượt truy cập</h6>
-                        <h4 class="card-text">12,345</h4>
+                        <h6 class="card-title text-muted">Số lượng sách đang hoạt động</h6>
+                        <h4 class="card-text">{{booksActive}}</h4>
                     </div>
                     <i class="fas fa-chart-line fa-2x text-info"></i>
                 </div>
@@ -58,8 +58,37 @@
     <div class="col-md-8">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Biểu đồ doanh thu</h5>
-                <canvas id="revenueChart" height="100"></canvas>
+                <h5 class="card-title">Top 5 cuốn sách bạn chạy tháng {{currentMonth + '/' + currentYear}}</h5>
+                <!-- <canvas id="revenueChart" height="100"></canvas> -->
+                 <table class="table table-bordered">
+                    <thead>
+                        <tr class="text-center">
+                            <th>STT</th>
+                            <th>Tên sách</th>
+                            <th>Số lượng đã bán</th>
+                        </tr>
+                      
+                    </thead>
+
+                    <tbody>
+                    <ng-container *ngIf="bookBestSelling.length > 0; else empty">
+                        <tr *ngFor="let book of bookBestSelling; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.totalSold }}</td>
+                        </tr>
+                    </ng-container>
+                    
+                    <ng-template #empty>
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                Không có dữ liệu
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    </tbody>
+                 </table>
             </div>
         </div>
     </div>
@@ -70,8 +99,28 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Đơn hàng hôm nay: 25</li>
                     <li class="list-group-item">Người dùng mới: 10</li>
-                    <li class="list-group-item">Sản phẩm bán chạy: Sản phẩm A</li>
                 </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4 d-flex gap-3">
+        <div class="card shadow-sm flex-grow-1">
+            <div class="card-header">
+                <div class="card-title fs-5 text-capitalize fw-bold">Biểu đồ doanh thu theo ngày</div>
+            </div>
+
+            <div class="card-body p-4">
+              <c-chart [data]="chartData" type="bar"/>
+            </div>
+        </div>
+
+        <div class="card shadow-sm flex-grow-1">
+  <div class="card-header">
+                <div class="card-title fs-5 text-capitalize fw-bold">Biểu đồ doanh thu theo tháng</div>
+            </div>
+
+            <div class="card-body p-4">
+              <c-chart class="h-100" [data]="chartDateMonth" type="bar"/>
             </div>
         </div>
     </div>

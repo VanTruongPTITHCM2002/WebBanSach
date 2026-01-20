@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
     providedIn: 'root',
 })
 export class InvoiceService {
+    static readonly API_INVOICE_URL = 'localhost:5000';
     constructor(private http:HttpClient){}
 
     getInvoices(page: number, size: number): Observable<any>{
@@ -20,5 +21,9 @@ export class InvoiceService {
 
     getInvoiceById (invoiceId: number): Observable<ResponseData<Invoice>>{
         return this.http.get<any>(`http://localhost:5000/invoice/${invoiceId}`, {withCredentials: true});
+    }
+
+    getTotalRevenue(): Observable<any> {
+        return this.http.get<any>(`${InvoiceService.API_INVOICE_URL}/invoice/revenue`, {withCredentials: true});
     }
 }

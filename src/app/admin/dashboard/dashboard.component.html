@@ -5,7 +5,7 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <h6 class="card-title text-muted">Người dùng</h6>
-                        <h4 class="card-text">1,234</h4>
+                        <h4 class="card-text">{{numberOfUsers}}</h4>
                     </div>
                     <i class="fas fa-users fa-2x text-primary"></i>
                 </div>
@@ -18,9 +18,9 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <h6 class="card-title text-muted">Doanh thu</h6>
-                        <h4 class="card-text">4,678,000 VNĐ</h4>
+                        <h4 class="card-text">{{revenue | currency: 'VND'}}</h4>
                     </div>
-                    <i class="fas fa-dollar-sign fa-2x text-success"></i>
+                    <i class="fas fa-cash-register fa-2x text-success"></i>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <h6 class="card-title text-muted">Đơn hàng</h6>
-                        <h4 class="card-text">456</h4>
+                        <h4 class="card-text">{{orders}}</h4>
                     </div>
                     <i class="fas fa-shopping-cart fa-2x text-warning"></i>
                 </div>

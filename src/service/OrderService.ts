@@ -26,4 +26,8 @@ export class OrderService {
     getSumOrders (): Observable<any>{
         return this.http.get<any>(`${OrderService.API_ORDER_URL}/orders/sum`);
     }
+
+    getTopFiveBooksBestSelling (): Observable<any>{
+        return this.http.get<any>(`${OrderService.API_ORDER_URL}/orderdetail/top/books`);
+    }
 }

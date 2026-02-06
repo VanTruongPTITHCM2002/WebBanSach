@@ -47,7 +47,7 @@
 
         <tbody>
           <tr *ngFor="let author of authors">
-            <td>{{ author.authorId }}</td>
+            <td>{{ author.id }}</td>
             <td class="fw-semibold">{{ author.firstname }}</td>
             <td>{{ author.lastname }}</td>
             <td>{{ author.country }}</td>
@@ -77,7 +77,7 @@
                   </li>
 
                   <li>
-                    <button class="dropdown-item text-danger" (click)="handleDelete(author.authorId)">
+                    <button class="dropdown-item text-danger" (click)="handleDelete(author.id)">
                       <i class="fas fa-trash-alt me-2"></i>Xóa
                     </button>
                   </li>
@@ -89,7 +89,7 @@
       </table>
     </div>
   </div>
-<nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
+<nav class="d-flex justify-content-center mt-4" aria-label="Phân trang">
   <ul class="pagination mb-0">
 
     <!-- First -->

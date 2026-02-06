@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 export class AuthorsComponent implements OnInit {
   authors: Author[] = [];
   author: Author = {
-    authorId: 0,
+    id: '',
     firstname: '',
     lastname: '',
     country: '',
@@ -42,7 +42,7 @@ export class AuthorsComponent implements OnInit {
   closeBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('createForm') createForm!: NgForm;
   updateAuthor: Author = {
-    authorId: 0,
+    id: '',
     firstname: '',
     lastname: '',
     country: '',
@@ -67,7 +67,7 @@ export class AuthorsComponent implements OnInit {
       .subscribe((data) => {
         this.authors = data.data.content || [];
         this.currentPage = page!;
-        this.totalPages = data.data.totalPages;
+        this.totalPages = data.data.totalPages || 1;
         this.loading = false;
       });
   }
@@ -109,7 +109,7 @@ export class AuthorsComponent implements OnInit {
     });
   }
 
-  handleDelete(authorId: number) {
+  handleDelete(authorId: string) {
     Swal.fire({
       title: 'Bạn có chắc chắn muốn xóa tác giả này?',
       showDenyButton: true,
@@ -126,7 +126,7 @@ export class AuthorsComponent implements OnInit {
                 return showResponseFailure(v.message);
               showResponseSuccess(v.message);
               this.authors = this.authors.filter(
-                (author) => author.authorId != authorId
+                (author) => author.id != authorId
               );
             },
             error: (e: any) => showResponseFailure(e.message),
@@ -140,11 +140,11 @@ export class AuthorsComponent implements OnInit {
   }
 
   update() {
-    const { authorId, ...rest } = this.updateAuthor;
+    const { id, ...rest } = this.updateAuthor;
     const newAuthor = rest;
 
     this.changeAuthor = this.authorService
-      .updateAuthor(this.updateAuthor.authorId, newAuthor)
+      .updateAuthor(this.updateAuthor.id, newAuthor)
       .subscribe({
         next: (value) => {
           showResponseSuccess(value.message);

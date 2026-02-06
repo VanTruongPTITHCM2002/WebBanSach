@@ -1,157 +1,230 @@
-<form class="row g-3 p-3 bg-light rounded shadow-sm fs-6-text" #bookCreateForm="ngForm" (ngSubmit)="onSubmit(bookCreateForm)">
+<form class="row g-3 p-3 bg-light rounded shadow-sm fs-6-text" #bookCreateForm="ngForm"
+  (ngSubmit)="onSubmit(bookCreateForm)">
   <div>
-    <button (click)="goBack()" class="btn bg-gray border">
-    <i class="fa fa-chevron-left"></i>  Quay lại
+    <button (click)="goBack()" class="btn btn-outline-secondary">
+      <i class="fa fa-chevron-left"></i> Quay lại
     </button>
     <h2 class="text-center mb-3 fw-bold">Thêm sách</h2>
   </div>
-  
 
-  <!-- Tiêu đề -->
-  <div class="col-12">
-    <label for="title" class="form-label fw-semibold"
-    [ngClass]="title.invalid && title.touched ? 'text-danger' : ''"
-    >Tiêu đề
-      <span class="text-danger">*</span>
-    </label>
-    <input type="text" id="title"
-      [ngClass]="title.invalid && title.touched ? 'border border-danger' : ''"
-    name="title" class="form-control" maxlength="45" required #title="ngModel"
-      [(ngModel)]="book.title">
-    <div class="text-danger mt-1" *ngIf="title.invalid && title.touched">
-      <small *ngIf="title.errors?.['required']">Tiêu đề không được để trống.</small>
-      <small *ngIf="title.errors?.['maxlength']">Tối đa 45 ký tự.</small>
+  <div class="card shadow-sm p-4 gap-4">
+    <!-- Tiêu đề -->
+    <div class="col-12">
+      <label for="title" class="form-label fw-semibold"
+        [ngClass]="title.invalid && title.touched ? 'text-danger' : ''">Tiêu đề
+        <span class="text-danger">*</span>
+      </label>
+      <input type="text" id="title" placeholder="Ví dụ: Ngày có em" [ngClass]="title.invalid && title.touched ? 'border border-danger' : ''"
+        name="title" class="form-control" maxlength="45" required #title="ngModel" [(ngModel)]="book.title">
+      <div class="text-danger mt-1" *ngIf="title.invalid && title.touched">
+        <small *ngIf="title.errors?.['required']">Tiêu đề không được để trống.</small>
+        <small *ngIf="title.errors?.['maxlength']">Tối đa 45 ký tự.</small>
+      </div>
     </div>
-  </div>
 
-  <!-- Tác giả -->
-  <div class="col-12">
-    <label for="authorName" class="form-label fw-semibold" 
-      [ngClass]="author.invalid && author.touched ? 'text-danger' : ''"
-      >Tác giả
-      <span class="text-danger">*</span>
-    </label>
-    <div class="input-group">
-      <select name="authorName" id="authorName" class="form-select"
-        [ngClass]="author.invalid && author.touched ? 'border border-danger' : ''"
-      required #author="ngModel" [(ngModel)]="book.authorName">
-        <option value="" disabled selected>-- Chọn tác giả --</option>
-        <option *ngFor="let author of authors" [value]="author.firstname + ' ' + author.lastname">
-          {{ author.firstname + ' ' + author.lastname }}
+    <!-- Tác giả -->
+    <div class="col-12">
+      <label for="authorName" class="form-label fw-semibold"
+        [ngClass]="author.invalid && author.touched ? 'text-danger' : ''">Tác giả
+        <span class="text-danger">*</span>
+      </label>
+      <div class="input-group">
+        <select name="authorName" id="authorName" class="form-select"
+          [ngClass]="author.invalid && author.touched ? 'border border-danger' : ''" required #author="ngModel"
+          [(ngModel)]="book.authorId">
+          <option value="" disabled selected>-- Chọn tác giả --</option>
+          <option *ngFor="let author of authors" [ngValue]="author.id">
+            {{ author.name }}
+          </option>
+        </select>
+
+      </div>
+      <div class="text-danger mt-1" *ngIf="author.invalid && author.touched">
+        <small>Vui lòng chọn tác giả.</small>
+      </div>
+    </div>
+
+    <!-- Nhà xuất bản -->
+    <div class="col-12">
+      <label for="publisherName" class="form-label fw-semibold"
+        [ngClass]="publisher.invalid && publisher.touched ? 'text-danger' : ''">Nhà xuất bản
+        <span class="text-danger">*</span>
+      </label>
+      <select name="publisherName" [ngClass]="publisher.invalid && publisher.touched ? 'border border-danger': ''"
+        id="publisherName" class="form-select" #publisher="ngModel" required [(ngModel)]="book.publisherId">
+        <option value="" disabled selected>-- Chọn nhà xuất bản --</option>
+        <option *ngFor="let publisher of publishers" [ngValue]="publisher.publisherId">
+          {{ publisher.name }}
         </option>
       </select>
-      
+
+      <div class="text-danger mt-1" *ngIf="publisher.invalid && publisher.touched">
+        <small>Vui lòng chọn nhà xuất bản.</small>
+      </div>
     </div>
 
-    <div class="mt-2 d-flex justify-content-between">
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="currentPage = currentPage - 1"
-        [disabled]="currentPage === 1">Trang trước</button>
-      <span class="fw-medium align-self-center">Trang {{ currentPage }} / {{ totalPages }}</span>
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="currentPage = currentPage + 1"
-        [disabled]="currentPage === totalPages">Trang sau</button>
-    </div>
-    <div class="text-danger mt-1" *ngIf="author.invalid && author.touched">
-      <small>Vui lòng chọn tác giả.</small>
-    </div>
-    </div>
-
-  <!-- Nhà xuất bản -->
-  <div class="col-12">
-    <label for="publisherName" class="form-label fw-semibold"
-      [ngClass]="publisher.invalid && publisher.touched ? 'text-danger' : ''"
-    >Nhà xuất bản
-      <span class="text-danger">*</span>
-    </label>
-    <select name="publisherName" 
-    [ngClass]="publisher.invalid && publisher.touched ? 'border border-danger': ''"
-    id="publisherName" class="form-select" #publisher="ngModel" required [(ngModel)]="book.publisherName">
-      <option value="" disabled selected>-- Chọn nhà xuất bản --</option>
-      <option *ngFor="let publisher of pagedPublishers" [ngValue]="publisher.publisherName">
-        {{ publisher.publisherName }}
-      </option>
-    </select>
-
-    <div class="mt-2 d-flex justify-content-between">
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="publisherPage = publisherPage - 1"
-        [disabled]="publisherPage === 1">Trang trước</button>
-      <span class="fw-medium align-self-center">Trang {{ publisherPage }} / {{ totalPublisherPages }}</span>
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="publisherPage = publisherPage + 1"
-        [disabled]="publisherPage === totalPublisherPages">Trang sau</button>
-    </div>
-    
-    <div class="text-danger mt-1" *ngIf="publisher.invalid && publisher.touched">
-      <small>Vui lòng chọn nhà xuất bản.</small>
-    </div>
-    </div>
-
-  <!-- Thể loại -->
-  <div class="col-12">
-    <label for="categoryName" class="form-label fw-semibold"
-      [ngClass]="category.invalid && category.touched ? 'text-danger' : ''"
-    >Thể loại
-      <span class="text-danger">*</span>
-    </label>
-    <select name="categoryName" 
-    [ngClass]="category.invalid && category.touched ? 'border border-danger' : ''"
-    id="categoryName" class="form-select" #category="ngModel" required [(ngModel)]="book.categoryName">
-      <option value="" disabled selected>-- Chọn thể loại --</option>
-      <option *ngFor="let category of pagedCategories" [ngValue]="category.name">
-        {{ category.name }}
-      </option>
-    </select>
+    <!-- Thể loại -->
+    <div class="col-12">
+      <label for="categoryName" class="form-label fw-semibold"
+        [ngClass]="category.invalid && category.touched ? 'text-danger' : ''">Thể loại
+        <span class="text-danger">*</span>
+      </label>
+      <select name="categoryName" [ngClass]="category.invalid && category.touched ? 'border border-danger' : ''"
+        id="categoryName" class="form-select" #category="ngModel" required [(ngModel)]="book.category">
+        <option value="" disabled selected>-- Chọn thể loại --</option>
+        <option *ngFor="let category of categories" [ngValue]="category.categoryId">
+          {{ category.name }}
+        </option>
+      </select>
 
 
-    <div class="text-danger mt-1" *ngIf="category.invalid && category.touched">
-      <small>Vui lòng chọn thể loại.</small>
+      <div class="text-danger mt-1" *ngIf="category.invalid && category.touched">
+        <small>Vui lòng chọn thể loại.</small>
+      </div>
     </div>
+
+    <!-- Giá -->
+    <div class="col-md-6 w-100">
+      <div class="d-flex justify-content-between gap-2">
+        <div class="flex-grow-1">
+          <label for="price" class="form-label fw-semibold"
+            [ngClass]="price.invalid && price.touched ? 'text-danger' : ''">Giá <span
+              class="text-danger">*</span></label>
+          <input type="number" [ngClass]="price.invalid && price.touched ? 'border border-danger' : ''" id="price"
+            name="price" class="form-control" required min="1" #price="ngModel" [(ngModel)]="book.price">
+          <div class="text-danger mt-1" *ngIf="price.invalid && price.touched">
+            <small *ngIf="price.errors?.['required']">Giá không được để trống.</small>
+            <small *ngIf="price.errors?.['min']">Giá phải lớn hơn 0.</small>
+          </div>
+        </div>
+
+        <div class="flex-grow-1">
+          <label for="stock" class="form-label fw-semibold"
+            [ngClass]="stock.invalid && stock.touched ? 'text-danger' : ''">Số
+            lượng trong kho
+            <span class="text-danger">*</span>
+          </label>
+          <input type="number" id="stock" [ngClass]="stock.invalid && stock.touched ? 'boder border-danger': ''"
+            name="stock" class="form-control" required min="1" #stock="ngModel" [(ngModel)]="book.stock">
+          <div class="text-danger mt-1" *ngIf="stock.invalid && stock.touched">
+            <small>Vui lòng nhập số lượng hợp lệ.</small>
+          </div>
+        </div>
+
+        <div class="flex-grow-1">
+          <label for="status" class="form-label fw-semibold">Trạng thái</label>
+          <select id="status" name="status" class="form-select" required [(ngModel)]="book.status">
+            <option [value]="true">Còn hàng</option>
+            <option [value]="false">Hết hàng</option>
+          </select>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Ảnh -->
+    <div class="col-12">
+      <label class="form-label fw-semibold">Ảnh sách</label>
+        <div class="drop-zone mb-2" (dragover)="onDragOver($event)" 
+        (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
+          (click)="fileInput.click()"
+           [class.drag-over]="isDragOver"
+        >
+          <p>Kéo ảnh vào đây hoặc click để chọn</p>
+        
+          <input type="file" hidden multiple accept="image/*" #fileInput (change)="onImageChange($event)">
+        
+        </div>
+
+        <div class="row g-2" *ngIf="images.length > 0">
+          <div class="col-6 col-md-3" *ngFor="let img of images; let i = index">
+            <div class="position-relative">
+              <img [src]="previewUrls[i]" class="img-thumbnail w-100" style="height: 150px; object-fit: cover;">
+        
+              <!-- nút xoá -->
+              <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                (click)="removeImage(i); $event.stopPropagation()">
+                ✕
+              </button>
+            </div>
+          </div>
+        </div>
+
+   <!-- THUMBNAIL -->
+<label class="form-label fw-semibold">Thumbnail (link ảnh)</label>
+<div class="input-group mb-2">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="https://example.com/thumb.jpg"
+    [(ngModel)]="thumbnailUrl"
+    (keyup.enter)="setThumbnail()"
+    name="thumbnailUrl"
+  />
+  <button class="btn btn-outline-success" type="button" (click)="setThumbnail()">
+    Đặt thumbnail
+  </button>
+</div>
+
+<!-- Thumbnail preview -->
+<div *ngIf="thumbnail" class="mb-3">
+  <img
+    [src]="thumbnail"
+    class="img-thumbnail"
+    style="max-height: 150px"
+  />
+</div>
+
+<hr />
+
+<!-- IMAGES -->
+<label class="form-label fw-semibold">Ảnh sách (nhiều ảnh)</label>
+<div class="input-group mb-2">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="https://example.com/image.jpg"
+    [(ngModel)]="imageUrl"
+    name="imageUrl"
+    (keyup.enter)="addImageByUrl()"
+  />
+  <button class="btn btn-outline-primary" type="button" (click)="addImageByUrl()">
+    Thêm
+  </button>
+</div>
+
+<!-- Images preview -->
+<div class="d-flex flex-wrap gap-2">
+  <div *ngFor="let img of imagesList; let i = index" class="position-relative">
+    <img
+      [src]="img"
+      class="img-thumbnail"
+      style="height: 120px; width: 120px; object-fit: cover"
+    />
+    <button
+      type="button"
+      class="btn btn-sm btn-danger position-absolute top-0 end-0"
+      (click)="removeImage(i)"
+    >
+      ×
+    </button>
   </div>
+</div>
 
-  <!-- Giá -->
-  <div class="col-md-6">
-    <label for="price" class="form-label fw-semibold"
-      [ngClass]="price.invalid && price.touched ? 'text-danger' : ''"
-    >Giá <span class="text-danger">*</span></label>
-    <input type="number"  [ngClass]="price.invalid && price.touched ? 'border border-danger' : ''" id="price" name="price" class="form-control" required min="1" #price="ngModel" [(ngModel)]="book.price">
-    <div class="text-danger mt-1" *ngIf="price.invalid && price.touched">
-      <small *ngIf="price.errors?.['required']">Giá không được để trống.</small>
-      <small *ngIf="price.errors?.['min']">Giá phải lớn hơn 0.</small>
+  
+  <!-- preview ảnh từ link -->
+  <div *ngIf="imageUrlPreview" class="mb-2">
+    <img [src]="imageUrlPreview" class="img-thumbnail" style="max-height: 150px">
+  </div>
     </div>
-  </div>
 
-  <!-- Số lượng -->
-  <div class="col-md-6">
-    <label for="stock" class="form-label fw-semibold"
-    [ngClass]="stock.invalid && stock.touched ? 'text-danger' : ''"
-    >Số lượng trong kho
-      <span class="text-danger">*</span>
-    </label>
-    <input type="number" id="stock" [ngClass]="stock.invalid && stock.touched ? 'boder border-danger': ''"  name="stock" class="form-control" required min="1" #stock="ngModel" [(ngModel)]="book.stock">
-    <div class="text-danger mt-1" *ngIf="stock.invalid && stock.touched">
-      <small>Vui lòng nhập số lượng hợp lệ.</small>
+    <!-- Buttons -->
+    <div class="col-12 d-flex justify-content-center gap-4 mt-3">
+      <button type="submit" class="btn btn-outline-primary px-4 py-2 w-50"><i class="fa-solid fa-plus me-2"></i>Tạo</button>
+      <button type="button" class="btn btn-outline-danger px-4 py-2 w-50" (click)="goBack()"><i
+          class="fa-solid fa-x me-2"></i>Hủy</button>
     </div>
-  </div>
 
-  <!-- Trạng thái -->
-  <div class="col-md-6">
-    <label for="status" class="form-label fw-semibold">Trạng thái</label>
-    <select id="status" name="status" class="form-select" required [(ngModel)]="book.status">
-      <option [value]="true">Còn hàng</option>
-      <option [value]="false">Hết hàng</option>
-    </select>
-  </div>
-
-  <!-- Ảnh -->
-  <div class="col-12">
-    <label class="form-label fw-semibold">Ảnh sách</label>
-    <input type="file" class="form-control mb-2" (change)="onImageChange($event)">
-
-    <label class="form-label fw-semibold">Hoặc nhập link ảnh</label>
-    <input type="text" class="form-control" />
-  </div>
-
-  <!-- Buttons -->
-  <div class="col-12 d-flex justify-content-end gap-2 mt-3">
-    <button type="submit" class="btn btn-outline-primary px-4 py-2"><i class="fa-solid fa-plus me-2"></i>Tạo</button>
-    <button type="button" class="btn btn-outline-danger px-4 py-2" (click)="goBack()"><i class="fa-solid fa-x me-2"></i>Hủy</button>
   </div>
 </form>

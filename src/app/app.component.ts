@@ -6,7 +6,7 @@ import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { FormsModule } from '@angular/forms';
-import { CartService } from '../service/CartService';
+import { CartService } from '../service/cart.service';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -14,17 +14,20 @@ import { FooterComponent } from './footer/footer.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, HttpClientModule, CommonModule
-    ,FormsModule,HeaderComponent, FooterComponent
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    HeaderComponent,
+    FooterComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-
-  constructor(private cdRef: ChangeDetectorRef){
-  
-  }
+  constructor(private cdRef: ChangeDetectorRef) {}
   ngAfterViewInit() {
     this.cdRef.detectChanges();
   }

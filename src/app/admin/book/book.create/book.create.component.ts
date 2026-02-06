@@ -5,165 +5,139 @@ import { Book, BookCreate, BookResponse } from '../../../../entity/Book';
 import { Category } from '../../../../entity/Category';
 import { Author } from '../../../../entity/Author';
 import { Publisher } from '../../../../entity/Publisher';
-import { Subscription } from 'rxjs';
 import { AuthService } from '../../../auth/auth.service';
 import { CategoryService } from '../../../../service/CategoryService';
 import { PublisherService } from '../../../../service/PublisherService';
-import { BookService } from '../../../../service/BookService';
+import { BookService } from '../../../../service/book.service';
 import { AuthorService } from '../../../../service/AuthorService';
-import { showResponseFailure, showResponseSuccess } from '../../../response/sweetAlert';
+import {
+  showResponseFailure,
+  showResponseSuccess,
+} from '../../../response/sweetAlert';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'admin-book-create',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './book.create.component.html',
-  styleUrl: './book.create.component.css'
+  styleUrl: './book.create.component.css',
 })
-export class BookCreateComponent implements OnInit{
+export class BookCreateComponent implements OnInit {
   categories: {
-    categoryId: number,
-    name: string
+    categoryId: number;
+    name: string;
   }[] = [];
   authors: Author[] = [];
   publishers: Publisher[] = [];
-  getCategories: Subscription;
-  getAuthors: Subscription;
-  getPublishers: Subscription;
+  book: BookResponse = {
+    bookid: 0,
+    title: '',
+    price: 0,
+    stock: 0,
+    status: true,
+    images: [],
+    thumbnail: '',
+    authorId: '',
+    authorName: '',
+    categoryName: '',
+    publisherName: '',
+    publisherId: '',
+    category:'',
+  };
+  pageSize = 5;
+  currentPage = 1;
   selectedFile?: File;
   router = Inject(Router);
-  constructor(private location: Location, private authorService: AuthorService,
-    private categoryService: CategoryService, private publisherService: PublisherService,
+  images: File[] = [];
+  imagesList: string[] = [];
+  previewUrls: string[] = [];
+  isDragOver = false;
+  imageUrl = '';
+  imageUrlPreview: string | null = null;
+  thumbnailUrl = '';
+  thumbnail = '';
+
+  constructor(
+    private location: Location,
+    private authorService: AuthorService,
+    private categoryService: CategoryService,
+    private publisherService: PublisherService,
     private bookService: BookService,
     private authService: AuthService,
-    // private router: Router,
-  ){
-    this.getCategories = new Subscription();
-    this.getAuthors = new Subscription();
-    this.getPublishers = new Subscription();
-  }
+  ) {}
+
   async ngOnInit(): Promise<void> {
     await Promise.all([
-      this.getAuthors = this.authorService.getAuthors().subscribe((data) =>
-        this.authors = data.data.content ?? []
-      ),
-      this.getPublishers = this.publisherService.getPublishers().subscribe((data) =>
-        this.publishers = data.data.content ?? []
-      ),
-      this.getCategories = this.categoryService.getCategoriesNotPaginate().subscribe((data) =>
-        this.categories = data.data ?? []
-      )
+      (this.authorService
+        .getAuthorNotPaginate()
+        .subscribe((data) => (this.authors = data.data ?? []))),
+      (this.publisherService
+        .getPublishersNotPaginate()
+        .subscribe((data) => (this.publishers = data.data ?? []))),
+      (this.categoryService
+        .getCategoriesNotPaginate()
+        .subscribe((data) => (this.categories = data.data ?? []))),
     ]);
   }
 
- book: BookResponse = {
-  bookid: 0,
-  title: '',
-  price: 0,
-  stock: 0,
-  status: true,
-  image: '',
-  imageBase64: '',
-  authorId: {
-    authorId: 0,
-    firstname: '',
-    lastname: '',
-    country: '',
-    quantity: 0,
-  },
-  authorName: '',
-  categoryName:'',
-  publisherName:'',
-  publisherId: {
-    publisherId: 0,
-    publisherName:'',
-    publisherAddress: ''
-  },
-  category: {
-    categoryId: 0,
-    categoryName: ''
+  onImageChange(event: any) {
+    // const input = event.target as HTMLInputElement;
+    // if (input.files && input.files.length > 0) {
+    //   this.selectedFile = input.files[0];
+    // }
+    const input = event.target as HTMLInputElement;
+    if (!input.files) return;
+
+    this.handleFiles(Array.from(input.files));
   }
+
+  handleFiles(files: File[]) {
+    files.forEach((file) => {
+      if (!file.type.startsWith('image/')) return;
+
+      this.images.push(file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrls.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  goBack() {
+    this.location.back();
+  }
+
+  onSubmit(form: NgForm) {
+    if (form.invalid) {
+      form.control.markAllAsTouched();
+      this.focusFirstInvalid(form);
+      return;
+    }
+    const formData = form.value;
+
+const payload = {
+  title: formData.title,
+  authorId: formData.authorName,
+  categoryId: formData.categoryName,
+  publisherId: formData.publisherName,
+  price: Number(formData.price),
+  stock: Number(formData.stock),
+  images:this.imagesList,
+  thumbnail: this.thumbnail,
 };
 
-pageSize = 5;
-currentPage = 1;
-
-get pagedAuthors() {
-  const start = (this.currentPage - 1) * this.pageSize;
-  return this.authors.slice(start, start + this.pageSize);
-}
-
-get totalPages() {
-  return Math.ceil(this.authors.length / this.pageSize);
-}
-
-publisherPage = 1;
-
-
-get pagedPublishers() {
-  const start = (this.publisherPage - 1) * this.pageSize;
-  return this.publishers.slice(start, start + this.pageSize);
-}
-
-get totalPublisherPages() {
-  return Math.ceil(this.publishers.length / this.pageSize);
-}
-
-categoryPage = 1;
-
-get pagedCategories() {
-  const start = (this.categoryPage - 1) * this.pageSize;
-  return this.categories.slice(start, start + this.pageSize);
-}
-
-get totalCategoryPages() {
-  return Math.ceil(this.categories.length / this.pageSize);
-}
-
-
-onImageChange(event: any) {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files.length > 0) {
-    this.selectedFile = input.files[0];
-  }
-}
-
-goBack(){
-  this.location.back();
-}
-
-onSubmit (form: NgForm){
-  if (form.invalid) {
-    form.control.markAllAsTouched();
-    this.focusFirstInvalid(form);
-    return;
-  }
-      const formData = form.value;
-
-    const formDATA = new FormData();
-    formDATA.append('title', formData.title);
-    formDATA.append('authorName', formData.authorName);
-    formDATA.append('categoryName', formData.categoryName);
-    formDATA.append('publisherName', formData.publisherName);
-    formDATA.append('price', String(formData.price));
-    formDATA.append('stock', String(formData.stock));
-    formDATA.append('link', formData.link);
-
-    if (this.selectedFile) {
-       formDATA.append('image',this.selectedFile);
-    }
-    
-      this.bookService.createBook(formDATA).subscribe({
-        next: (value) => {
-            showResponseSuccess(value.message);
-            this.goBack();
-        },
-        error(err) {
-            showResponseFailure(err.message);
-        },
-      })
+    this.bookService.createBook(payload).subscribe({
+      next: (value) => {
+        showResponseSuccess(value.message);
+        this.goBack();
+      },
+      error(err) {
+        showResponseFailure(err.message);
+      },
+    });
   }
 
   focusFirstInvalid(form: NgForm) {
@@ -171,16 +145,65 @@ onSubmit (form: NgForm){
 
     for (const name in controls) {
       if (controls[name].invalid) {
-        const invalidControl = document.querySelector(`[name="${name}"]`) as HTMLElement;
+        const invalidControl = document.querySelector(
+          `[name="${name}"]`,
+        ) as HTMLElement;
 
         if (invalidControl) {
           invalidControl.focus();
-          invalidControl.scrollIntoView({behavior: 'smooth', block: 'center'});
+          invalidControl.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
         }
         break;
       }
-
     }
   }
 
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = false;
+
+    if (!event.dataTransfer?.files) return;
+    this.handleFiles(Array.from(event.dataTransfer.files));
+  }
+
+  setThumbnail() {
+    console.log(this.thumbnailUrl);
+    if (!this.isValidImageUrl(this.thumbnailUrl)) return;
+
+    this.thumbnail = this.thumbnailUrl.trim();
+    this.thumbnailUrl = '';
+  }
+
+  // Images
+  addImageByUrl() {
+    if (!this.isValidImageUrl(this.imageUrl)) return;
+
+    const url = this.imageUrl.trim();
+    if (this.imagesList.includes(url)) return;
+
+    this.imagesList.push(url);
+    console.log(this.imageUrl);
+    this.imageUrl = '';
+  }
+
+  removeImage(index: number) {
+    this.imagesList.splice(index, 1);
+  }
+
+  isValidImageUrl(url: string): boolean {
+    return /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i.test(url);
+  }
 }

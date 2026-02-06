@@ -1,8 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ErrorHandler, OnDestroy, OnInit } from '@angular/core';
 import { Book } from '../../../entity/Book';
-import { BookService } from '../../../service/BookService';
-import { Subscription } from 'rxjs';
+import { BookService } from '../../../service/book.service';
+import {
+  catchError,
+  forkJoin,
+  retry,
+  Subject,
+  Subscription,
+  takeUntil,
+} from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +24,18 @@ import { Publisher } from '../../../entity/Publisher';
 import { AuthorService } from '../../../service/AuthorService';
 import { CategoryService } from '../../../service/CategoryService';
 import { PublisherService } from '../../../service/PublisherService';
+import { ResponseData } from '../../response/ResponseData';
+
+interface BookFilter {
+  title?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  status?: string;
+  stock?: number;
+  categoryId?: number;
+  authorId?: number;
+  publisherId?: number;
+}
 
 @Component({
   selector: 'admin-book',
@@ -25,22 +44,18 @@ import { PublisherService } from '../../../service/PublisherService';
   styleUrl: './book.component.css',
   templateUrl: './book.component.html',
 })
-export class AdminBookComponent implements OnInit {
+export class AdminBookComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   books: Book[] = [];
   categories: {
-    categoryId: string,
-    name: string,
+    categoryId: string;
+    name: string;
   }[] = [];
   authors: Author[] = [];
   publishers: Publisher[] = [];
-  getCategories: Subscription;
-  getAuthors: Subscription;
-  getPublishers: Subscription;
   page: number = 1;
   size: number = 5;
   txtSearch = '';
-  getBooksPage: Subscription;
-  delete: Subscription;
   filterStatus: boolean | null = null;
   minPrice: number | null = null;
   maxPrice: number | null = null;
@@ -55,54 +70,67 @@ export class AdminBookComponent implements OnInit {
   pageSize = 5;
   loading = false;
   isOpen = false;
-  query: any = {};
+  query: BookFilter = {};
+  objectLength: number = 1;
+
   constructor(
     private bookService: BookService,
     private authorService: AuthorService,
     private categoryService: CategoryService,
-    private publisherService: PublisherService
-  ) {
-    this.getBooksPage = new Subscription();
-    this.getCategories = new Subscription();
-    this.getAuthors = new Subscription();
-    this.getPublishers = new Subscription();
-    this.delete = new Subscription();
+    private publisherService: PublisherService,
+  ) {}
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  async ngOnInit(): Promise<void> {
-    this.loadBooks(this.currentPage);
-    await Promise.all([
-      (this.getAuthors = this.authorService
-        .getAuthors()
-        .subscribe((data) => (this.authors = data.data.content ?? []))),
-      (this.getPublishers = this.publisherService
-        .getPublishers()
-        .subscribe((data) => (this.publishers = data.data.content ?? []))),
-      (this.getCategories = this.categoryService
-        .getCategoriesNotPaginate()
-        .subscribe((data) => (this.categories = data.data ?? []))),
-    ]);
+  ngOnInit(): void {
+    this.loadBooks(1);
+    this.loadInitData();
+  }
+
+  loadInitData() {
+    forkJoin({
+      authors: this.authorService.getAuthors(),
+      publishers: this.publisherService.getPublishers(),
+      categories: this.categoryService.getCategoriesNotPaginate(),
+    })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ authors, publishers, categories }) => {
+        this.authors = authors.data.content ?? [];
+        this.publishers = publishers.data.content ?? [];
+        this.categories = categories.data ?? [];
+      });
   }
 
   setPage(page: number) {
     if (page < 1) return;
     if (page > this.totalPages) return;
     if (page === this.currentPage) return;
-
     this.loadBooks(page);
   }
 
-  loadBooks(page?: number) {
-    const filters = this.buildFilters();
+  loadBooks(page: number = 1) {
     this.loading = true;
-    this.getBooksPage.unsubscribe();
-    this.getBooksPage = this.bookService
+    const filters = this.buildFilters();
+
+    this.bookService
       .getFilterBooks(page, this.pageSize, filters)
-      .subscribe((data) => {
-        this.books = data.data.content || [];
-        this.currentPage = page!;
-        this.totalPages = data.data.totalPages;
-        this.loading = false;
+      // .pipe(
+      //   retry(2),
+      //   catchError(error => {
+
+      //   })
+      // )
+      .subscribe({
+        next: (res) => {
+          this.books = res.data.content ?? [];
+          this.currentPage = page;
+          this.totalPages = res.data.totalPages ?? 1;
+          this.loading = false;
+        },
+        error: () => (this.loading = false),
       });
   }
 
@@ -127,68 +155,42 @@ export class AdminBookComponent implements OnInit {
       denyButtonText: `Không`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.delete = this.bookService.deleteBook(bookId).subscribe({
-          next: (v: any) => {
+        this.bookService.deleteBook(bookId).subscribe({
+          next: (v: ResponseData<any>) => {
             showResponseSuccess(v.message);
-            this.books = this.books.filter((book) => book.bookid != bookId);
+            this.loadBooks();
           },
-          error: (e: any) => showResponseFailure(e.message),
+          error: (e: ResponseData<any>) => {
+            showResponseFailure(e.message);
+          },
         });
       }
     });
   }
 
-  private buildFilters() {
-    if (this.txtSearch?.trim()) {
-      this.query.title = this.txtSearch.trim();
-    }
-
-    if (this.minPrice !== undefined && this.minPrice !== null) {
-      this.query.minPrice = this.minPrice;
-    }
-
-    if (this.maxPrice !== undefined && this.maxPrice !== null) {
-      this.query.maxPrice = this.maxPrice;
-    }
-
-    if (this.status !== null) {
-      this.query.status = this.status;
-    }
-
-    if (this.stock !== null && this.stock !== undefined) {
-      this.query.stock = this.stock;
-    }
-
-    if (this.categoryId !== null && this.categoryId !== undefined) {
-      this.query.categoryId = this.categoryId;
-    }
-
-    if (this.authorId !== null && this.authorId !== undefined) {
-      this.query.authorId = this.authorId;
-    }
-
-    if (this.publisherId !== null && this.publisherId !== undefined) {
-      this.query.publisherId = this.publisherId;
-    }
-
+  buildFilters(): BookFilter {
+    this.query = {
+      ...(this.txtSearch.trim() && { title: this.txtSearch.trim() }),
+      ...(this.minPrice !== null && { minPrice: this.minPrice }),
+      ...(this.maxPrice !== null && { maxPrice: this.maxPrice }),
+      ...(this.status && { status: this.status }),
+      ...(this.stock !== null && { stock: this.stock }),
+      ...(this.categoryId && { categoryId: this.categoryId }),
+      ...(this.authorId && { authorId: this.authorId }),
+      ...(this.publisherId && { publisherId: this.publisherId }),
+    };
     return this.query;
   }
 
   clearFilters() {
-    this.minPrice = null;
-    this.maxPrice = null;
+    this.txtSearch = '';
+    this.minPrice = this.maxPrice = this.stock = null;
     this.status = null;
-    this.query = {};
-    this.stock = null;
-    this.page = 1;
-    this.authorId = null;
-    this.categoryId = null;
-    this.publisherId = null;
-    this.loadBooks(this.page);
+    this.categoryId = this.authorId = this.publisherId = null;
+    this.loadBooks(1);
   }
 
   applyFilters() {
-    this.page = 1;
-    this.loadBooks();
+    this.loadBooks(1);
   }
 }

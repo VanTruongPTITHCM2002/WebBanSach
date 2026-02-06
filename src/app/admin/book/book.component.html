@@ -3,7 +3,7 @@
   <!-- Header Section -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h1 class="h2 fw-bold mb-1">📚 Danh sách sách</h1>
+      <h1 class="h2 fw-bold mb-1"><i class="fa-solid fa-book"></i> Danh sách sách</h1>
       <p class="text-muted small">Quản lý kho sách của bạn</p>
     </div>
 
@@ -15,57 +15,58 @@
         <i class="fas fa-plus me-2"></i>Thêm sách mới
       </button>
     </div>
-   
+
   </div>
 
   <!-- Search & Filter Section -->
   <div class="card border-0 shadow-sm mb-4">
     <div class="card-body p-4">
-     <div class="row g-3 mb-3 align-items-end">
+      <div class="row g-3 mb-3 align-items-end">
 
-  <!-- Search Bar -->
-  <div class="col-md-9">
-    <label class="form-label fw-semibold small text-uppercase">
-      Tìm kiếm sách
-    </label>
-    <div class="input-group">
-      <span class="input-group-text bg-white border-end-0">
-        <i class="fas fa-search text-muted"></i>
-      </span>
-      <input type="search" class="form-control border-start-0" placeholder="Nhập tên sách..." [(ngModel)]="txtSearch"
-        (keyup.enter)="handleSearch()">
-    
-      <button type="button" class="btn btn-primary" (click)="handleSearch()">
-        <i class="fa fa-search"></i> Tìm
-      </button>
-    </div>
-    </div>
-    
-    <!-- Advanced Filter Button -->
-    <div class="col-md-3 d-flex justify-content-end">
-      <button class="btn btn-outline-primary w-60" (click)="isOpen = !isOpen" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseExample" [attr.aria-expanded]="isOpen" aria-controls="collapseExample">
-    
-        <i class="fa-solid fa-filter me-1"></i>
-        Bộ lọc nâng cao
-        <i class="fa-solid ms-1" [ngClass]="isOpen ? 'fa-chevron-up' : 'fa-chevron-down'">
-        </i>
-      </button>
+        <!-- Search Bar -->
+        <div class="col-md-9">
+          <label class="form-label fw-semibold small text-uppercase">
+            Tìm kiếm sách
+          </label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="fas fa-search text-muted"></i>
+            </span>
+            <input type="search" class="form-control border-start-0" placeholder="Nhập tên sách..."
+              [(ngModel)]="txtSearch" (keyup.enter)="handleSearch()">
+
+            <button type="button" class="btn btn-primary" (click)="handleSearch()">
+              <i class="fa fa-search"></i> Tìm
+            </button>
+          </div>
+        </div>
+
+        <!-- Advanced Filter Button -->
+        <div class="col-md-3 d-flex justify-content-end">
+          <button class="btn btn-outline-primary w-60" (click)="isOpen = !isOpen" type="button"
+            data-bs-toggle="collapse" data-bs-target="#collapseExample" [attr.aria-expanded]="isOpen"
+            aria-controls="collapseExample">
+
+            <i class="fa-solid fa-filter me-1"></i>
+            Bộ lọc nâng cao
+            <i class="fa-solid ms-1" [ngClass]="isOpen ? 'fa-chevron-up' : 'fa-chevron-down'">
+            </i>
+          </button>
+        </div>
+
+      </div>
+
     </div>
 
-</div>
-
-    </div>
-   
     <div class="collapse mx-3 mb-2" id="collapseExample">
       <div class="card card-body shadow p-3 mb-3 bg-body-tertiary rounded">
 
         <div class="row row-cols-3 g-2 mb-2">
           <div class="col">
             <label class="mb-2 fw-bold">Tác giả</label>
-            <select class="form-select" [(ngModel)] = "authorId" aria-label="Default select example">
+            <select class="form-select" [(ngModel)]="authorId" aria-label="Default select example">
               <option selected [ngValue]="null">Chọn tác giả</option>
-              <option *ngFor="let author of authors" [ngValue]="author.authorId">
+              <option *ngFor="let author of authors" [ngValue]="author.id">
                 {{author.firstname + ' ' + author.lastname}}
               </option>
             </select>
@@ -75,7 +76,7 @@
             <select class="form-select" [(ngModel)]="publisherId" aria-label="Default select example">
               <option selected [ngValue]="null">Chọn nhà xuất bản</option>
               <option *ngFor="let publisher of publishers" [ngValue]="publisher.publisherId">
-                  {{publisher.publisherName}}
+                {{publisher.publisherName}}
               </option>
             </select>
           </div>
@@ -99,41 +100,37 @@
               <option [ngValue]="false">Hết hàng</option>
             </select>
           </div>
-         
+
           <div class="col">
             <label for="" class="fw-bold mb-2">Số lượng</label>
-            <input type="number" [(ngModel)] = "stock"  placeholder="Nhập số lượng sách..." class="form-control" />
+            <input type="number" [(ngModel)]="stock" placeholder="Nhập số lượng sách..." class="form-control" />
           </div>
-          
+
         </div>
 
         <div class="row row-cols-2">
-            <div class="col">
-              <label class="form-label fw-bold mb-2">Từ</label>
-              <input type="number" [(ngModel)]="minPrice" class="form-control" (ngModelChange)="handleChange()"
-                placeholder="Tối thiểu" />
-            </div>
-            <div class="col">
-              <label class="form-label fw-bold mb-2">Đến</label>
-              <input type="number" [(ngModel)]="maxPrice" class="form-control" (ngModelChange)="handleChange()"
-                placeholder="Tối đa">
-            </div>
+          <div class="col">
+            <label class="form-label fw-bold mb-2">Từ</label>
+            <input type="number" [(ngModel)]="minPrice" class="form-control" (ngModelChange)="handleChange()"
+              placeholder="Tối thiểu" />
+          </div>
+          <div class="col">
+            <label class="form-label fw-bold mb-2">Đến</label>
+            <input type="number" [(ngModel)]="maxPrice" class="form-control" (ngModelChange)="handleChange()"
+              placeholder="Tối đa">
+          </div>
         </div>
 
-      <div class="mt-2 text-end">
-        <button class="btn btn-outline-secondary btn-sm me-2"
-          (click)="clearFilters()"
-        >
-          <i class="fa fa-filter-circle-xmark"></i> Clear Filters
-        </button>
-      
-        <button class="btn btn-outline-primary btn-sm"
-          (click)="applyFilters()"
-        >
-          <i class="fa-solid fa-check-circle"></i>
-          Apply Filters
-        </button>
-      </div>
+        <div class="mt-2 text-end">
+          <button class="btn btn-outline-secondary btn-sm me-2" (click)="clearFilters()">
+            <i class="fa fa-filter-circle-xmark"></i> Clear Filters
+          </button>
+
+          <button class="btn btn-outline-primary btn-sm" (click)="applyFilters()">
+            <i class="fa-solid fa-check-circle"></i>
+            Apply Filters
+          </button>
+        </div>
 
       </div>
     </div>
@@ -141,7 +138,7 @@
 
   <!-- Table Section -->
   <div class="card border-0 shadow-sm">
-    <div class="table-responsive">
+    <div class="table-responsive overflow-visible">
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light border-bottom text-nowrap text-center">
           <tr>
@@ -176,28 +173,17 @@
               </td>
             </tr>
           </ng-container>
-          <tr *ngIf="books.length === 0 && !loading">
+
+          <tr *ngIf="books.length === 0">
             <td colspan="9" class="text-center">
-              <p class="fw-semibold text-secondary"><i class="fas fa-search"></i> Không tìm thấy sách.</p>
+              <p class="fw-semibold text-secondary">Không có sách hiển thị.</p>
             </td>
           </tr>
           <tr *ngFor="let book of books" class="border-bottom" [hidden]="loading">
             <!-- Image -->
             <td>
-              <ng-template [ngIf]="book.imageBase64" [ngIfElse]="second">
-                <img 
-                  [src]="book.imageBase64 || './placeholder-image.svg'" 
-                  alt="Ảnh sách"
-                  class="rounded" 
-                  style="width: 50px; height: 65px; object-fit: cover;">
-              </ng-template>
-              <ng-template #second>
-                <img 
-                  [src]="book.link || './placeholder-image.svg'" 
-                  alt="Ảnh sách"
-                  class="rounded" 
+                <img [src]="book.thumbnail || './placeholder-image.svg'" alt="Ảnh sách" class="rounded"
                   style="width: 50px; height: 50px; object-fit: cover;">
-              </ng-template>
             </td>
 
             <!-- Title -->
@@ -208,7 +194,7 @@
             <td>
               <p class="fw-semibold mb-0">{{book.authorName}}</p>
             </td>
-            
+
             <td>
               <p class="fw-semibold mb-0">{{book.publisherName}}</p>
             </td>
@@ -229,41 +215,40 @@
 
             <!-- Status -->
             <td>
-              <span 
-                class="badge rounded-pill" 
-                [ngClass]="book.status ? 'bg-success' : 'bg-danger'">
+              <span class="badge rounded-pill" [ngClass]="book.status ? 'bg-success' : 'bg-danger'">
                 <i class="fas" [ngClass]="book.status ? 'fa-check-circle' : 'fa-times-circle'"></i>
                 {{ book.status ? 'Còn hàng' : 'Hết hàng' }}
               </span>
             </td>
 
             <!-- Actions -->
-          <td>
-            <div class="btn-group btn-group-sm" role="group">
-              <div class="dropdown">
-                <button class="btn btn-light" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
-                <ul class="dropdown-menu shadow-sm" aria-labelledby="dropdownMenuButton">
-                  <li>
-                    <a class="dropdown-item btn btn-outline-warning" [routerLink]="['update', book.bookid]" title="Sửa">
-                      <i class="fas fa-edit me-2"></i>Cập nhật
-                    </a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li>
-                    <button type="button" class="dropdown-item btn btn-outline-danger" (click)="deleteBook(book.bookid)"
-                      title="Xóa">
-                      <i class="fas fa-trash-alt me-2"></i>Xóa
-                    </button>
-                  </li>
-                </ul>
+            <td>
+              <div class="btn-group btn-group-sm" role="group">
+                <div class="dropdown">
+                  <button class="btn btn-light" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu shadow-sm" aria-labelledby="dropdownMenuButton">
+                    <li>
+                      <a class="dropdown-item btn btn-outline-warning" [routerLink]="['update', book.bookid]"
+                        title="Sửa">
+                        <i class="fas fa-edit me-2"></i>Cập nhật
+                      </a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                      <button type="button" class="dropdown-item btn btn-outline-danger"
+                        (click)="deleteBook(book.bookid)" title="Xóa">
+                        <i class="fas fa-trash-alt me-2"></i>Xóa
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-          </td>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -271,62 +256,49 @@
   </div>
 
   <!-- Pagination Section -->
-<nav class="d-flex justify-content-end mt-4" aria-label="Phân trang">
-  <ul class="pagination mb-0">
+  <nav class="d-flex justify-content-center mt-4" aria-label="Phân trang">
+    <ul class="pagination mb-0">
 
-    <!-- First -->
-    <li class="page-item" [class.disabled]="currentPage === 1">
-      <a
-        href="#"
-        class="page-link"
-        (click)="setPage(1); $event.preventDefault()">
-        <i class="fas fa-angle-double-left me-1"></i>
-        Đầu
-      </a>
-    </li>
+      <!-- First -->
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a href="#" class="page-link" (click)="setPage(1); $event.preventDefault()">
+          <i class="fas fa-angle-double-left me-1"></i>
+          Đầu
+        </a>
+      </li>
 
-    <!-- Previous -->
-    <li class="page-item" [class.disabled]="currentPage === 1">
-      <a
-        href="#"
-        class="page-link"
-        (click)="setPage(currentPage - 1); $event.preventDefault()">
-        <i class="fas fa-chevron-left me-1"></i>
-        Trước
-      </a>
-    </li>
+      <!-- Previous -->
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a href="#" class="page-link" (click)="setPage(currentPage - 1); $event.preventDefault()">
+          <i class="fas fa-chevron-left me-1"></i>
+          Trước
+        </a>
+      </li>
 
-    <!-- Current page -->
-    <li class="page-item active">
-      <span class="page-link">
-        Trang {{ currentPage }} / {{ totalPages }}
-      </span>
-    </li>
+      <!-- Current page -->
+      <li class="page-item active">
+        <span class="page-link">
+          Trang {{ currentPage }} / {{ totalPages }}
+        </span>
+      </li>
 
-    <!-- Next -->
-    <li class="page-item" [class.disabled]="currentPage === totalPages">
-      <a
-        href="#"
-        class="page-link"
-        (click)="setPage(currentPage + 1); $event.preventDefault()">
-        Sau
-        <i class="fas fa-chevron-right ms-1"></i>
-      </a>
-    </li>
+      <!-- Next -->
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a href="#" class="page-link" (click)="setPage(currentPage + 1); $event.preventDefault()">
+          Sau
+          <i class="fas fa-chevron-right ms-1"></i>
+        </a>
+      </li>
 
-    <!-- Last -->
-    <li class="page-item" [class.disabled]="currentPage === totalPages">
-      <a
-        href="#"
-        class="page-link"
-        (click)="setPage(totalPages); $event.preventDefault()">
-        Cuối
-        <i class="fas fa-angle-double-right ms-1"></i>
-      </a>
-    </li>
+      <!-- Last -->
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a href="#" class="page-link" (click)="setPage(totalPages); $event.preventDefault()">
+          Cuối
+          <i class="fas fa-angle-double-right ms-1"></i>
+        </a>
+      </li>
 
-  </ul>
-</nav>
+    </ul>
+  </nav>
 
 </div>
-

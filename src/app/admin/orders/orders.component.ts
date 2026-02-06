@@ -2,11 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { OrderService } from '../../../service/OrderService';
+import { OrderService } from '../../../service/order.service';
 import { Order } from '../../../entity/Order';
-import { getOrderMethodPay, getOrderStatusInfo , getStatusOrders, canSelectedOrderStatus} from '../../../utils/order.utils';
+import {
+  getOrderMethodPay,
+  getOrderStatusInfo,
+  getStatusOrders,
+  canSelectedOrderStatus,
+} from '../../../utils/order.utils';
 import { RouterLink } from '@angular/router';
-import { showResponseFailure, showResponseSuccess } from '../../response/sweetAlert';
+import {
+  showResponseFailure,
+  showResponseSuccess,
+} from '../../response/sweetAlert';
 
 @Component({
   selector: 'app-orders',
@@ -78,7 +86,7 @@ export class AdminOrdersComponent implements OnInit {
         order.fullName.match(this.txtSearch) ||
         order.username.match(this.txtSearch) ||
         order.totalAmount.toString().match(this.txtSearch) ||
-        getOrderMethodPay(order.methodPay).match(this.txtSearch)
+        getOrderMethodPay(order.methodPay).match(this.txtSearch),
     );
     this.currentPage = this.page;
     this.isLastPage = this.orders.length < this.size;

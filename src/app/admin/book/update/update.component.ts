@@ -7,15 +7,15 @@ import {
 } from '../../../response/sweetAlert';
 import { Book, BookResponse, BookUpdate } from '../../../../entity/Book';
 import { Subscription } from 'rxjs';
-import { AuthorService } from '../../../../service/AuthorService';
-import { CategoryService } from '../../../../service/CategoryService';
+import { AuthorService } from '../../../../service/author.service';
 import { BookService } from '../../../../service/book.service';
-import { PublisherService } from '../../../../service/PublisherService';
 import { AuthService } from '../../../auth/auth.service';
 import { Category } from '../../../../entity/Category';
 import { Author } from '../../../../entity/Author';
 import { Publisher } from '../../../../entity/Publisher';
 import { ActivatedRoute, CanActivate, Router } from '@angular/router';
+import { PublisherService } from '../../../../service/publisher.service';
+import { CategoryService } from '../../../../service/category.service';
 
 @Component({
   selector: 'app-update',
@@ -32,20 +32,20 @@ export class UpdateComponent {
   authors: Author[] = [];
   publishers: Publisher[] = [];
   book = {
-        bookid: 0,
-        title: '',
-        isDeleted: false,
-        price: 0,
-        stock:0,
-        status: true,
-        authorId: '',
-        authorName: '',
-        categoryName: '',
-        categoryId: '',
-        publisherName: '',
-        publisherId: '',
-        thumbnail: '',
-        images: [],
+    bookid: 0,
+    title: '',
+    isDeleted: false,
+    price: 0,
+    stock: 0,
+    status: true,
+    authorId: '',
+    authorName: '',
+    categoryName: '',
+    categoryId: '',
+    publisherName: '',
+    publisherId: '',
+    thumbnail: '',
+    images: [],
   };
   pageSize = 5;
   currentPage = 1;
@@ -68,7 +68,6 @@ export class UpdateComponent {
     private authService: AuthService,
     private route: ActivatedRoute,
   ) {
-
     const id = this.route.snapshot.paramMap.get('id')!;
     this.bookService.getBookById(id).subscribe((data) => {
       this.book = data.data!;
@@ -78,19 +77,18 @@ export class UpdateComponent {
   }
   async ngOnInit(): Promise<void> {
     await Promise.all([
-      (this.authorService
+      this.authorService
         .getAuthorNotPaginate()
-        .subscribe((data) => (this.authors = data.data ?? []))),
-      (this.publisherService
+        .subscribe((data) => (this.authors = data.data ?? [])),
+      this.publisherService
         .getPublishersNotPaginate()
-        .subscribe((data) => (this.publishers = data.data ?? []))),
-      (this.categoryService
+        .subscribe((data) => (this.publishers = data.data ?? [])),
+      this.categoryService
         .getCategoriesNotPaginate()
-        .subscribe((data) => (this.categories = data.data ?? []))),
+        .subscribe((data) => (this.categories = data.data ?? [])),
     ]);
   }
 
- 
   onImageChange(event: any) {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
@@ -108,35 +106,34 @@ export class UpdateComponent {
       this.focusFirstInvalid(form);
       return;
     }
-      const formData = form.value;
+    const formData = form.value;
 
-      const bookUpdate = {
-        title: formData.title,
-        authorId: formData.authorName,
-        categoryId: formData.categoryName,
-        publisherId: formData.publisherName,
-        price: Number(formData.price),
-        stock: Number(formData.stock),
-        images: this.imagesList,
-        thumbnail: this.thumbnail,
-      };
-      // if (this.selectedFile) {
-      //    formDATA.append('image',this.selectedFile);
-      // }
-      const id = this.route.snapshot.paramMap.get('id')!;
-      this.bookService.updateBook(id, bookUpdate).subscribe({
-        next: (value: any) => {
-          showResponseSuccess(value.message);
-          this.goBack();
-        },
-        error(err: any) {
-          showResponseFailure(err.message);
-        },
-      });
-    
+    const bookUpdate = {
+      title: formData.title,
+      authorId: formData.authorName,
+      categoryId: formData.categoryName,
+      publisherId: formData.publisherName,
+      price: Number(formData.price),
+      stock: Number(formData.stock),
+      images: this.imagesList,
+      thumbnail: this.thumbnail,
+    };
+    // if (this.selectedFile) {
+    //    formDATA.append('image',this.selectedFile);
+    // }
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.bookService.updateBook(id, bookUpdate).subscribe({
+      next: (value: any) => {
+        showResponseSuccess(value.message);
+        this.goBack();
+      },
+      error(err: any) {
+        showResponseFailure(err.message);
+      },
+    });
   }
 
-   focusFirstInvalid(form: NgForm) {
+  focusFirstInvalid(form: NgForm) {
     const controls = form.controls;
 
     for (const name in controls) {
@@ -157,9 +154,7 @@ export class UpdateComponent {
     }
   }
 
-  
-
-   handleFiles(files: File[]) {
+  handleFiles(files: File[]) {
     files.forEach((file) => {
       if (!file.type.startsWith('image/')) return;
 

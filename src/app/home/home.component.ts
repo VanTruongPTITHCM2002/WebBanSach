@@ -4,11 +4,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Category } from '../../entity/Category';
-import { CategoryService } from '../../service/CategoryService';
 import { Subscription } from 'rxjs';
 import { Book } from '../../entity/Book';
 import { BookService } from '../../service/book.service';
 import { FormControl } from '@angular/forms';
+import { CategoryService } from '../../service/category.service';
 
 @Component({
   selector: 'app-home',

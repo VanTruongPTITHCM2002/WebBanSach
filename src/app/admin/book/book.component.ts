@@ -21,10 +21,10 @@ import Swal from 'sweetalert2';
 import { Category } from '../../../entity/Category';
 import { Author } from '../../../entity/Author';
 import { Publisher } from '../../../entity/Publisher';
-import { AuthorService } from '../../../service/AuthorService';
-import { CategoryService } from '../../../service/CategoryService';
-import { PublisherService } from '../../../service/PublisherService';
+import { AuthorService } from '../../../service/author.service';
 import { ResponseData } from '../../response/ResponseData';
+import { CategoryService } from '../../../service/category.service';
+import { PublisherService } from '../../../service/publisher.service';
 
 interface BookFilter {
   title?: string;

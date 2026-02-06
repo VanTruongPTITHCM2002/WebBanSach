@@ -2,12 +2,14 @@ import { Category } from './../../entity/Category';
 import { Component, OnInit, input } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Book } from '../../entity/Book';
-import { CategoryService } from '../../service/CategoryService';
+
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 import { SubDetailComponent } from "./sub-detail/sub-detail.component";
-import { PublisherService } from '../../service/PublisherService';
+
 import { FormsModule } from '@angular/forms';
+import { CategoryService } from '../../service/category.service';
+import { PublisherService } from '../../service/publisher.service';
 
 @Component({
   selector: 'app-detail',

@@ -6,15 +6,15 @@ import { Category } from '../../../../entity/Category';
 import { Author } from '../../../../entity/Author';
 import { Publisher } from '../../../../entity/Publisher';
 import { AuthService } from '../../../auth/auth.service';
-import { CategoryService } from '../../../../service/CategoryService';
-import { PublisherService } from '../../../../service/PublisherService';
 import { BookService } from '../../../../service/book.service';
-import { AuthorService } from '../../../../service/AuthorService';
+import { AuthorService } from '../../../../service/author.service';
 import {
   showResponseFailure,
   showResponseSuccess,
 } from '../../../response/sweetAlert';
 import { Router } from '@angular/router';
+import { CategoryService } from '../../../../service/category.service';
+import { PublisherService } from '../../../../service/publisher.service';
 
 @Component({
   selector: 'admin-book-create',
@@ -43,7 +43,7 @@ export class BookCreateComponent implements OnInit {
     categoryName: '',
     publisherName: '',
     publisherId: '',
-    category:'',
+    category: '',
   };
   pageSize = 5;
   currentPage = 1;
@@ -69,15 +69,15 @@ export class BookCreateComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await Promise.all([
-      (this.authorService
+      this.authorService
         .getAuthorNotPaginate()
-        .subscribe((data) => (this.authors = data.data ?? []))),
-      (this.publisherService
+        .subscribe((data) => (this.authors = data.data ?? [])),
+      this.publisherService
         .getPublishersNotPaginate()
-        .subscribe((data) => (this.publishers = data.data ?? []))),
-      (this.categoryService
+        .subscribe((data) => (this.publishers = data.data ?? [])),
+      this.categoryService
         .getCategoriesNotPaginate()
-        .subscribe((data) => (this.categories = data.data ?? []))),
+        .subscribe((data) => (this.categories = data.data ?? [])),
     ]);
   }
 
@@ -118,16 +118,16 @@ export class BookCreateComponent implements OnInit {
     }
     const formData = form.value;
 
-const payload = {
-  title: formData.title,
-  authorId: formData.authorName,
-  categoryId: formData.categoryName,
-  publisherId: formData.publisherName,
-  price: Number(formData.price),
-  stock: Number(formData.stock),
-  images:this.imagesList,
-  thumbnail: this.thumbnail,
-};
+    const payload = {
+      title: formData.title,
+      authorId: formData.authorName,
+      categoryId: formData.categoryName,
+      publisherId: formData.publisherName,
+      price: Number(formData.price),
+      stock: Number(formData.stock),
+      images: this.imagesList,
+      thumbnail: this.thumbnail,
+    };
 
     this.bookService.createBook(payload).subscribe({
       next: (value) => {

@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService as Auth } from '../../service/AuthService';
+import { AuthService as Auth } from '../../service/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Cart, CartItem, UpdateCartItem } from '../../entity/Cart';
 import { Subscription } from 'rxjs/internal/Subscription';

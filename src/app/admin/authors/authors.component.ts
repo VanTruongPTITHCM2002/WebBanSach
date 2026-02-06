@@ -1,13 +1,15 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AuthorService } from '../../../service/AuthorService';
+import { AuthorService } from '../../../service/author.service';
 import { Author } from '../../../entity/Author';
 import { Subscription } from 'rxjs';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { showResponseFailure, showResponseSuccess } from '../../response/sweetAlert';
+import {
+  showResponseFailure,
+  showResponseSuccess,
+} from '../../response/sweetAlert';
 import { HttpStatusCode } from '@angular/common/http';
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'admin-authors',
@@ -126,7 +128,7 @@ export class AuthorsComponent implements OnInit {
                 return showResponseFailure(v.message);
               showResponseSuccess(v.message);
               this.authors = this.authors.filter(
-                (author) => author.id != authorId
+                (author) => author.id != authorId,
               );
             },
             error: (e: any) => showResponseFailure(e.message),
@@ -169,7 +171,7 @@ export class AuthorsComponent implements OnInit {
     for (const name in controls) {
       if (controls[name].invalid) {
         const invalidControl = document.querySelector(
-          `[name="${name}"]`
+          `[name="${name}"]`,
         ) as HTMLElement;
 
         if (invalidControl) {

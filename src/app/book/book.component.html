@@ -4,23 +4,30 @@
             <div class="row row-cols-1 row-cols-md-4 g-4 p-4 ms-5">
               <div class="col flex-grow-1">
                 <div class="border-none">
-                    <img [src]="book?.link || 'placeholder-image.svg'" class="img-thumbnail" 
-                    width="800" height="500"
+                    <img [src]="book.thumbnail || 'placeholder-image.svg'" class="img-thumbnail" 
+                    width="600" height="500"
                     alt="...">
+
+                <div class="d-flex mt-2 flex-wrap gap-2" *ngIf="book.images?.length">
+                    <ng-container *ngFor="let img of book.images; trackBy: trackByIndex">
+                        <img [src]="img" class="img-thumbnail img-custom" width="200" height="200" alt="Book image" />
+                    </ng-container>
+                </div>
+
                   </div>
           </div>
 
           <div class="col flex-grow-1">
-                <h1 class="text-capitalize">{{book?.title}}</h1>
+                <h1 class="text-capitalize">{{book.title}}</h1>
                 <div class="d-flex gap-5">
                     <div>
-                        <p>Nhà xuất bản: {{book?.publisherName}}</p>
-                        <p>Thể loại: {{book?.categoryName}}</p>
+                        <p>Nhà xuất bản: {{book.publisherName}}</p>
+                        <p>Thể loại: {{book.categoryName}}</p>
                     </div>
                 
                     <div>
-                        <p>Tác giả: {{book?.authorName}}</p>
-                        <p>Trạng thái: {{book?.status ? "Còn hàng" : "Hết hàng"}}</p>
+                        <p>Tác giả: {{book.authorName}}</p>
+                        <p>Trạng thái: {{book.status ? "Còn hàng" : "Hết hàng"}}</p>
                     </div>
                 </div>
 
@@ -31,7 +38,7 @@
                 <span class="fa fa-star"></span>
 
                 <h2 class="mt-2 mb-5">
-                    {{book?.price | currency: 'VND'}}
+                    {{book.price | currency: 'VND'}}
                 </h2>
 
                 <div class="d-flex gap-5 items-center">

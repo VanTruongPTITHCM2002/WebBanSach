@@ -36,7 +36,7 @@
                   <div class="card card-responsive min-h-350" *ngFor="let book of books" [routerLink]="['/book', book.bookid]"
                     [state]="{title: book.title}">
                 
-                    <img [src]="book.link || 'placeholder-image.svg'" class="img-fluid img-fixed p-3 min-h-260 shadow-sm" alt="...">
+                    <img [src]="book.thumbnail || 'placeholder-image.svg'" class="img-fluid img-fixed p-3 min-h-260 shadow-sm" alt="...">
                     <div class="card-body">
                       <h5 class="card-text">{{ book.title }} </h5>
                       <span class="d-flex justify-content-between items-center">

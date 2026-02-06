@@ -21,25 +21,25 @@ export class CategoryService{
       return this.http.get<any>(`${CategoryService.API_URL}/list`);
     }
 
-    getBooksByCategory(id: number, page: number, size: number, sort?: string, selectPublisher?: number, minPrice?: number | null, maxPrice?: number | null): Observable<any>{
+    getBooksByCategory(id: string, page: number, size: number, sort?: string, selectPublisher?: string, minPrice?: number | null, maxPrice?: number | null): Observable<any>{
       return this.http.get<any>(`http://localhost:5000/api/v1/categories/${id}?page=${page}&size=${size}&sort=${sort}&publisherId=${selectPublisher}` +
         `&minPrice=${minPrice}&maxPrice=${maxPrice}`
       );
     }
 
     addCategory(categoryName: string): Observable<ResponseData<Category>>{
-      return this.http.post<any>(`http://localhost:5000/categories`,{
+      return this.http.post<any>(`http://localhost:5000/api/v1/categories`,{
         categoryName: categoryName
       },{withCredentials: true})
     }
 
-    updateCategory(categoryId: number, categoryName: string):Observable<ResponseData<Category>>{
+    updateCategory(categoryId: string, categoryName: string):Observable<ResponseData<Category>>{
       return this.http.patch<any>(`http://localhost:5000/categories/${categoryId}`,{
         categoryName: categoryName
       },{withCredentials: true})
     }
 
-    deleteCategory(categoryId: number):Observable<ResponseData<string>>{
+    deleteCategory(categoryId: string):Observable<ResponseData<string>>{
       return this.http.delete<any>(`http://localhost:5000/categories/${categoryId}`,{withCredentials: true});
     }
 }

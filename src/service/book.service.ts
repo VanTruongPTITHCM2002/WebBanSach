@@ -59,7 +59,7 @@ export class BookService{
           return this.http.get<any>('http://localhost:5000/api/v1/books/buys');
         }
 
-        getBookById(id: number):Observable<ResponseData<BookResponse>>{
+        getBookById(id: string):Observable<ResponseData<any>>{
           return this.http.get<any>(`http://localhost:5000/api/v1/books/${id}`)
         }
 
@@ -67,13 +67,13 @@ export class BookService{
           return this.http.get<any>(`http://localhost:5000/api/v1/books/search-suggestions?name=${name}`);
         }
 
-        createBook(bookCreate: FormData):Observable<ResponseData<BookResponse>>{
+        createBook(bookCreate: any):Observable<ResponseData<BookResponse>>{
           return this.http.post<any>(`http://localhost:5000/api/v1/books`,bookCreate,{
             withCredentials: true,
           });
         }
 
-        updateBook(bookId: number ,bookUpdate: BookUpdate){
+        updateBook(bookId: string ,bookUpdate: any){
             return this.http.patch<any>(`http://localhost:5000/api/v1/books/${bookId}`,bookUpdate,{
               withCredentials: true
           });

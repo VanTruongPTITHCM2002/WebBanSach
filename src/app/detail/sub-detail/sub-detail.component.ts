@@ -20,7 +20,7 @@ export class SubDetailComponent implements OnInit {
     publisherId: string;
     name: string;
   }[] = [];
-  @Input() selectedPublisher: number | null = 0;
+  @Input() selectedPublisher: string | null = null;
   @Output() selectedPublisherChange = new EventEmitter<number | null>();
   @Output()
   sortChange = new EventEmitter();
@@ -53,8 +53,8 @@ export class SubDetailComponent implements OnInit {
   }
 
   clearFilter() {
-    this.selectedPublisher = 0;
-    this.selectedPublisherChange.emit(0);
+    this.selectedPublisher = null;
+    this.selectedPublisherChange.emit(null);
     this.selectedPrice = {
       min: null,
       max: null,

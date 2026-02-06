@@ -62,4 +62,8 @@
   padding: 0;
 }
 
+.img-custom:hover {
+  border-color: blue;
+  cursor: pointer;
+}
   

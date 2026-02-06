@@ -34,7 +34,7 @@ export class AdminPublishersComponent implements OnInit {
   updatePublisher: Publisher = {
     publisherAddress: '',
     publisherName: '',
-    publisherId: 0,
+    publisherId: '',
   };
   @ViewChild('createForm') createForm!: NgForm;
 
@@ -57,7 +57,7 @@ export class AdminPublishersComponent implements OnInit {
       .subscribe((data) => {
         this.publishers = data.data?.content || [];
         this.currentPage = page!;
-        this.totalPages = data.data.totalPages;
+        this.totalPages = data.data.totalPages || 1;
         this.loading = false;
       });
   }
@@ -80,7 +80,7 @@ export class AdminPublishersComponent implements OnInit {
     this.updatePublisher = { ...publisher };
   }
 
-  handleDelete(publisherId: number) {
+  handleDelete(publisherId: string) {
     Swal.fire({
       title: 'Bạn có chắc chắn muốn xóa nhà xuất bản này?',
       showDenyButton: true,

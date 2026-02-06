@@ -28,7 +28,7 @@ export class DetailComponent implements OnInit {
     publisherId: string;
     name: string;
   }[] = [];
-  selectedPublisher: number = 0;
+  selectedPublisher: string | null = null;
 
   category: string = '';
   size: number = 10;
@@ -67,8 +67,8 @@ export class DetailComponent implements OnInit {
 
   loadData() {
     this.categoryService
-      .getBooksByCategory(+this.id, this.currentPage, this.size, this.sort,
-         this.selectedPublisher,
+      .getBooksByCategory(this.id, this.currentPage, this.size, this.sort,
+         this.selectedPublisher!,
         this.selectedPrice?.min, this.selectedPrice?.max
       )
       .subscribe({

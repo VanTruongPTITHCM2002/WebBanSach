@@ -30,7 +30,7 @@ export class AdminCategoryComponent implements OnInit {
   updateCategoryName: string = '';
   totalPages: number = 1;
   loading = false;
-  categoryId: number = 0;
+  categoryId: string = '';
   @ViewChild('closeBtn', { static: false })
   closeBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('closeBtnUpdate', { static: false })
@@ -54,7 +54,7 @@ export class AdminCategoryComponent implements OnInit {
       .subscribe((data) => {
         this.categories = data.data.content || [];
         this.currentPage = page!;
-        this.totalPages = data.data.totalPages;
+        this.totalPages = data.data.totalPages || 1;
       });
   }
 
@@ -84,7 +84,7 @@ export class AdminCategoryComponent implements OnInit {
     this.loadCategories(this.page);
   }
 
-  selectedCategory(categoryName: string, categoryId: number) {
+  selectedCategory(categoryName: string, categoryId: string) {
     this.isUpdate = true;
     this.updateCategoryName = categoryName;
     this.categoryId = categoryId;
@@ -100,7 +100,7 @@ export class AdminCategoryComponent implements OnInit {
       });
   }
 
-  removeCategory(categoryId: number) {
+  removeCategory(categoryId: string) {
     Swal.fire({
       title: 'Bạn có chắc chắn muốn xóa danh mục này?',
       showDenyButton: true,

@@ -1,5 +1,6 @@
 export interface Publisher{
-        publisherId?: number;
+        publisherId?: string;
         publisherName: string;
+        name?: string;
         publisherAddress: string;
 }

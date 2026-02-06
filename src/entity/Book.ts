@@ -8,18 +8,17 @@ export interface Book {
     price: number;
     stock: number;
     status: boolean;
-    image?: string;
-    imageBase64?:string;
-    link?: string;
+    images?: string[];
+    thumbnail?:string;
     authorName?:string;
     publisherName?:string;
     categoryName?:string;
 }
 
 export interface BookResponse extends Book{
-    authorId: Author,
-    publisherId: Publisher,
-    category: Category
+    authorId: string,
+    publisherId: string,
+    category: string
 }
 
 export interface BookCreate{
@@ -31,6 +30,8 @@ export interface BookCreate{
     stock: number,
     file?: File,
     link?:string,
+    thumbnail?: string,
+    images?: string[],
 }
 
 export interface BookUpdate {

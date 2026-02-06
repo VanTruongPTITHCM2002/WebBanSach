@@ -1,10 +1,10 @@
-import { Component, inject, OnInit } from "@angular/core";
-import { Router, RouterLink } from "@angular/router";
-import { UserService } from "../../../service/user.service";
-import { InvoiceService } from "../../../service/InvoiceService";
-import { CurrencyPipe, NgForOf, NgIf } from "@angular/common";
-import { OrderService } from "../../../service/OrderService";
-import { BookService } from "../../../service/BookService";
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../../service/user.service';
+import { InvoiceService } from '../../../service/InvoiceService';
+import { CurrencyPipe, NgForOf, NgIf } from '@angular/common';
+import { OrderService } from '../../../service/OrderService';
+import { BookService } from '../../../service/book.service';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 @Component({
   selector: 'admin-dashboard',
@@ -74,14 +74,14 @@ export class AdminDashboardComponent implements OnInit {
   };
 
   chartDateMonth = {
-     labels: this.lablesMonth,
+    labels: this.lablesMonth,
     datasets: [
       {
         label: 'Doanh thu (VND)',
         data: this.dataMonth,
       },
     ],
-  }
+  };
 
   ngOnInit(): void {
     this.userService.getNumberOfUsers().subscribe((data) => {

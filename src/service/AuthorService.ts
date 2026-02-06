@@ -11,21 +11,25 @@ export class AuthorService{
     constructor(private http: HttpClient){}
 
     getAuthors(page: number = 1, size: number = 5, query?: any): Observable<ResponseData<any>>{
-      return this.http.get<any>(`http://localhost:5000/authors?page=${page}&size=${size}`, {
+      return this.http.get<any>(`http://localhost:5000/api/v1/authors?page=${page}&size=${size}`, {
         withCredentials: true,
         params: query,
       });
+    }
+
+    getAuthorNotPaginate(): Observable<ResponseData<any>>{
+      return this.http.get<any>(`http://localhost:5000/api/v1/authors/select/infinity`);
     }
 
     addAuthor(data: any): Observable<ResponseData<Author>>{
       return this.http.post<any>(`http://localhost:5000/authors`, data, {withCredentials: true});
     }
 
-    updateAuthor(authorId: number, author: any){
+    updateAuthor(authorId: string, author: any){
       return this.http.patch<any>(`http://localhost:5000/authors/${authorId}`,author,{withCredentials: true});
     }
 
-    removeAuthor (authorId: number): Observable<ResponseData<Author>>{
+    removeAuthor (authorId: string): Observable<ResponseData<Author>>{
       return this.http.delete<any>(`http://localhost:5000/authors/${authorId}`,{withCredentials:true});
     }
 }

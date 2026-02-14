@@ -1,10 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { CategoryService } from "../../../service/CategoryService";
 import { Category } from "../../../entity/Category";
 import { Subscription } from "rxjs";
-import { PublisherService } from "../../../service/PublisherService";
 import { Publisher } from "../../../entity/Publisher";
 
 

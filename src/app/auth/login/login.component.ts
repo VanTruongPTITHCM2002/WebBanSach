@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   HttpClient,
   HttpClientModule,
@@ -7,9 +7,11 @@ import {
 import {
   Component,
   EventEmitter,
+  Inject,
   OnDestroy,
   OnInit,
   Output,
+  PLATFORM_ID,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cookieService: CookieService,
     private router: Router,
     private authService: AuthService,
+    @Inject(PLATFORM_ID) private plaformId: object
   ) {}
   ngOnDestroy(): void {}
   ngOnInit(): void {}
@@ -62,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
             showResponseSuccess(v.message);
             this.authService.login();
-            localStorage.setItem('username', username);
+            isPlatformBrowser(this.plaformId) && localStorage.setItem('username', username);
             this.router.navigate(['/']);
           },
           error: (e) => showResponseFailure(e.message),

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Invoice } from '../../../entity/Invoice';
 import { Subscription } from 'rxjs';
-import { InvoiceService } from '../../../service/InvoiceService';
+import { InvoiceService } from '../../../service/invoice.service';
 
 @Component({
   selector: 'app-invoice-detail',

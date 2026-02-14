@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Category } from '../../../entity/Category';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { showResponseFailure, showResponseSuccess } from '../../response/sweetAlert';
 import Swal from 'sweetalert2';
 import { CategoryService } from '../../../service/category.service';
@@ -10,7 +10,7 @@ import { CategoryService } from '../../../service/category.service';
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, DatePipe],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css',
 })

@@ -48,19 +48,16 @@
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light text-center">
           <tr>
-            <th class="fw-semibold text-muted small text-uppercase">Mã danh mục</th>
             <th class="fw-semibold text-muted small text-uppercase">Tên danh mục</th>
             <th class="fw-semibold text-muted small text-uppercase">Số lượng sách</th>
+            <th class="fw-semibold text-muted small text-uppercase">Ngày tạo</th>
+            <th class="fw-semibold text-muted small text-uppercase">Trạng thái</th>
             <th class="fw-semibold text-muted small text-uppercase">Hành động</th>
           </tr>
         </thead>
 
         <tbody class="text-center">
           <tr *ngFor="let category of categories">
-            <td>
-              <span class="fw-semibold">{{ category.categoryId }}</span>
-            </td>
-
             <td>
               <span class="fw-semibold">{{ category.categoryName }}</span>
             </td>
@@ -72,33 +69,29 @@
             </td>
 
             <td>
-            <div class="btn-group btn-group-sm">
-              <div class="dropdown">
-                <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fa-solid fa-ellipsis-vertical"></i>
+            <span class="badge bg-secondary p-2">
+              {{category.createdAt | date:'dd/MM/yyyy | h:mm a'}}
+            </span>  
+            
+            </td>
+
+            <td>
+             <span class="badge p-2" [ngClass]="category.isActive ? 'bg-success' : 'bg-danger'">{{category.isActive ? 'ACTIVE' : 'INACTIVE'}}</span> 
+            </td>
+
+            <td>
+              <div class="btn-group btn-group-sm gap-2">
+            
+                <button class="btn btn-warning rounded" data-bs-toggle="modal" data-bs-target="#updateModal"
+                  (click)="selectedCategory(category.categoryName, category.categoryId)">
+                  <i class="fas fa-edit me-2"></i>Sửa
                 </button>
             
-                <ul class="dropdown-menu shadow-sm">
-                  <li>
-                    <button class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#updateModal"
-                      (click)="selectedCategory(category.categoryName, category.categoryId)">
-                      <i class="fas fa-edit me-2"></i>Sửa
-                    </button>
-                  </li>
+                <button class="btn btn-danger rounded" (click)="removeCategory(category.categoryId)">
+                  <i class="fas fa-trash-alt me-2"></i>Xóa
+                </button>
             
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
-            
-                  <li>
-                    <button class="dropdown-item text-danger" (click)="removeCategory(category.categoryId)">
-                      <i class="fas fa-trash-alt me-2"></i>Xóa
-                    </button>
-                  </li>
-                </ul>
               </div>
-            </div>
-
             </td>
           </tr>
 

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Publisher } from '../../../entity/Publisher';
 import { Subscription } from 'rxjs';
-import { PublisherService } from '../../../service/PublisherService';
 import Swal from 'sweetalert2';
 import { showResponseFailure, showResponseSuccess } from '../../response/sweetAlert';
 import { HttpStatusCode } from '@angular/common/http';
+import { PublisherService } from '../../../service/publisher.service';
 
 @Component({
   selector: 'app-publishers',
@@ -37,9 +37,9 @@ export class AdminPublishersComponent implements OnInit {
     publisherId: '',
   };
   @ViewChild('createForm') createForm!: NgForm;
+  publisherService = inject(PublisherService);
 
-
-  constructor(private publisherService: PublisherService) {
+  constructor() {
     this.getPublishers = new Subscription();
     this.changePublisher = new Subscription();
     this.deletePublisher = new Subscription();
@@ -54,7 +54,7 @@ export class AdminPublishersComponent implements OnInit {
     this.loading = true;
     this.getPublishers = this.publisherService
       .getPublishers(page, this.size, this.query)
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         this.publishers = data.data?.content || [];
         this.currentPage = page!;
         this.totalPages = data.data.totalPages || 1;
@@ -92,7 +92,7 @@ export class AdminPublishersComponent implements OnInit {
         this.deletePublisher = this.publisherService
           .deletePublisher(publisherId)
           .subscribe({
-            next: (value) => {
+            next: (value: any) => {
               if (value.statusCode !== 200)
                 return showResponseFailure(value.message);
               showResponseSuccess(value.message);
@@ -100,7 +100,7 @@ export class AdminPublishersComponent implements OnInit {
                 (publisher) => publisher.publisherId !== publisherId
               );
             },
-            error(err) {
+            error(err: any) {
               showResponseFailure(err.message);
             },
           });
@@ -122,7 +122,7 @@ export class AdminPublishersComponent implements OnInit {
       };
 
       this.addPublisher = this.publisherService.addPublisher(data).subscribe({
-        next: (value) => {
+        next: (value: any) => {
           if (value.statusCode !== HttpStatusCode.Created) {
             return showResponseFailure(value.message || 'Có lỗi xảy ra');
           }
@@ -143,11 +143,11 @@ export class AdminPublishersComponent implements OnInit {
     this.changePublisher = this.publisherService
       .updatePublisher(this.updatePublisher.publisherId!, newPublisher)
       .subscribe({
-        next: (value) => {
+        next: (value: any) => {
           showResponseSuccess(value.message);
           this.loadPublishers(this.page);
         },
-        error(err) {
+        error(err: any) {
           showResponseFailure(err.message);
         },
       });

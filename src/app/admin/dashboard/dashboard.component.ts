@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../service/user.service';
-import { InvoiceService } from '../../../service/InvoiceService';
 import { CurrencyPipe, NgForOf, NgIf } from '@angular/common';
 import { OrderService } from '../../../service/order.service';
 import { BookService } from '../../../service/book.service';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { InvoiceService } from '../../../service/invoice.service';
 @Component({
   selector: 'admin-dashboard',
   imports: [RouterLink, CurrencyPipe, NgForOf, NgIf, ChartjsComponent],
